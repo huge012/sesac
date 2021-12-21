@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="52f9c733-20fb-4859-ad35-f80a5542983b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub11.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub01.java" beforeDir="false" afterPath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub01.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub02.java" beforeDir="false" afterPath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub02.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub03.java" beforeDir="false" afterPath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub03.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub04.java" beforeDir="false" afterPath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub04.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub05.java" beforeDir="false" afterPath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub05.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub06.java" beforeDir="false" afterPath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub06.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub07.java" beforeDir="false" afterPath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub07.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub08.java" beforeDir="false" afterPath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub08.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub09.java" beforeDir="false" afterPath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub09.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub10.java" beforeDir="false" afterPath="$PROJECT_DIR$/bj/src/InputOutputCalc/sub10.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
