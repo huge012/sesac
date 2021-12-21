@@ -9,6 +9,7 @@ import java.util.Scanner;
  *
  * https://www.acmicpc.net/problem/10430
  *
+ * 괄호 주의
  */
 
 public class sub10 {
