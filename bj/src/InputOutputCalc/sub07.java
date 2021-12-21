@@ -5,11 +5,10 @@ import java.util.Scanner;
 /*
  * 2021-12-21
  * 
- * ÀÔÃâ·Â°ú »çÄ¢¿¬»ê 5. A*B
+ * ìž…ì¶œë ¥ê³¼ ì‚¬ì¹™ì—°ì‚° 5. A*B
  * 
  * https://www.acmicpc.net/problem/10998
  * 
- * °ö¼À
  */
 
 public class sub07 {

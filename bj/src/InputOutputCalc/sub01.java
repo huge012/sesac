@@ -3,11 +3,10 @@ package InputOutputCalc;
 /* 
  * 2021-12-21
  * 
- * ÀÔÃâ·Â°ú »çÄ¢¿¬»ê 1. Hello World
+ * ìž…ì¶œë ¥ê³¼ ì‚¬ì¹™ì—°ì‚° 1. Hello World
  * 
  * https://www.acmicpc.net/problem/2557
- *  
- * ±âº» Ãâ·Â
+ *
  */
 
 public class sub01 {

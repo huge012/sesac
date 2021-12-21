@@ -3,18 +3,17 @@ package InputOutputCalc;
 /* 
  * 2021-12-21
  * 
- * ÀÔÃâ·Â°ú »çÄ¢¿¬»ê 2. We love kriii
+ * ìž…ì¶œë ¥ê³¼ ì‚¬ì¹™ì—°ì‚° 2. We love kriii
  *
  * https://www.acmicpc.net/problem/10718
- *  
- * ±âº» Ãâ·Â
+ *
  */
 
 public class sub02 {
 
 	public static void main(String[] args) {
-		System.out.println("°­ÇÑÄ£±¸ ´ëÇÑÀ°±º");
-		System.out.println("°­ÇÑÄ£±¸ ´ëÇÑÀ°±º");
+		System.out.println("ê°•í•œì¹œêµ¬ ëŒ€í•œìœ¡êµ°");
+		System.out.println("ê°•í•œì¹œêµ¬ ëŒ€í•œìœ¡êµ°");
 	}
 
 }
