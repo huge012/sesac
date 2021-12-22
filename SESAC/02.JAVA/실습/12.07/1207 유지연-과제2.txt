@@ -1,0 +1,61 @@
+/* 메인 */
+
+package Day05;
+
+import java.util.ArrayList;
+
+public class ArrayTest6 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ArrayList<Man> m2 = new ArrayList<Man>();
+		Insa2 ins = new Insa2();
+		
+		//추가 메서드 호출
+		m2 = ins.insert();
+		
+		// 출력은 main에서 ArrayList 정보를 출력		
+		System.out.println("이름\t나이");
+		for(Man i:m2)
+		{
+			System.out.printf("%s\t%d\n", i.getName(), i.getAge());
+		}
+	}
+
+}
+
+
+/* Insa2 클래스 */
+
+package Day05;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Insa2 {
+	private ArrayList<Man> ins = new ArrayList<Man>();
+	
+	Scanner sc = new Scanner(System.in);
+	
+	public ArrayList<Man> insert()
+	{
+		while (true)
+		{
+			System.out.println("Input name");
+			String name = sc.nextLine();
+			System.out.println("Input age");
+			int age = Integer.parseInt(sc.nextLine());
+			
+			ins.add(new Man(name, age));
+			
+			System.out.println("계속 입력할까요?");
+			String yn = sc.nextLine();
+			
+			if(yn.equalsIgnoreCase("n"))
+				break;			
+		}
+		return ins;
+	}
+	
+}
+

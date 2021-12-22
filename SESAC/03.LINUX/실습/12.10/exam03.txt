@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#./exam03.sh aaa 10 입력
+
+echo "\$0 : $0 "
+echo "\$1 : $1 "
+echo "\$2 : $2 "
+echo "파라미터들 : $*"
+
+exit 0

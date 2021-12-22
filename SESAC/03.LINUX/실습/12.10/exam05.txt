@@ -1,0 +1,23 @@
+#!/bin/sh
+
+<<"END"
+
+파일명을 입력받아 존재하면 파일명을 출력
+		존재하지 않으면 존재하지 않음 메세지 출력
+
+
+END
+
+echo "파일명을 입력하세요"
+read fname
+
+if [ -e $fname ]
+then
+	echo "------$fname-------"
+	cat $fname
+	echo "-------------------"
+else
+	echo "존재하지 않음"
+fi
+
+exit 0

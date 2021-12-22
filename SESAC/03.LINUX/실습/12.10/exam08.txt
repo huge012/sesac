@@ -1,0 +1,18 @@
+#!/bin/sh
+
+<<"END"
+
+
+
+END
+
+# 1~10 숫자 입력
+
+# for
+for i in `seq 1 2 10`
+do
+	echo $i
+done
+
+
+exit 0

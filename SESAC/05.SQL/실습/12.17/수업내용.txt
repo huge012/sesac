@@ -1,0 +1,253 @@
+* 세션 : 어떤 활동을 위한 시간이나 기간
+- 데이터베이스 접속을 시작으로 여러 작업을 수행한 후 접속 종료까지의 전체 기간을 의미
+- 오라클 서버와 유저 프로세스 간 고유한 접속
+- 하나의 커넥션에 여러 개의 세션이 존재할 수 있다, 그러나 대부분 일대일
+- 하나 이상의 트랜잭션이 존재
+- 유저의 상태를 기록할 작은 메모리 덩어리
+- 로그인 시작부터 로그아웃까지
+
+
+* 커넥션 : 서버에 접근을 시작하고 데이터를 가져오는 단계
+- 오라클 서버가 설치된 운영체제에 직접 접속하는 것
+- 서버-클라이언트간 접속 : 사용자가 로컬 컴퓨터에서 네트워크를 경유해서 서버에 접속한다
+- 3-tier 접속 : 사용자가 네트워크 서버에 접속하고 네트워크를 통해 오라클 서버에 접속한다
+
+
+* putty : 클라이언트 프로그램
+- 리눅스 os 안 터미널 서버에 접촉
+- 같은 기기 속에 있으나 putty는 가상 os에 접속시켜줌
+- putty 아이디/계정으로 접속한 사람은 os 사용자
+- dbms에도 이름이 존재, 1기계에 1dbms일 경우 이름 필요 없으나 1기계에 다양한 dbms 있으면 이름 필요. putty에는 dbms 이름을 적어줘야 함
+
+PUTTY
+1) IP, PORT
+2) ID, PWD
+
+SQLDEV
+1) ID, PORT
+2) iD, PORT
+
+
+* IP : 해당 기기의 고유한 주소
+
+* 포트 : 중앙 처리 장치와 주변 장치가 통신하는 데 사용하는 컴퓨터의 연결 부분.
+컴퓨터 : 65,535 (2^16에 대해 처리하게 만듬) 패킷에서 포트정보를 넣는 공간이 16칸
+- mysql 포트 : 3306
+- 웹 서버 포트 : 80
+충돌되지 않게 설정
+
+
+
+--
+
+
+* DB : 데이터베이스, 구조화된/관계된 데이터의 집합
+
+* 구조화
+- 정형 : 2차원구조 테이블 형태로 구조를 정형화
+- 반정형 : 데이터 사이에 연결고리가 있음, 공통된 데이터 특성을 상속
+- 비정형
+
+* DBMS : 데이터 저장소, 다양한 DB가 저장되어 있음
+
+* SELECT → 사칙연산 가능
+- 컬럼 간 구분자는 "," 
+1) select ename, sal, sal*12, comm, comm+300 from emp;
+월급, 연봉 계산, 커미션 줌, 커미션에 추가금 줌
+
+2) select sal, sal+300*12, (sal+300)*12 from emp;
+괄호로 연산 순서 지정
+나만 이해 가능한 방식으로 코딩하는 것은 좋지 않은 습관
+
+3) select ename, sal+200 bonus, sal*12 as annual_SAL, comm, comm+300 "Special Bonus" from emp;
+이름, 월급+200 해서 보너스로 이름 바꿈, 연봉 계산해서 이름 바꿈, 커미션, 커미션+300으로 스페셜 보너스 이름 바꿈
+→ DBMS와 실제 원하는 자료가 다를 경우
+- 데이터 가공 처리를 DBMS에 맡김
+- 데이터 가공 처리를 서버에 맡김
+
+4) select ename, comm+300 as "Special Bonus" from emp;
+이름, 커미션+300 스페셜 보너스
+
+5) select ename, comm+300 보너스 from emp;
+이름, 커미션에 보너스
+
+컬럼 앨리어스, DB 앨리어스 (별칭 달아주기) - 한글 가능
+공백, "", as로 명시 가능, ""는 대소문자 가능
+
+
+* || (문자열 합성연산자)
+문자열 데이터를 결합해줌
+1) SELECT ENAME||JOB FROM EMP;
+두 개의 데이터 연결시켜서 보여줌
+
+2) SELECT DNAME||' 부서는 '||LOC||' 지역에 위치합니다.' as LOC FROM DEPT;
+임의의 텍스트를 넣어줌
+
+3) SELECT ENAME, SAL, SAL*100, SAL||'00', to_char(SAL)||'00' FROM EMP;
+숫자||'문자', to_char(SAL)||'00' → char 타입으로 변환한 뒤 00 문자열 붙여줌
+
+
+* DUAL : 더미 테이블, sys user 소유, 1개의 row, 1개의 column을 가진 작고 가벼운 테이블
+실제 테이블에서 가져오는게 아니라 function, calculation을 수행하기 위해 사용
+
+4) SELECT * FROM dual;
+듀얼의 모든 요소 출력 -> 듀얼에 넣은게 없어서 안 뜸
+
+5) SELECT sysdate FROM dual;
+시스템의 날짜와 시간을 넘겨주는 함수
+
+6) SELECT 143475*127363, to_char(143475*127363, '999,999,999,999') FROM dual;
+'999,999,999,999' 3자리마다 , 찍어서 보여달라는 의미
+DB가 아닌 시스템에서 정보를 끌어내기 위해 DUAL 사용
+
+
+* 데이터 타입
+- 명시적 타입 : to_char(SAL) 사람이 수동으로 형식 맞춰줌
+- 암시적 타입 : SELL||'00' 자동으로 형식 맞춰줌
+- 데이터 종류 : 숫자(정수와 실수를 , 로 구분), 문자, 날짜(fire date)
+- 숫자->문자(to_char) / 문자->숫자(to_number)
+- 날짜->문자(to_char) / 문자->날짜(to_date)
+- 날짜->숫자(x) / 숫자->날짜(x) 존재 안함
+- 가변길이 문자 데이터 타입, 고정길이 문자 데이터 타입의 차이
+
+
+* WHERE : 조건절, 원하는 ROW(레코드)만 조회 (SELECTION)
+1) SELECT * FROM EMP WHERE DEPTNO = 10;
+
+2) SELECT EMPNO,ENAME,JOB,SAL FROM EMP WHERE SAL > 2000;
+
+3) SELECT DEPTNO,SAL,EMPNO,ENAME FROM EMP WHERE DEPTNO = 10 AND SAL > 2000;
+   SELECT DEPTNO,SAL,EMPNO,ENAME FROM EMP WHERE DEPTNO = 10 AND SAL > 2000;
+   SELECT DEPTNO,SAL,EMPNO,ENAME FROM EMP WHERE DEPTNO = 10 OR SAL > 2000;
+
+4) SELECT DEPTNO,ENAME,JOB FROM EMP WHERE JOB = 'manager';
+직업이 매니저인 사람만, 데이터는 대소문자 구분함
+
+5) SELECT DEPTNO,ENAME,JOB FROM EMP WHERE 1=1;
+무조건 참
+
+6) SELECT DEPTNO,ENAME,JOB FROM EMP WHERE 1=2;
+무조건 거짓
+
+
+----
+
+* DEFAULT : 기본
+
+* 날짜, 숫자 저장 형태 똑같음. 따라서 날짜, 숫자를 각각 변환시키는 함수 존재 X
+
+* NULL값은 가장 큰 수로 따짐
+
+* ORDER BY : 정렬
+문장 가장 마지막에 위치, 실행 순서도 가장 마지막
+
+1) SELECT DEPTNO,ENAME,SAL,HIREDATE FROM EMP ORDER BY ENAME;  
+
+2) SELECT DEPTNO,ENAME,SAL,HIREDATE FROM EMP ORDER BY SAL;
+정렬 옵션 안 놓으면 기본 오름차순
+
+3) SELECT DEPTNO,ENAME,SAL,HIREDATE FROM EMP ORDER BY SAL ASC;
+오름차순
+
+4) SELECT DEPTNO,ENAME,SAL,HIREDATE FROM EMP ORDER BY SAL DESC;
+내림차순
+
+5) SELECT DEPTNO,JOB,ENAME FROM EMP ORDER BY DEPTNO;
+
+6) SELECT DEPTNO,JOB,ENAME FROM EMP ORDER BY DEPTNO,JOB; 
+
+7) SELECT DEPTNO,JOB,ENAME FROM EMP ORDER BY DEPTNO,JOB desc; 
+
+
+* DISTINCT
+- 중복된 데이터를 필터링하여 조회
+1) SELECT JOB FROM EMP;
+
+2) SELECT DISTINCT JOB FROM EMP;
+
+3) SELECT DISTINCT DEPTNO, JOB FROM EMP; 
+고유 조합을 보여줌, 각 요소는 겹칠 수 있음
+
+4) SELECT DISTINCT DEPTNO, JOB FROM EMP ORDER BY DEPTNO;
+
+
+* FUNCTION
+- 입력값을 기반으로 특정 연산을 수행하여 결과값을 리턴하는 단위 기능 모듈
+
+5) SELECT ENAME,LENGTH(ENAME),UPPER(ENAME),LOWER(ENAME) FROM EMP;
+단일행 함수 : 일대일 함수
+
+6) SELECT COUNT(*),COUNT(SAL),SUM(SAL),AVG(SAL),MIN(SAL),MAX(SAL) FROM EMP;
+그룹행 함수 : 다대일 함수
+
+count(*) 모든 컬럼, 모든 레코드
+count(SAL) 열에 있는 데이터의 갯수
+sum(sal) 급여의 총합
+avg(sal) 급여의 평균
+min(sal) 급여의 최소값
+max(sal) 급여의 최대값
+
+
+* GROUP BY
+- 기준 컬럼으로 데이터를 그룹핑
+1)
+SELECT DEPTNO,COUNT(*) FROM SCOTT.EMP GROUP BY DEPTNO;
+디폴트는 로그인한 아이디. SCOTT.EMP = EMP
+
+SELECT DEPTNO, AVG(SAL) ,SUM(SAL) FROM EMP GROUP BY DEPTNO;
+DEPTNO 컬럼을 기준으로 그룹핑을 해라
+부서별 급여 평균, 급여 합
+
+SELECT DEPTNO,AVG(SAL) ,SUM(SAL) FROM EMP
+GROUP BY DEPTNO
+ORDER BY DEPTNO;
+GROUP BY가 먼저 실행되어 그루핑된 후 ORDER BY 실행
+
+
+2)
+SELECT DEPTNO,ROUND(AVG(SAL),1) ,SUM(SAL) FROM EMP 
+함수 안에 함수 사용 가능 ROUND 반올림
+
+GROUP BY DEPTNO
+ORDER BY DEPTNO;
+
+
+3) 과제
+SELECT DEPTNO, MAX(SAL), MIN(SAL) FROM EMP
+GROUP BY DEPTNO
+ORDER BY DEPTNO;
+
+
+* HAVING GROUP BY 결과 데이터에 대한 조건
+5)
+SELECT DEPTNO,ROUND(AVG(SAL),1) ,SUM(SAL) FROM 
+EMP 
+GROUP BY DEPTNO
+HAVING SUM(SAL) >= 9000
+ORDER BY DEPTNO DESC;
+
+
+* NULL 
+- 값이 정의되지 않은, 존재하지 않는, 데이터가 없는
+- 연산 불가, 비교 불가, 적용 불가 (제(어), 비(교), 연(산) 불가)
+- null에 연산하면 결과값 null
+- null로 비교연산자 돌리면 데이터 자체가 안 나옴, null을 조회하려면 is null
+
+* nvl
+값이 있으면 COMM, 없으면 -1
+
+* decode(COMM, null, -999, COMM)
+if else 역할, null이면 -999, 아니면 COMM
+2행이면 3행으로, 아니면 4행으로 뽑음
+
+
+* 실행 순서 (행부터 고른 뒤 컬럼 고름)
+3)  SELECT DEPTNO, EMPNO, NVL(COMM, 0)
+1)  FROM EMP
+2)  WHERE DEPTNO = 10
+4)  ORDER BY DEPTNO DESC;
+
+
+* DECODE
+DECODE(DEPTNO,10,0.1,20,0.2,30,0.3,0.5)
+           참조     1조건 1값 2조건 2값 3조건 3값 디폴트)

@@ -1,0 +1,33 @@
+#!/bin/sh
+
+<<"END"
+
+	case 변수 in
+	값1)
+		문장실행
+		문장실행;;
+	값2)
+		문장실행;;
+	값3)
+		문장실행;;
+	...
+	*)
+		위에서 선택이 안되는 경우 실행;;
+	esac
+
+END
+
+# sh exam06.sh start stop restart
+
+case "$1" in
+	start)
+		echo "start";;
+	stop)
+		echo "stop";;
+	restart)
+		echo "restart";;
+	*)
+		echo "잘못 입력";;
+esac
+
+exit 0

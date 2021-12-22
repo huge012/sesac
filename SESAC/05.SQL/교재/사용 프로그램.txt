@@ -1,0 +1,6 @@
+사용 프로그램
+
+1. putty
+2. vmnetcfg
+3. VMware
+4. CentOS - oracle

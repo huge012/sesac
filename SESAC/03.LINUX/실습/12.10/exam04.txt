@@ -1,0 +1,34 @@
+#!/bin/sh
+
+<<"END"
+
+이것은 다중 주석
+
+	if [ 조건 ]
+	then
+		참일 때 문장
+	else
+		거짓일 때 문장
+	fi
+
+
+END
+
+msg="HELLO"
+if [ $msg = "hello" ]
+then
+	echo "안녕하세요"
+else
+	echo $msg
+fi
+
+
+num=10
+if [ $num -eq 10 ]
+then
+	echo "$num == 10"
+else
+	echo "$num != 10"
+fi
+
+exit 0
