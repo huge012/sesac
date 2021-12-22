@@ -1,4 +1,4 @@
-06. MongoDB
+# 06. MongoDB
 
 김순곤 강사님
 
