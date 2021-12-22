@@ -285,3 +285,21 @@ db.employees.updateOne(
 )
 
 db.employees.find()
+
+// sample_mflix의 movie에서 genre별로 group by
+
+use sample_mflix
+
+db.movies.distinct(
+    'genres'
+)
+
+// 장르별 코멘트의 합
+db.movies.aggregate([
+    // 영어로 된 영화 필터링
+    { $match: {languages: 'English'} },
+    // 장르별 코멘트 합계
+    { $group: { _id: '$genres', sumComment: { $sum: '$num_mflix_comments' }}  }
+])
+
+// 장르별 코멘트의 합 -> sorting, top 5
