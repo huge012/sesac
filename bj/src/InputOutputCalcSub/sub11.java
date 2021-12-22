@@ -1,4 +1,4 @@
-package InputOutputCalc;
+package InputOutputCalcSub;
 
 import java.util.Scanner;
 
@@ -12,7 +12,7 @@ import java.util.Scanner;
  * 괄호 주의
  */
 
-public class sub10 {
+public class sub11 {
 
     public static void main(String[] args) {
 
