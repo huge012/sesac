@@ -1,0 +1,91 @@
+* 12/22
+
+레디스 (Redis)
+- key value
+- disk IO는 속도가 느림
+- mongoDB, 오라클 등은 disk에 있음
+- Redis : cash, session 등 짧고 가벼운 데이터 위주, 가볍고 빠름, disk IO 일어나지 않음
+
+* 엘라스틱서치 (Elasticsearch)
+- 검색엔진에서 쓰이길 바랐으나 늦음
+- 실시간 분석이 필요한 로그들을 하루 한 번 분석
+- 코딩 필요없이 시스템 구축 가능 (NoCoding, ZeroCoding)
+
+* ELK : 엘라스틱서치, 로그스태시, 키바나
+- 로그 수집부터 시각화까지 다 해줌
+- 민간회사에서 사용
+
+* 스플렁클
+- 유료
+
+* 카산드라
+- NoSQL
+- 페이스북이 사용
+
+
+
+--
+
+CRUD
+
+데이터 입력출력수정삭제
+
+* 문서 삽입
+- db.collection.insertOne(<Document To Be Inserted>)
+한개 삽입
+
+- db.collection.insertMany(<Array of One or More Documents>)
+여러개 삽입
+
+- _id의 경우 기본키, 중복되면 안 됨
+- 기본키 빼고 삽입하면 _id 자동 생성
+
+
+* 문서 삭제
+- db.new_movies.deleteOne({"_id": 2})
+한개 문서 삭제
+
+- db.mew_movies.deleteMany({title: {"$regex": "^movie"}})
+여러개 문서 삭제
+
+- findOneAndDelete()
+하나의 문서를 찾아서 삭제
+둘 이상의 문서 발견될 경우 첫 번째 문서만 삭제
+삭제된 문서를 응답으로 반환
+여러 문서가 있을 경우 sort 옵션 사용해서 삭제될 문서 선택 가능
+프로젝션을 사용하여 응답으로 문서에서 필드를 포함하거나 제외 가능
+
+
+* 중첩된 데이터(임베디드 데이터)
+Document가 중첩될 수 있음 - json 특징, 입체적 데이터
+
+
+// 투표수 50000 이상 중 평점 2 아래 삭제
+// imdb : 임베디드 데이터. imdb 안의 세부 데이터에 접근하려먼 'imdb.(세부)' 로 작성
+
+db.movies.findOneAndDelete(
+    // 조건
+    { 
+        "imdb.rating" : {$lt : 2},
+        "imdb.votes": {$gt: 50000}
+    }, 
+    // 정렬과 피드백되는 필드명
+    {
+        sort : {awards.won: 1},
+        projection: {title: 1}
+    }
+)
+영화 총 3개 있으나 disater Movie 하나만 지워짐
+
+
+
+* mongoDB CRUD Operations
+https://docs.mongodb.com/v4.4/crud/
+
+* update
+$set → 세팅해주겠다는 의미
+$currentDate: {lastModified: true} → 업데이트 날짜를 넣어주겠다는 의미
+
+
+* replaceOne
+모든 요소를 싹 바꿔주겠다는 의미. $set 필요없음

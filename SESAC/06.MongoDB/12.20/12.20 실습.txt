@@ -1,0 +1,27 @@
+
+
+{
+  "id": 1,
+  "name": "비엔비 비건",
+  "price": 8000,
+  "category": "주방용품",
+  "discount_rate": 2
+}
+
+문) commerce DB 생성
+    products 컬랙션 생성
+
+
+
+{
+  "id": 1
+  "title": good,
+  "content": "몽고 조아",
+  "tags": [
+    "mongo", "good", "study"
+    ],
+  "likes": 20
+}
+
+문) mini_sns DB
+    articles collection
