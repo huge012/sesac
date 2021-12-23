@@ -1,0 +1,1 @@
+python과 mongoDB 연동시켜서 find, delete, insert, update 테스트

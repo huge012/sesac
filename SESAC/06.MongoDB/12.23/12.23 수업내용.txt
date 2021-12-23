@@ -1,0 +1,62 @@
+12.23
+
+* 파이프라인
+-안전, 효율적으로 데이터 관리
+
+
+* 범주형 변수(카테고리컬 변수)
+- 주로 텍스트
+- 눈 색깔, 국가, 산업, 나이 그룹, 주/월/년 등
+
+
+* 탐색적 데이터 분석 EDA
+- 데이터를 탐구하고 가설을 공식화하여 시각화에 중점을 두고 주요 특성을 평가하는 과정
+- 데이터 준비 후에 발생하나 혼합될 수 있음
+
+
+* 데이터 통찰력을 얻는 방법
+- 집계 혹은 요약 통계를 통해
+- 통계모델을 실행
+- 데이터 시각화 : 비슷해보이는 데이터를 시각화함으로써 전혀 다른 데이터임을 알 수 있음
+
+
+*RDBMS
+- SELECT : Operation, 컬럼명, 함수
+- FROM : 데이터 테이블
+- WHERE : 조건, 데이터 필터링
+- GROUP BY : 그룹핑, 집계 함수를 통합하여 데이터 분석
+- ORDER BY, LIMIT : post-processing
+
+
+* SQL : 데이터를 평면적으로 표현
+
+--
+
+* python 엔진 설치 (로컬머신)
+- 아나콘다 : 패키지관리, 디플로이를 단순하게 할 목적으로 과학 계산을 위한 파이썬과 R 프로그래밍 언어의 자유-오픈소스 배포판
+
+* IDE 설치 (개발 툴)
+- VScode : MS에서 개발배포
+- pycharm : 파이썬 전용 통합개발환경, default로 powerShell 사용, commend prompt 사용 가능
+
+* 패키지 매니저 : 자동으로 툴 간리
+
+* mongoDB, python 연동
+
+* pymongo
+
+* npm
+- 자바스크립트 프로그래밍 언어를 위한 패키지 관리자
+
+* mvn Repository
+- https://mvnrepository.com/
+
+* Spring
+
+
+
+* python에서 db 불러오기
+
+import pymongo
+db = pymongo.MongoClient("mongodb://huge:y9e4o0n6@cluster0-shard-00-00.ti8cg.mongodb.net:27017,cluster0-shard-00-01.ti8cg.mongodb.net:27017,cluster0-shard-00-02.ti8cg.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-zdb2pg-shard-0&authSource=admin&retryWrites=true&w=majority")
+db = client.test
