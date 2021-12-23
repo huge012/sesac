@@ -1,10 +1,20 @@
-package sub;
+package WhileSub;
+
+/*
+ * 2021-12-23
+ * 
+ * While 03. 더하기 사이클
+ * 
+ * https://www.acmicpc.net/problem/1110
+ * 
+ */
 
 import java.util.Scanner;
 
-public class Main {
+public class sub03 {
 
 	public static void main(String[] args) {
+
 		Scanner sc = new Scanner(System.in);
 		
 		int origin = sc.nextInt();
@@ -16,5 +26,7 @@ public class Main {
 			cnt++;
 		} while (origin != circleNum);
 		System.out.println(cnt);
+
 	}
+
 }
