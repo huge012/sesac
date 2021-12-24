@@ -1,0 +1,56 @@
+12.24
+
+NoSQL vs RDB
+
+* NoSQL
+- MongoDB : NoSQL중 가장 잘나가는 DBMS
+1) 오픈소스 (SQLite, PostgreSQL, MySQL)
+2) 기존 RDBMS를 상호보완
+3) 클러스터(Cluster) : 동일한 기능(역할)을 하는 서버들을 고성능 네트워크로 연결하여 하나의 시스템 기능을 하는 기술(서비스), 복수개의 서버에 DB를 구축, 여러 컴퓨터가 연결되어 하나의 시스템처럼 동작하는 컴퓨터들의 집합, ( HA (고가용성), 성능, 대용량 을 위해), 수평 확장 : 분산 저장/분산 처리/샤딩
+4) 21세기 웹(Web 2.0) 환경에 적합 (SNS(페북), Machine Data(IOT))
+5) 관계 → ※ Join 연산이 없음!!!! ※
+ Schema-less (논리적 구조(ERACO)와 제약사항(Constraint))
+6) SQL : hadoop On SQL
+7) 데이터 저장 종류 (Format) : key/value, document(xml, b-json), column-family, graph
+8) BASE(Basically Available, Soft-state, Eventually Consistency), CAP(Consistency, Availablility, Partition Tolerlance)
+
+
+
+--
+
+DBMS 비밀번호 설정
+터미널
+1) sqlplus / nolog
+2)  conn sys as sysdba (비밀번호 아무거나)
+3) alter user scott identified by tiger;
+- scott 정보를 수정, DBA가 하는 일
+
+
+--
+
+* ROWNUM
+- 조회된 레코드에 순번을 매김
+- WHERE절 실행 후 결과에 순서 부여
+
+
+* AND OR NOT
+- 연산자순위 AND > OR
+
+WHERE DEPTNO = 10 AND SAL > 2000 OR JOB = 'CLERK';
+-- (DEPTNO 10 이고 SAL > 2000) 또는 JOB = 'CLERK' 
+WHERE DEPTNO = 10 AND (SAL > 2000 OR JOB = 'CLERK');
+-- DEPTNO 10이고 (SAL>2000이거나 JOB='CLERK')
+SELECT ENAME,JOB,SAL, DEPTNO FROM EMP WHERE SAL > 2000 or JOB = 'CLERK' and DEPTNO >= 20;
+-- (SAL > 2000 이거나 JOB CLERK인 사람) 중 DEPTNO 20인 사람
+
+
+* OPTIMIZER (SQL 최적화기)
+- sql 실행계획을 수립하고 sql을 실행하는 DBMS 소프트웨어
+- Data Dictionary에 있는 오브젝트 통계, 시스템 통계 등의 정보를 사용해 예상되는 비용을 산정
+- 여러 개의 실행 계획 중 최저비용을 가지고 있는 계획을 선택해서 SQL 실행
+
+
+where 1 Row and 1000 Rows
+where 1 Row or 1000 Rows
+
+and의 경우 앞 조건이 false면 뒤 조건이 몇 줄이 되어도 실행하지 않으므로 연산자 우선순위가 높음
