@@ -54,3 +54,50 @@ where 1 Row and 1000 Rows
 where 1 Row or 1000 Rows
 
 and의 경우 앞 조건이 false면 뒤 조건이 몇 줄이 되어도 실행하지 않으므로 연산자 우선순위가 높음
+
+
+* LIKE
+- 문자 패턴 매칭 연산자, 정확한 값을 몰라도 찾을 수 있음
+% : 0개 이상의 모든 문자
+_ : 1개의 모든 문자, 위치가 의미를 가지게 됨
+
+
+where sal = 2000; -- 숫자와 숫자
+where sal = '2000'; -- 문자를 숫자로
+where sal like '200%'; -- sal을 string으로 레코드 갯수만큼 바꿈
+컴퓨터는 숫자를 좋아함
+
+
+---
+
+* 함수
+
+ORACLE DEFINED FUNCTION
+- SINGLE ROW FUNCTION : 1개의 row에 적용되고 1row당 1개의 결과를 반환함
+	select list, where, order by, group by에서 사용됨
+	문자함수 // 한글의 경우 2~3byte
+	숫자함수
+	날짜함수
+	변환함수(DATA TYPE CONVERSION)
+	기타함수
+
+* 함수
+	round(숫자, 소숫점) - 반올림 처리
+	trunc(숫자, 소숫점) - 버림 처리, 날짜도 가능 (찌꺼기 숫자 버림)
+	to_char(sysdate, 'YYYY-MM-DD:HH24:MI:SS') 날짜, 시간 표시하는 포맷 설정해줘야 시간까지 보임
+	
+	ALTER SECCION SET NLS_DATE_FORMAT = 'YYYY-MM-DD:HH24:MI:SS'; (세션 환경 설정, NLS_DATE_FORMAT:날짜포맷 설정)
+
+- GROUP ROW FUNCTION
+
+
+
+-----
+
+* INSERT - 데이터 삽입
+* UPDATE - 데이터 수정, 변경
+* DELETE - 데이터 삭제
+* TRANSACTION - 
+
+* subQuery
+* JOIN
