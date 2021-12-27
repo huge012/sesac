@@ -1,0 +1,124 @@
+12/27
+
+* DML : 데이터조작어
+- INSERT : 데이터 삽입
+	① INSERT INTO DEPT VALUES(50,'연구소1','서울'); // 컬럼명 생략시 전체컬럼대상
+	② INSERT INTO DEPT(DEPTNO,DNAME,LOC) VALUES(51,'연구소2','대전'); -- 2번이 더 좋음
+	③ SELECT * FROM DEPT; // 신규 삽입 데이터 조회
+	④ INSERT INTO DEPT VALUES('중부영업점','대구'); // ERROR, 테이블명 없는데 값 2개뿐
+	⑤ INSERT INTO DEPT(DNAME,LOC) VALUES('중부영업점','대구'); -- 정의된 크기보다 값이 큼
+	⑥ INSERT INTO DEPT(DNAME,LOC) VALUES('중부지점','대구'); -DEPTNO 생략됨, NULL들어감
+	⑦ INSERT INTO DEPT(DEPTNO,DNAME,LOC) VALUES(52, '북부지점',NULL);
+	-- 명시적으로 NULL 넣어줌, NULL or ''
+	INSERT INTO DEPT(DEPTNO,DNAME,LOC) VALUES(53, '남부지점','');
+	// INSERT시 특정 COLUM에 NULL 삽입방법 (암시적)
+	⑧ INSERT INTO DEPT(DEPTNO,DNAME) VALUES(54,'서부지점'); // 대상 컬럼 생략
+	⑨ SELECT DEPTNO,DNAME,NVL(LOC,'미지정지역') AS LOC FROM DEPT; // 결과 조회
+	⑩ COMMIT; 
+
+- DESC DEPT ➔ 3개 컬럼 정의 , 2개의 데이터만 삽입시 에러 발생
+
+- UPDATE : 데이터 수정
+	① UPDATE DEPT SET DNAME = ' M연구소' WHERE DEPTNO = 50; -- 단일 컬럼 변경
+	② UPDATE DEPT SET DNAME = ' T연구소', LOC='인천' WHERE DEPTNO = 51; -- 복수 컬럼 변경
+	③ SELECT * FROM DEPT WHERE DEPTNO IN (50,51); -- 변경내역조회
+	④ COMMIT; -- 변경사항 반영(저장
+	⑤ UPDATE DEPT SET LOC='미개척지';
+	-- WHERE절 생략시 전체 ROW 대상 (UPDATE, DELETE 둘 다 주의)
+	⑥ SELECT * FROM DEPT; 
+	⑦ ROLLBACK; -- 해당 변경사항 영구히 취소
+	⑧ SELECT * FROM DEPT; -- 결과 확인
+	⑨ select dname, replace(dname,' ','*') from dept; -- dname 컬럼에 공백문자 저장
+	update dept set dname=trim(dname); -- set 절에 함수 사용가능, 함수/연산자 사용하여 데이터를 가공처리해서 수정할 수 있음
+	select dname, replace(dname,' ','*') from dept; -- 변경사항 확인
+	⑩ commit; 
+
+
+- DELETE : 데이터 삭제
+	- WHERE절 생략시 모든 ROW 삭제됨
+
+
+* TCL
+- COMMIT : 트랜잭션 저장
+- ROLLBACK : 트랜잭션 취소
+
+
+
+---
+
+
+* SQL Script file
+- 텍스트 파일 포맷으로 저장되는 SQL 명령어 모음들
+- N개의 SQL 명령어들을 순차적으로 실행 시 사용, 반복작업에 사용
+- 특정 디렉토리에 스크립트 모아둠
+- 주석 사용 가능
+- 한 줄씩 실행 가능 / 파일 통째로 실행 가능
+
+* Session
+- N개 Session 생성 가능 → N개의 Connection을 통해 N개의 Session이 만들어짐
+- select sys_context('userenv','sid') from dual; -- sid : 세션ID, 세션마다 고유하게 붙어있는 값
+- 고유성 중요, SID 동일하면 같은 세션, ID 다르면 다른 세션
+- 비공유 세션 (CTRL+SHIFT+ N) : 신규 커넥션을 생성해서 신규 세션을 발생시킴
+
+
+* 서버 : 클라이언트한테 서비스를 제공하는 모든 것 (DBMS, WEB, WAS)
+클라이언트 : 서버에게 무언가를 요청함
+커넥션 : 클라이언트가 서버에게 요청하기 위한 연결통로
+세션 : 서버가 클라이언트에게 서비스 요청을 받을 때 생기는 저장공간
+
+
+----
+
+
+* TRANSACTION : 거래 / 처리
+- 데이터베이스에서 데이터를 처리하는 논리적인 단위
+- 논리적 일의 단위 (A logical unit of work)
+- 여러 sql 명령어의 묶음
+- AAA ( A logical unit of work, Atomic unit, All or Nothing )
+- 일관성, 원자성, 고립성, 지속성 (원자성, 고립성)
+- 개(념적)눈(논리적)물(물리적)
+	논리적 단위 : 계좌이체 (A가 B에게 500 이체)
+	물리적 단위 : A = A - 500; B = B + 500; A, B, 500;(기록)
+	DBMS : UPDATE, UPDATE, INSERT ← SQL 묶음 1트랜잭션
+* 세 단계 중 하나라도 실패하면 진행되지 않아야 함 (논리적 단위(원자성)를 보장)
+   → SQL 문장만으로는 보장하기 힘듦, 프로그래밍 언어의 예외처리 힘을 빌려야 함
+
+
+- 트랜잭션 시작
+1) 실행 가능한(변경가능한) 첫번째 SQL 실행시 시작 (DML, DDL, DCL 실행시)
+    INSERT, DELETE, UPDATE
+
+DML : 데이터 변경
+DDL : 오브젝트(테이블 등) 변경
+DCL : 권한 변경
+
+2) SET TRANSACTION [ READ ONLY | READ WRITE]; 명령어로 실행
+MS SQL-SERVER는 BEGIN TRANSACTION 으로 시작
+
+
+- 트랜잭션 종료
+1) 명시적 종료 (COMMIT, ROLLBACK)
+2) DML은 N개 명령어 묶음이 1개의 트랜잭션
+    DDL, DCL은 1개 명령어가 1개의 트랜잭션
+3) 비정상종료시 자동으로 ROLLBACK 수행하며 종료
+
+- 트랜잭션 제어명령어
+1) COMMIT - 트랜잭션 시작 후 발생한 모든 변경사항 데이터베이스에 저장 후 LOCK 해제
+2) ROLLBACK - 트랜잭션 시작 이전 상태로 되돌리고 LOCK 해제
+3) SAVEPOINT - 부분저장
+
+- BEGIN ………  END;/ : 하나의 블록
+- PL/SQL의 예외처리 (EXCEPTION) 기능 사용하여 원자성 보장
+에러 생기면 모든 SQL 취소처리하고 예외발생시킴
+
+- JAVA 속 SQL : 임베디드 sql, 프로그램 언어(java 등)로 원자성 보장해야 함
+
+
+- 트랜잭션과 DDL
+① INSERT INTO EMP(EMPNO,ENAME,DEPTNO) VALUES(9999,'OCPOK',20); -- TRANSACTION START
+② ALTER TABLE EMP ADD( SEX CHAR(1) DEFAULT 'M'); -- DDL, 성별 탭 추가
+③ ROLLBACK; -- ALTER 취소 안됨, DDL은 입력하면 COMMIT 자동 실행
+④ DESC EMP;
+⑤ ALTER TABLE EMP DROP COLUMN SEX; -- DDL
+⑥ ROLLBACK; -- 취소 범위는?
+⑦ DESC EMP
