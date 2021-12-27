@@ -84,7 +84,7 @@
    → SQL 문장만으로는 보장하기 힘듦, 프로그래밍 언어의 예외처리 힘을 빌려야 함
 
 
-- 트랜잭션 시작
+* 트랜잭션 시작
 1) 실행 가능한(변경가능한) 첫번째 SQL 실행시 시작 (DML, DDL, DCL 실행시)
     INSERT, DELETE, UPDATE
 
@@ -96,25 +96,25 @@ DCL : 권한 변경
 MS SQL-SERVER는 BEGIN TRANSACTION 으로 시작
 
 
-- 트랜잭션 종료
+* 트랜잭션 종료
 1) 명시적 종료 (COMMIT, ROLLBACK)
 2) DML은 N개 명령어 묶음이 1개의 트랜잭션
     DDL, DCL은 1개 명령어가 1개의 트랜잭션
 3) 비정상종료시 자동으로 ROLLBACK 수행하며 종료
 
-- 트랜잭션 제어명령어
+* 트랜잭션 제어명령어
 1) COMMIT - 트랜잭션 시작 후 발생한 모든 변경사항 데이터베이스에 저장 후 LOCK 해제
 2) ROLLBACK - 트랜잭션 시작 이전 상태로 되돌리고 LOCK 해제
 3) SAVEPOINT - 부분저장
 
-- BEGIN ………  END;/ : 하나의 블록
+* BEGIN ………  END;/ : 하나의 블록
 - PL/SQL의 예외처리 (EXCEPTION) 기능 사용하여 원자성 보장
 에러 생기면 모든 SQL 취소처리하고 예외발생시킴
 
-- JAVA 속 SQL : 임베디드 sql, 프로그램 언어(java 등)로 원자성 보장해야 함
+* JAVA 속 SQL : 임베디드 sql, 프로그램 언어(java 등)로 원자성 보장해야 함
 
 
-- 트랜잭션과 DDL
+* 트랜잭션과 DDL
 ① INSERT INTO EMP(EMPNO,ENAME,DEPTNO) VALUES(9999,'OCPOK',20); -- TRANSACTION START
 ② ALTER TABLE EMP ADD( SEX CHAR(1) DEFAULT 'M'); -- DDL, 성별 탭 추가
 ③ ROLLBACK; -- ALTER 취소 안됨, DDL은 입력하면 COMMIT 자동 실행
@@ -122,3 +122,66 @@ MS SQL-SERVER는 BEGIN TRANSACTION 으로 시작
 ⑤ ALTER TABLE EMP DROP COLUMN SEX; -- DDL
 ⑥ ROLLBACK; -- 취소 범위는?
 ⑦ DESC EMP
+
+
+* 트랜잭션과 읽기 일관성
+- 트랜잭션의 고립성에 의해 변경이 진행중인 불안정한 상태의 데이터는 볼 수 없고, 항상 안정적인 상태의 데이터를 조회하는 특성
+
+
+* 트랜잭션과 Row Level Lock(행 레벨 락)
+- DBMS에서 동시 사용성과 데이터 공용성을 지원하기 위해 만든 매커니즘
+- 직렬성을 보장하는 기법, 다중 트랜잭션 수행시 데이터 무결성 보장
+- Lock 걸려있는 Row는 다른 트랜잭션에서 건드리지 못함
+
+- Lock 생성 : 트랜잭션 진행 시 변경대상 Row에 자동으로 생성 후 데이터 변경
+- Lock 해제 : 트랜잭션 종료시 해제
+
+
+- Row Level Lock
+- Table Level Lock
+
+서브쿼리 = SAL 평균이 2000 이상인 (부서번호+직업)
+메인쿼리 = SAL 평균이 2000 이상인 (부서번호+직업)묶음을 가진 모든 사원 정보
+
+
+
+----
+
+
+* Sub Query : Main Query 안에 포함되는 SELECT
+- 실행 순서 : sub → main
+- 상수 데이터만 return (select만 사용)
+- Single-Single, Sigle-Multiple, Multiple-Multiple
+- Correlated Subquery (상관서브쿼리, 메인 참조) / Normal Subquery(메인쿼리의 컬럼참조x)
+- Scalar Subquery(1행 1열 리턴, Select절에 사용), Inline View(From절), Nested Subquery(Where절)
+
+
+----
+
+* JOIN : 한 개 이상의 테이블로부터 데이터를 읽어야 할 때 (수평적 결합)
+- 테이블 독립성, 데이터 최소중복성, 데이터간 함수적 종속성을 위해 테이블로 분할저장
+- join으로 데이터 조회
+- Equi-Join(Simple Join, Inner Join) : 조인대상 되는 두 테이블간 공통적으로 존재하는 데이터의 값이 일치되는 행을 연결하여 집합 생성, 동등 연산자 사용하여 일치하는거 찾음
+- Non Equi-Join : 비교연산자를 통해 조건 맞는 행 연결하여 집합 생성
+- Outer-Join : 직접적으로 만족되지 않는 정보도 연결하여 생성
+- Self-Join : 하나의 테이블이 자기자신과 조인하여 집합 생성
+
+- 반드시 두 테이블 간에서만 join 실행, 3개 한번에 join 불가, 1차 join 실행 후 2차 join 하게됨
+Join 최소 조건 = (테이블 수) - 1
+
+inner-join : 교집합
+left outer join : a의 모든 행과 b에 함께 있는 행
+right outer join : b의 모든 행과 a에 함께 있는 행
+full-outer join : a와 b의 합집합
+
+카티션곱 : 곱집합, 대량의 쓸모없는 데이터 생성
+- JOIN 조건 생략
+- 필터링 조건이 있으나 JOIN 조건 없이 AND일 경우
+- 필터링 조건이 있으나 JOIN 조건 없이 OR일 경우
+- 잘못된 JOIN 조건일 경우
+
+----
+
+* 데이터 적재
+- 데이터 적재 대상 테이블 선택, 데이터 임포트
+- 기존에 테이블이 있어야 적재 가능
