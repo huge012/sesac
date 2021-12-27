@@ -1,46 +1,46 @@
-/* 12.27 ½Ç½À³»¿ë */
+/* 12.27 ì‹¤ìŠµë‚´ìš© */
 
-/* INSERT - Å×ÀÌºí¿¡ »õ·Î¿î Çà(Row, Record) »ðÀÔ */
+/* INSERT - í…Œì´ë¸”ì— ìƒˆë¡œìš´ í–‰(Row, Record) ì‚½ìž… */
 
-INSERT INTO DEPT VALUES(50,'¿¬±¸¼Ò1','¼­¿ï'); -- ÄÃ·³¸í »ý·«½Ã ÀüÃ¼ÄÃ·³´ë»óÀ¸·Î »ðÀÔ
-INSERT INTO DEPT(DEPTNO,DNAME,LOC) VALUES(51,'¿¬±¸¼Ò2','´ëÀü'); -- 2¹øÀÌ ´õ ÁÁÀ½(ÄÃ·³¸í°ú VALUE¸¦ 1:1·Î ¸ÅÇÎ)
-SELECT * FROM DEPT; -- ½Å±Ô »ðÀÔ µ¥ÀÌÅÍ Á¶È¸
--- INSERT INTO DEPT VALUES('ÁßºÎ¿µ¾÷Á¡','´ë±¸'); -- ERROR, Å×ÀÌºí¸í ¾ø´Âµ¥ °ª 2°³»Ó
--- INSERT INTO DEPT(DNAME,LOC) VALUES('ÁßºÎ¿µ¾÷Á¡','´ë±¸'); -- Á¤ÀÇµÈ Å©±âº¸´Ù °ªÀÌ Å­
-INSERT INTO DEPT(DNAME,LOC) VALUES('ÁßºÎÁöÁ¡','´ë±¸'); --DEPTNO »ý·«µÊ, NULLµé¾î°¨
-INSERT INTO DEPT(DEPTNO,DNAME,LOC) VALUES(52, 'ºÏºÎÁöÁ¡',NULL);
--- ¸í½ÃÀûÀ¸·Î NULL ³Ö¾îÁÜ, NULL or ''
-INSERT INTO DEPT(DEPTNO,DNAME,LOC) VALUES(53, '³²ºÎÁöÁ¡','');
--- INSERT½Ã Æ¯Á¤ COLUM¿¡ NULL »ðÀÔ¹æ¹ý (¾Ï½ÃÀû)
-INSERT INTO DEPT(DEPTNO,DNAME) VALUES(54,'¼­ºÎÁöÁ¡'); -- ´ë»ó ÄÃ·³ »ý·«
-SELECT DEPTNO,DNAME,NVL(LOC,'¹ÌÁöÁ¤Áö¿ª') AS LOC FROM DEPT; -- °á°ú Á¶È¸
+INSERT INTO DEPT VALUES(50,'ì—°êµ¬ì†Œ1','ì„œìš¸'); -- ì»¬ëŸ¼ëª… ìƒëžµì‹œ ì „ì²´ì»¬ëŸ¼ëŒ€ìƒìœ¼ë¡œ ì‚½ìž…
+INSERT INTO DEPT(DEPTNO,DNAME,LOC) VALUES(51,'ì—°êµ¬ì†Œ2','ëŒ€ì „'); -- 2ë²ˆì´ ë” ì¢‹ìŒ(ì»¬ëŸ¼ëª…ê³¼ VALUEë¥¼ 1:1ë¡œ ë§¤í•‘)
+SELECT * FROM DEPT; -- ì‹ ê·œ ì‚½ìž… ë°ì´í„° ì¡°íšŒ
+-- INSERT INTO DEPT VALUES('ì¤‘ë¶€ì˜ì—…ì ','ëŒ€êµ¬'); -- ERROR, í…Œì´ë¸”ëª… ì—†ëŠ”ë° ê°’ 2ê°œë¿
+-- INSERT INTO DEPT(DNAME,LOC) VALUES('ì¤‘ë¶€ì˜ì—…ì ','ëŒ€êµ¬'); -- ì •ì˜ëœ í¬ê¸°ë³´ë‹¤ ê°’ì´ í¼
+INSERT INTO DEPT(DNAME,LOC) VALUES('ì¤‘ë¶€ì§€ì ','ëŒ€êµ¬'); --DEPTNO ìƒëžµë¨, NULLë“¤ì–´ê°
+INSERT INTO DEPT(DEPTNO,DNAME,LOC) VALUES(52, 'ë¶ë¶€ì§€ì ',NULL);
+-- ëª…ì‹œì ìœ¼ë¡œ NULL ë„£ì–´ì¤Œ, NULL or ''
+INSERT INTO DEPT(DEPTNO,DNAME,LOC) VALUES(53, 'ë‚¨ë¶€ì§€ì ','');
+-- INSERTì‹œ íŠ¹ì • COLUMì— NULL ì‚½ìž…ë°©ë²• (ì•”ì‹œì )
+INSERT INTO DEPT(DEPTNO,DNAME) VALUES(54,'ì„œë¶€ì§€ì '); -- ëŒ€ìƒ ì»¬ëŸ¼ ìƒëžµ
+SELECT DEPTNO,DNAME,NVL(LOC,'ë¯¸ì§€ì •ì§€ì—­') AS LOC FROM DEPT; -- ê²°ê³¼ ì¡°íšŒ
 COMMIT; 
 
 
-/* UPDATE - Å×ÀÌºí ³»¿¡ ÀúÀåµÈ ±âÁ¸ ÄÃ·³(µé)(Column, Field) ¼öÁ¤ */
+/* UPDATE - í…Œì´ë¸” ë‚´ì— ì €ìž¥ëœ ê¸°ì¡´ ì»¬ëŸ¼(ë“¤)(Column, Field) ìˆ˜ì • */
 
-UPDATE DEPT SET DNAME = ' M¿¬±¸¼Ò' WHERE DEPTNO = 50; -- ´ÜÀÏ ÄÃ·³ º¯°æ
-UPDATE DEPT SET DNAME = ' T¿¬±¸¼Ò', LOC='ÀÎÃµ' WHERE DEPTNO = 51; -- º¹¼ö ÄÃ·³ º¯°æ
-SELECT * FROM DEPT WHERE DEPTNO IN (50,51); -- º¯°æ³»¿ªÁ¶È¸
-COMMIT; -- º¯°æ»çÇ× ¹Ý¿µ(ÀúÀå
-UPDATE DEPT SET LOC='¹Ì°³Ã´Áö'; -- WHEREÀý »ý·«½Ã ÀüÃ¼ ROW ´ë»ó
+UPDATE DEPT SET DNAME = ' Mì—°êµ¬ì†Œ' WHERE DEPTNO = 50; -- ë‹¨ì¼ ì»¬ëŸ¼ ë³€ê²½
+UPDATE DEPT SET DNAME = ' Tì—°êµ¬ì†Œ', LOC='ì¸ì²œ' WHERE DEPTNO = 51; -- ë³µìˆ˜ ì»¬ëŸ¼ ë³€ê²½
+SELECT * FROM DEPT WHERE DEPTNO IN (50,51); -- ë³€ê²½ë‚´ì—­ì¡°íšŒ
+COMMIT; -- ë³€ê²½ì‚¬í•­ ë°˜ì˜(ì €ìž¥
+UPDATE DEPT SET LOC='ë¯¸ê°œì²™ì§€'; -- WHEREì ˆ ìƒëžµì‹œ ì „ì²´ ROW ëŒ€ìƒ
 SELECT * FROM DEPT;
-ROLLBACK; -- ÇØ´ç º¯°æ»çÇ× ¿µ±¸È÷ Ãë¼Ò
-SELECT * FROM DEPT; -- °á°ú È®ÀÎ
-select dname, replace(dname,' ','*') from dept; -- dname ÄÃ·³¿¡ °ø¹é¹®ÀÚ ÀúÀå
-update dept set dname=trim(dname); -- set Àý¿¡ ÇÔ¼ö »ç¿ë°¡´É
+ROLLBACK; -- í•´ë‹¹ ë³€ê²½ì‚¬í•­ ì˜êµ¬ížˆ ì·¨ì†Œ
+SELECT * FROM DEPT; -- ê²°ê³¼ í™•ì¸
+select dname, replace(dname,' ','*') from dept; -- dname ì»¬ëŸ¼ì— ê³µë°±ë¬¸ìž ì €ìž¥
+update dept set dname=trim(dname); -- set ì ˆì— í•¨ìˆ˜ ì‚¬ìš©ê°€ëŠ¥
 select dname, replace(dname,' ','*') from dept;
 commit;
 
 
-/* DELETE - Å×ÀÌºí³»¿¡ ÀúÀåµÈ ±âÁ¸ Çà(Row, Record) »èÁ¦ */
+/* DELETE - í…Œì´ë¸”ë‚´ì— ì €ìž¥ëœ ê¸°ì¡´ í–‰(Row, Record) ì‚­ì œ */
 DELETE FROM DEPT WHERE LOC IS NULL or DEPTNO IS NULL;
 SELECT * FROM DEPT;
 commit;
-DELETE DEPT; -- WHEREÀý »ý·«½Ã ÀüÃ¼ ROW »èÁ¦
--- FROM »ý·« °¡´É , Delete Syntax DiagramÀ» ÀÐ¾î È®ÀÎ
+DELETE DEPT; -- WHEREì ˆ ìƒëžµì‹œ ì „ì²´ ROW ì‚­ì œ
+-- FROM ìƒëžµ ê°€ëŠ¥ , Delete Syntax Diagramì„ ì½ì–´ í™•ì¸
 SELECT * FROM DEPT;
-ROLLBACK; -- ÇØ´ç º¯°æ»çÇ× Ãë¼Ò
+ROLLBACK; -- í•´ë‹¹ ë³€ê²½ì‚¬í•­ ì·¨ì†Œ
 SELECT * FROM DEPT;
 
 

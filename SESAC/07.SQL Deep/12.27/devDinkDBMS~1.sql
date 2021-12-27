@@ -1,10 +1,10 @@
-/* TRANSACTION ½Ç½À */
+/* TRANSACTION ì‹¤ìŠµ */
 
-/* °í¸³¼º : Æ®·£Àè¼ÇÀ» ¼öÇàÁßÀÎ ÇöÀç ¼¼¼Ç¿¡¼­´Â Á¶È¸°¡ °¡´ÉÇÏ°í,
-            ´Ù¸¥ ¼¼¼Ç¿¡¼­´Â º¯°æÀÌ ÁøÇàÁßÀÎ µ¥ÀÌÅÍ¸¦ Á¶È¸ÇÒ ¼ö ¾øÀ½
-            º¯°æ ÀÌÀü »óÅÂÀÇ µ¥ÀÌÅÍ Á¶È¸ °¡´É
+/* ê³ ë¦½ì„± : íŠ¸ëžœìž­ì…˜ì„ ìˆ˜í–‰ì¤‘ì¸ í˜„ìž¬ ì„¸ì…˜ì—ì„œëŠ” ì¡°íšŒê°€ ê°€ëŠ¥í•˜ê³ ,
+            ë‹¤ë¥¸ ì„¸ì…˜ì—ì„œëŠ” ë³€ê²½ì´ ì§„í–‰ì¤‘ì¸ ë°ì´í„°ë¥¼ ì¡°íšŒí•  ìˆ˜ ì—†ìŒ
+            ë³€ê²½ ì´ì „ ìƒíƒœì˜ ë°ì´í„° ì¡°íšŒ ê°€ëŠ¥
 */
-INSERT INTO DEPT(DEPTNO, DNAME, LOC) VALUES(90, '»ç¾÷ºÎ', '°æ±âµµ');
+INSERT INTO DEPT(DEPTNO, DNAME, LOC) VALUES(90, 'ì‚¬ì—…ë¶€', 'ê²½ê¸°ë„');
 UPDATE EMP SET DEPTNO = 90 WHERE DEPTNO = 30;
 DELETE FROM DEPT WHERE DEPTNO = 30;
 SELECT * FROM DEPT;
@@ -15,8 +15,8 @@ SELECT * FROM EMP;
 
 
 /* 
-    COMMITÀ» ÅëÇØ Æ®·£Àè¼Ç¿¡¼­ ¹ß»ýÇÑ ¸ðµç º¯°æ»çÇ×À» ÀúÀåÇÑ ÈÄ Æ®·£Àè¼ÇÀÌ Á¾·áµÇ¾ú±â¶§¹®¿¡
-    ROLLBACK ´ë»óÀÌ ¾øÀ½
+    COMMITì„ í†µí•´ íŠ¸ëžœìž­ì…˜ì—ì„œ ë°œìƒí•œ ëª¨ë“  ë³€ê²½ì‚¬í•­ì„ ì €ìž¥í•œ í›„ íŠ¸ëžœìž­ì…˜ì´ ì¢…ë£Œë˜ì—ˆê¸°ë•Œë¬¸ì—
+    ROLLBACK ëŒ€ìƒì´ ì—†ìŒ
 */
 INSERT INTO EMP(EMPNO, ENAME, JOB, SAL) VALUES(1111, 'ORACLE', 'DBA', 3500);
 UPDATE EMP SET SAL = SAL * 1.3 WHERE EMPNO=1111;
@@ -26,11 +26,11 @@ SELECT * FROM EMP;
 
 
 /*
-    DML ¸í·É¾î¿¡¼­ ¿¡·¯ ¹ß»ý ½Ã ÇØ´ç ¸í·É¾î¿¡ ÀÇÇØ º¯°æµÈ µ¥ÀÌÅÍ¸¸ ÀÚµ¿À¸·Î ROLLBACK
+    DML ëª…ë ¹ì–´ì—ì„œ ì—ëŸ¬ ë°œìƒ ì‹œ í•´ë‹¹ ëª…ë ¹ì–´ì— ì˜í•´ ë³€ê²½ëœ ë°ì´í„°ë§Œ ìžë™ìœ¼ë¡œ ROLLBACK
     (Statement level ROLLBACK)
-    ¿øÀÚ¼º¿¡ ÀÇÇØ ¸ðµÎ Ãë¼ÒµÇ¾î¾ßÇÏÁö¸¸ DELETE¿Í UPDATE°¡ Àû¿ëµÊ ¡æ EXCEPTION ±â´É »ç¿ëÇØ¾ß ÇÔ
+    ì›ìžì„±ì— ì˜í•´ ëª¨ë‘ ì·¨ì†Œë˜ì–´ì•¼í•˜ì§€ë§Œ DELETEì™€ UPDATEê°€ ì ìš©ë¨ â†’ EXCEPTION ê¸°ëŠ¥ ì‚¬ìš©í•´ì•¼ í•¨
 */
-ROLLBACK; -- ÀÓÀÇ Æ®·£Àè¼Ç Á¾·á
+ROLLBACK; -- ìž„ì˜ íŠ¸ëžœìž­ì…˜ ì¢…ë£Œ
 DELETE FROM EMP WHERE EMPNO = 1111;
 UPDATE EMP SET SAL = 1234 WHERE EMPNO = 7902;
 UPDATE EMP SET SAL = 123456789 WHERE EMPNO = 7788;
@@ -50,11 +50,11 @@ END;
 SELECT DEPTNO, EMPNO, SAL FROM EMP WHERE DEPTNO = 20 OR EMPNO IN (7499,7698);
 
 
-/* TRANSACTION°ú DDL */
+/* TRANSACTIONê³¼ DDL */
 
 INSERT INTO EMP(EMPNO, ENAME, DEPTNO) VALUES(9999,'OCPOK', 20);
-ALTER TABLE EMP ADD(SEX CHAR(1) DEFAULT 'M'); -- DDL, ¼ºº° ÅÇ Ãß°¡
-ROLLBACK; -- ALTER Ãë¼Ò ¾ÈµÊ, DDLÀº ÀÔ·ÂÇÏ¸é COMMIT ÀÚµ¿ ½ÇÇà
+ALTER TABLE EMP ADD(SEX CHAR(1) DEFAULT 'M'); -- DDL, ì„±ë³„ íƒ­ ì¶”ê°€
+ROLLBACK; -- ALTER ì·¨ì†Œ ì•ˆë¨, DDLì€ ìž…ë ¥í•˜ë©´ COMMIT ìžë™ ì‹¤í–‰
 DESC EMP;
 ALTER TABLE EMP DROP COLUMN SEX;
 ROLLBACK;
