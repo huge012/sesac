@@ -1,0 +1,94 @@
+12/28 수업내용 - 자바
+
+* 자바
+- map, set, io
+- public : 코드를 더이상 수정하지 않겠다(공개 배포)
+- 자바 특징 : 대규모 프로젝트 가능
+
+* 달력짜기
+- API 자바 docu 활용
+- Date, Calendar - 실제 날짜,시간, java.util
+- SimpleDateFormat - 원하는 정보를 뽑아냄, 
+
+
+* Date()
+- 자바 초창기(1.0)에 나옴
+- Deprecated됨(다음 버전에서 삭제될 수 있음, 사용지양), 가운데줄
+- Date(), Date(long msec)
+
+
+* API
+https://docs.oracle.com/javase/8/docs/api/
+public 형태만 설명함
+
+
+* Class Date
+java.lang.Object → object 상속
+	java.util.Date → import
+All Implemented Interfaces:
+	Serializable, Cloneable, Comparable<Date>  → 인터페이스
+Direct Known Subclasses:
+	Date, Time, Timestamp → 보유하고 있는 클래스
+
+* import 단축키 : ctrl+shift+o
+* 자동 들여쓰기 : ctrl+shift+f
+
+* 모든 객체는 Object 클래스를 상속받고 있음
+- toString() 모든 객체가 보유하게 됨
+- Date() 클래스의 toString은 날짜를 반환하게 오버라이딩 되어있음
+- println(객체) → 객체.toString()
+
+
+* Calendar
+- 추상클래스 (덜 구현된 클래스)
+- instance 객체 생성 불가
+- calendar.getInstance() → 캘린더 클래스를 상속받은 객체(그레고리형 캘린더) 반환
+- static Calendar getInstance()로 객체 받음
+- 정보 : get(매개변수)로 받음
+- 매개변수 : static final (YEAR, MONTH, DATE, DAY_OF_MONTH, DAY_OF_WEEK, HOUR, HOUR_OF_DAY, MINUTE, SECOND)
+    ㄴ 추상클래스에서 접근해야 함 : static
+    ㄴ 수정할 수 없어야 함 : final
+- setTime : Date 타입 정보를 Calendar 형식으로 변환
+- getTime : Calendar 타입 정보를 Date 형식으로 변환
+- getActualMaximum(매개변수) : 주어진 정보의 최댓값을 구함 (달의 마지막 날, 일 년의 마지막 달 등)
+- SimpleDateFormat(String pattern) : 날짜폼을 설정해주는 클래스
+    ㄴ시간 h(0-11)로 표기할 때 오전오후 표기하는 방법은??
+- String format(Date d) : 폼에 맞춰서 포맷해주는 메소드(SDF 클래스 내)
+
+
+* Static 변수 : 같은 클래스로 만들어진 객체들이 전부 공유하는 변수
+- 메인 실행된 뒤, static을 인지하면 바로 변수 메모리 할당
+- class명으로 접근하는게 가장 좋음 (객체 없이도 접근ok)
+- (class명).(static변수명)
+- static 메소드에서는 static 변수만 사용 가능(인스턴스 변수는 인스턴스가 할당되어야만 사용할 수 있으므로)
+
+
+* Static 메소드 : static 메소드에서는 static 메소드만 호출 가능
+
+
+* 오버로딩 : 같은 클래스 내에 동일한 이름의 메소드에 매개변수를 다르게 넣음 (메소드명, 매개변수로 메소드를 구분함)
+
+
+* 오버라이딩 : 상속받은 메소드를 재정의함
+
+
+* 비지니스 클래스, 기능 클래스
+
+
+* 생성자 : 멤버변수를 초기화하기 위함, 적지 않으면 default 생성자 자동 호출
+* Default 생성자 : public 클래스명() {}
+
+* this : this.(멤버변수), this.(메소드), this(생성자용)
+    ㄴ static에는 this 못 붙임
+
+* javadoc 만들 수 있음 : private 메소드는 보이지 않음
+/** ... */ : 문서주석
+@어쩌구 : 코드주석
+VM option : -locale kr_ko -encoding utf-8
+
+
+* 입출력용 클래스 / 기능 클래스 분리
+
+
+* 아마테라스 uml - 프로그램 모델 보여줌, 클래스 다이어그램
+https://takezoe.github.io/amateras-update-site/
