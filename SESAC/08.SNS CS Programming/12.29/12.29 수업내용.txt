@@ -1,0 +1,98 @@
+12/29 수업내용
+
+* 상속관계
+- is a pattern
+- kind of pattern
+
+
+* 도형 랜덤 넓이 구하기
+→ 가로세로 외부에서 받게 하기
+→ 도형    →    평면도형    →    직사각형    →    정사각형
+                                  →    삼각형 
+             →    원
+→ 묵시적 형변환
+
+
+
+* Collection API
+- 자료구조 : 메모리에 같은 타입의 변수를 효율적으로 저장하기 위한 방법
+- 알고리즘 : 효율적인 생각의 흐름도
+- 자바 : 자료구조 클래스를 가지고 있음
+- <> : 제너릭(Generic), 형태 강제함, 참조자료형만 들어갈 수 있음
+   List<String> list = new ArrayList<String>;
+   기본 자료형을 멤버변수로 감싸게(래핑) 해서 참조 자료형으로 만들어줌
+   (Integer, Bool 등)
+
+
+* List : 순서가 있고 중복을 허용하는 가변적 배열
+   ArrayList
+   LinkedList
+
+- import java.util.ArrayList;
+- import java.util.List;
+
+ArrayList list = new ArrayList( );
+list.add("봄);
+String val = list.get(0); 봄 반환
+int size = list.size(); 2 반환
+list.remove(0); 0번지 삭제
+list.remove("봄"); "봄" 찾아서 삭제(오버로딩), 제일 첫 객체만 삭제
+list.clear(); 전부 삭제
+boolean b = list.isEmpty(); 데이터 존재유무 확인
+list.addAll(sub); sub에 들어간 모든 데이터 추가됨
+
+
+* Set : 중복x, 순서x
+- 속도가 빠름, 탐색 위해서 사용
+   TreeSet
+   HashSet
+
+
+
+* 형변환 (묵시적/명시적 형변환은 서로 상속관계에 있을 때에만 사용)
+
+Object obj = new String("one");
+obj.length;   → 오류남, 부모 클래스 형태로 만들어진 객체는 자식만 가진 메소드를 사용 불가
+
+String str = (String)obj;   → 명시적으로 자식 클래스 형변환 해줘야 자식 메소드 사용 가능
+
+부모 클래스가 가진 메소드를 자식 클래스가 오버라이딩할 경우, 자식 클래스의 메소드가 호출.
+
+
+* Iterator - 순환자
+데이터를 처음부터 끝까지 접근하기 위해 사용
+
+
+
+* Map : Key, Value 한 쌍으로 가지는 데이터 집합
+- 순서x, key 중복x
+- key값을 통해 value에 빨리 접근하는 것이 목표
+
+map.put(키, 값) -> 동일 키일 경우 새 값으로 대체하고 기존 값 반환
+map.get(키); -> 특정 키값에 대한 value를 반환, 없을 경우 null
+map.remove(키) -> value와 key 둘다 삭제
+map.containsKey(키) -> 키 존재 여부 판단 (t,f)
+map.putAll(sub) -> 기존 맵에 sub를 추가
+
+map : key-value 묶음을 가지는 Entry class를 가지고 있음
+
+
+
+*
+주로 사용하는 id/password
+- system/manager
+- scott/tiger
+- hr/hr
+
+* SQL Plus에 입력
+alter session set "_ORACLE_SCRIPT"=true
+@?/demo/schema/human_resources/hr_main.sql
+1. hr
+2. users
+3. temp
+4. $ORACLE_HOME/demo/schema/log/
+
+올바르게 설치됐는지 확인
+conn hr/hr
+show user
+→ USER은 "HR"입니다 나오면 ok

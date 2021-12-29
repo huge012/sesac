@@ -14,6 +14,12 @@ public class rectangle extends Figure {
 		length = rd.nextInt(9)+2;
 	}
 	
+	public rectangle(int width, int lenght)
+	{
+		this.width = length;
+		this.length = lenght;
+	}
+	
 	@Override
 	public float calc ()
 	{
