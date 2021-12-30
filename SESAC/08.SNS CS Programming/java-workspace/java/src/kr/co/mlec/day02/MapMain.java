@@ -60,3 +60,22 @@ public class MapMain {
 	}
 
 }
+/*
+실제 사용자의 id,password 집합을 만들 때에는 List로 생성해서 만든다
+* class Member {
+*    private String id;
+*    private String password;
+*
+*    public Member(String id, String password) {
+*       this.id = id;
+*       this.password = password
+*        }
+* }
+*
+* List<Member> members = new ArrayList<>
+* members.add(new Member("aaa", "1111"));
+* members.add(new Member("bbb", "2222"));
+* members.add(new Member("ccc", "3333"));
+* members.add(new Member("ddd", "4444"));
+
+*/

@@ -21,6 +21,8 @@ public class MapMain02 {
 		members.put("ccc", "3333");
 		members.put("ddd", "4444");
 		
+		System.out.println(members);
+		
 		System.out.println("< 비밀번호 변경서비스 >");
 		System.out.println("회원님의 아이디를 입력하세요 : ");
 		Scanner sc = new Scanner(System.in);
