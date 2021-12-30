@@ -1,7 +1,9 @@
-package kr.co.mlec.day02.lotto01;
+package kr.co.mlec.day02.lotto04;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class LottoView {
 	public void start()
@@ -24,21 +26,23 @@ public class LottoView {
 		int[] result = new int[6];
 		int num = 0;
 		
-		/* 강사님 Version 1 */
+		/* 강사님 Version 3 */
 		
-		for (int i = 0; i < result.length; i++)
+		Set<Integer> lottoSet = new HashSet<>();
+		
+		while (lottoSet.size() != 6)
 		{
-			result[i] = rd.nextInt(45)+1;
-			for (int j = 0; j < i; j++)
-			{
-				if (result[i] == result[j])
-				{
-					i--;
-					break;
-				}
-			}
+			num = rd.nextInt(45)+1;
+			lottoSet.add(num);
 		}
 		
+		// 형변환이 너무 많이 일어나서 효율적이지 못함!
+		Integer[] arr = lottoSet.toArray(new Integer[6]);
+		result = Arrays.stream(arr).mapToInt(Integer::intValue).toArray(); // arr 배열을 나열해서 intValue를 int형으로 변환한 것을 배열로 만듦
+		
+		// Object[] lottos = lottoSet.toArray();
+		// for(int i = 0; i < lottos.length; i++)
+		// 	result[i] = (int)lottos[i];
 		
 		/* 1. 이중 for문으로 존재 여부 체크하면서 넣기
 		select : for (int i = 0; i < 6; i++)

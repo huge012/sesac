@@ -1,4 +1,4 @@
-package kr.co.mlec.day02.lotto01;
+package kr.co.mlec.day02.lotto03;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -24,18 +24,17 @@ public class LottoView {
 		int[] result = new int[6];
 		int num = 0;
 		
-		/* 강사님 Version 1 */
+		/* 강사님 Version 3 */
 		
-		for (int i = 0; i < result.length; i++)
+		boolean[] flag = new boolean[46];
+		
+		for (int i = 0; i < result.length;)
 		{
-			result[i] = rd.nextInt(45)+1;
-			for (int j = 0; j < i; j++)
+			num = rd.nextInt(45) + 1;
+			if (flag[num] == false)
 			{
-				if (result[i] == result[j])
-				{
-					i--;
-					break;
-				}
+				flag[num] = true;
+				result[i++] = num;
 			}
 		}
 		

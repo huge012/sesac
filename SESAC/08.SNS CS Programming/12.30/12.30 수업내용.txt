@@ -1,0 +1,73 @@
+* IO
+- 데이터를 휘발되지 않게 저장장치에 저장할 수 있는 것
+- file에 저장하고 꺼내오기
+
+* JDBC : 자바를 통해 DB에 접속하고 연결
+- Java Database Connectivity
+- 각 DB가 각자의 JDBC 드라이버를 만들어서 배포
+- JDBC 드라이버 관리자가 통합관리
+
+* java.sql.*; 패키지에 DB Acess할 수 있는 클래스를 모아놓음
+- DriverManager : 여러 개의 벤더회사를 묶어 표준화하기 위함
+- Connection : 실제 데이터베이스와 연결
+- Statement : 쿼리를 만들고 실행
+- ResultSet(select) : sql 실행결과 레코드셋을 담는 클래스
+
+DB-JAVA 연동하여 작동하는 방식
+- JDBC 드라이버 로딩 → DB 접속 → 쿼리생성(CRUD) → 쿼리 실행 → DB접속해제(CLOSED)
+
+
+* JDBC 프로그램 순서
+1) jdbc 드라이버 로드 : Class.forName(...)
+ex) Class.forName(“oracle.jdbc.driver.OracleDriver”);
+    - oracle.jdbc.driver : 패키지
+    - OracleDrive : 클래스명
+    - 무조건 컴파일 시점에 예외처리 해줘야 함 (checkedException)
+    - 외부장치 연결하려면 무조건 예외처리
+
+2) SQL DB와 연결
+ex) Connection conn = DriverManager.getConnection(url,id,pass);
+
+3) sql 실행할 객체(statement) 얻어와 쿼리 작성
+ex) Statement stmt = conn.createStatement();
+    String sql = "코드 작성(세미콜론x)";
+
+4) 쿼리 실행
+ex) int cnt = stmt.executeUpdate(sql);
+   - DB를 업데이트하는 것이기 때문에(행 삽입) executeUpdate 사용
+   - int형(insert한 행의 개수) 반환
+
+5) DB 종료
+ex) 
+- 예외가 발생하든 안하든 데이터베이스 접속 종료해야 함
+- try-catch-finally의 finally에 넣어줘야 함
+
+* jar : 자바 확장자 모아놓은 압축 파일
+
+* java BuildPath에서 jar 파일 추가해야 ojdbc 로딩 가능
+- oracle 파일 내 ojdbc8.jar를 현재 프로젝트에 넣어줌
+- 내 프로젝트 우클릭 - build path - Confiqure build path - libraries - jre System Library 8버전으로 수정 후 add jars...
+
+
+
+* 드라이버 로딩
+
+
+* sql developer 속도 조정 :
+도구 환경설정 코드편집기 완성인사이트 네개 다 뺌
+
+
+* try-catch 자동완성 : try 입력 후 + ctrl+space+enter
+* 코드 이동 : alt+방향키
+* 코드 복사 : crtl+alt+방향키
+
+statement 객체 ← connection 객체에서 얻어옴
+preparedStatement 객체 ← statement 객체 상속
+callableStatement 객체
+
+
+* DB는 항상 1부터 시작
+* java 등 프로그래밍 언어는 0부터 시작
+
+* 급여가 주어진 금액 이상인 직원들에 대해 직무별 평균 급여 출력,
+평균 급여가 큰 순서로 출력

@@ -12,7 +12,7 @@ public class Circle extends Figure {
 	
 	@Override
 	public void calc() {
-		area = r * r * 3.14f;
+		area = (float)(r * r * Math.PI);
 	}
 
 	@Override

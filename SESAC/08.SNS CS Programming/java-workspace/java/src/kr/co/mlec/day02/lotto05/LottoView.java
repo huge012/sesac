@@ -1,6 +1,9 @@
-package kr.co.mlec.day02.lotto01;
+package kr.co.mlec.day02.lotto05;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class LottoView {
@@ -24,21 +27,19 @@ public class LottoView {
 		int[] result = new int[6];
 		int num = 0;
 		
-		/* 강사님 Version 1 */
+		/* 강사님 Version 4 */
 		
+		List<Integer> lottos = new ArrayList<>();
+		for (int i = 0; i < 45; i++)
+		{
+			lottos.add(i+1);
+		}
+		Collections.shuffle(lottos);
 		for (int i = 0; i < result.length; i++)
 		{
-			result[i] = rd.nextInt(45)+1;
-			for (int j = 0; j < i; j++)
-			{
-				if (result[i] == result[j])
-				{
-					i--;
-					break;
-				}
-			}
+			//result[i] = lottos.get(i);
+			result[i] = lottos.remove(0); // 하나씩 제거하면서 꺼냄
 		}
-		
 		
 		/* 1. 이중 for문으로 존재 여부 체크하면서 넣기
 		select : for (int i = 0; i < 6; i++)
