@@ -77,7 +77,8 @@ map.putAll(sub) -> 기존 맵에 sub를 추가
 map : key-value 묶음을 가지는 Entry class를 가지고 있음
 
 
-
+오라클 데이터베이스 18c XE
+https://www.oracle.com/database/technologies/xe18c-downloads.html
 *
 주로 사용하는 id/password
 - system/manager
@@ -85,7 +86,7 @@ map : key-value 묶음을 가지는 Entry class를 가지고 있음
 - hr/hr
 
 * SQL Plus에 입력
-alter session set "_ORACLE_SCRIPT"=true
+alter session set "_ORACLE_SCRIPT"=true;
 @?/demo/schema/human_resources/hr_main.sql
 1. hr
 2. users
