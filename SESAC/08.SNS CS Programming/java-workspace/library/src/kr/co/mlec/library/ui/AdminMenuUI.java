@@ -32,10 +32,11 @@ public class AdminMenuUI extends BaseUI implements IMenuUI {
 			switch(type)
 			{
 			case "1":
-				ui = new BookInfoMenuUI();
+				ui = new BookInfoMenuAdminUI(user);
 				break;
 			case "2": 
 				ui = new MemberInfoMenuUI();
+				미구현
 				break;
 			case "3":
 				return;

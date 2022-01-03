@@ -32,7 +32,7 @@ public class MemberMenuUI extends BaseUI implements IMenuUI {
 			switch(type)
 			{
 			case "1":
-				ui = new BookInfoMenuUI();
+				ui = new BookInfoMenuUI(user);
 				break;
 			case "2": 
 				ui = new MyInfoMenuUI();

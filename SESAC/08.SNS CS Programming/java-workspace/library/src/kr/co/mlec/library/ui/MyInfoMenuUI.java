@@ -26,10 +26,10 @@ public class MyInfoMenuUI extends BaseUI implements IMenuUI {
 			switch(type)
 			{
 			case "1":
-				ui = new UpdateInfoUI();
+				//ui = new UpdateInfoUI();
 				break;
 			case "2": 
-				ui = new SearchMyRentUI();
+				//ui = new SearchMyRentUI();
 				break;
 			case "3":
 				return;
