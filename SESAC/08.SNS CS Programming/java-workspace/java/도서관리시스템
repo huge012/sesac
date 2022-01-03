@@ -1,44 +1,142 @@
-library 기능
+t_books
+t_user
+t_manage
 
-1. 도서 정보
-- 책 분류코드 : primary key
-- 책이름
-- 장르
-- 출판사
-- 도서관 보유 권수
-- 남은 재고(빌릴 수 있는 권수)
-- 저자
+t_books
+book_code	number(10)	primary key
+title 		  	varchar2(40)	not null
+writer			varchar2(20)	not null
+publisher			varchar2(20)	not null
+available_book		number(1)	not null
 
-2. 관리 정보
-- 빌린 사람 id
-- 빌린 날짜
-- 반납할 날 (기본 : 빌린 날부터 +14일, 특수케이스를 위해 추가)
-- 반납한 날
-- 책 분류코드
+t_user
+id			varchar2(10)	primary key
+password			varchar2(20)	not null		
+name			varchar2(10)	not null
+birth			date		
+phone			number(10)	primary key
+lending_book_num number(1)
+is manager(0:일반회원 1:매니저) number(10)	default(0)
 
-3. 유저 정보
-- 아이디
-- 비밀번호
-- 이름
-- 전화번호
-- 주소
-- 생년월일
-- 빌린 책 분류코드
+//lending_book(대출중인 책)	number(10)[]
 
 
----
+t_manage
+no			int identity(1,1)	primary key
+book_code(책코드)		number(10)		
+id			varchar2(10)	not null
+lend_date(빌린날)		date		default sysdate 	not null 
+deadline(반납할 날)		date		default dateadd(day, 14, sysdate) not null	
+return_date(반납한날)	date		
 
-로그인 메뉴
-1. 아이디
-2. 회원가입
-3. 회원 탈퇴
-0. 종료
+빌린책 정보알려면,,t_mange랑 t_user사용해서 도출
+빌린 책의 저자/출판사 알려면 t_manage t_user_ t_book 사용해서 도출
 
----
 
-책 조회
-1. 전체 책 조회 (책 이름, 저자, 출판사, 보유 수량)
-2. 책 이름 조회 (책 이름, 저자, 출판사, 보유 수량)
-3. 대여 (책 이름, 저자) - 대여할 책 있는지 확인 (수량까지 체크)
-4. 반납 (책 이름, 저자) - 빌린게 있는지 확인, 반납, 반납날짜 체크, 수량 변동
-0. 종료
+
+<sql적은거>
+create table t_books(
+book_code number(10) primary key
+,title varchar2(40) not null
+,writer varchar2(20) not null
+,publisher varchar2(20) not null
+,available_book number(1) not null
+);
+
+
+create table t_user(
+id varchar2(10)
+,password varchar2(20) not null
+,name varchar2(10) not null
+,birth date
+,phone number(10)
+,lending_book_num number(1)
+,is_manager number(10) default 0 not null --0값도 넣고 null도 방지하고
+,constraint t_user_PK primary key(id, phone) 
+);
+
+create sequence Numbering
+    start with 1
+    increment by 1;
+select Numbering.nextval from dual;
+
+
+create table t_manage(
+no number primary key --i++
+,book_code number(10)
+,id varchar2(10) not null
+,lend_date date default sysdate not null
+,deadline date default sysdate+7 not null
+,return_date date
+);
+drop table t_manage;
+
+select * from t_manage;
+
+
+<자바>
+LibraryMain()
+- LibraryControl() 실행
+	- SelectMember() 실행 -> 관리자 / 회원인지 반환
+	- LoginPage() 실행 -> 로그인 성공 여부 반환
+	- MainMenu() 실행
+		// 회원용 메뉴 
+		- 도서정보: BookInfo
+			- 전체 제목 조회 
+			- 키워드 조회
+			- 대출
+			-반납
+		- 내정보 : MemberInfo
+			- 회원정보 수정
+			- 대출 정보
+		- 로그아웃 Logout
+		- 종료 Exit
+
+		// 관리자용 메뉴
+
+		- 도서관리: BookInfo
+			- 전체 제목 조회
+			- 키워드로 조회
+			- 도서 추가
+			- 도서 삭제
+			-도서 정보 수정
+		- 회원관리: MemberInfo
+			- 회원 추가
+			- 회원 삭제
+			- 회원정보 변경
+		- 로그아웃 Logout
+		- 종료 Exit
+
+
+vo
+- MemberVO : 회원정보 class
+- BookVO : 책 정보 class
+- ManageVO : 대출내용 class
+
+
+DAO(실질적 db사용)
+- LoginDAO
+
+
+
+* IUI : UI 인터페이스, void execute();
+ BaseUI : IUI 상속받은 abstract class, scanStr, scanInt 구현, 모든 UI가 이 클래스 상속받음!!
+
+
+
+* UI
+MemberUI : 관리자 / 회원 / 종료 선택지 떠서 해당 선택지 실행
+- menu() : 관리자 / 회원 / 종료 선택
+- execute() : SelectMember, 관리자인지 회원인지 반환
+
+
+LoginUI : 로그인 / 회원가입 / 종료 선택지 떠서 해당 선택지 실행
+- menu() : (회원) -  로그인 / 회원가입 / 종료 , (관리자) 로그인 / 종료
+
+
+MenuUI : 도서관리 / 회원관리 / 로그아웃 / 종료 선택지 떠서 해당 선택지 실행
+- BookInfo()
+- MemberInfo()
+- Logout()
+- Exit()
+
