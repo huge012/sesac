@@ -5,11 +5,6 @@ import kr.co.mlec.library.vo.ManageVO;
 import kr.co.mlec.library.vo.MemberVO;
 
 public class ReturnBookUI extends BaseUI {
-
-	public ReturnBookUI(MemberVO user)
-	{
-		super(user);
-	}
 	
 	public void execute()
 	{
@@ -17,7 +12,7 @@ public class ReturnBookUI extends BaseUI {
 		ManageVO rent = new ManageVO();
 		
 		rent.setBookCode(scanInt("반납할 책 코드를 입력하세요 : "));
-		rent.setId(user.getId());
+		rent.setId(SelectMemberUI.user.getId());
 		
 		int result = dao.ReturnInfo(rent);
 		

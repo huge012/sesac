@@ -22,12 +22,11 @@ public class AdminLoginUI extends BaseUI implements IMenuUI {
 		{
 			BaseUI ui = null;
 			String type = menu();
-			user.setIsAdmin(1);
 			
 			switch(type)
 			{
 			case "1":
-				ui = new SignInUI(user); // 로그인
+				ui = new SignInUI(); // 로그인
 				break;
 			case "0":
 				ui = new ExitUI();

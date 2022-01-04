@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import kr.co.mlec.library.ui.SelectMemberUI;
 import kr.co.mlec.library.util.ConnectionFactory;
 import kr.co.mlec.library.util.JDBCClose;
 import kr.co.mlec.library.vo.MemberVO;
@@ -46,7 +47,7 @@ public class LoginDAO {
 	}
 	
 	// 로그인
-	public boolean signIn(MemberVO user)
+	public boolean signIn()
 	{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -62,9 +63,9 @@ public class LoginDAO {
 			sql.append(" where id = ? and password = ? and is_manager = ? ");
 			
 			pstmt = conn.prepareStatement(sql.toString());
-			pstmt.setString(1, user.getId());
-			pstmt.setString(2, user.getPw());
-			pstmt.setInt(3, user.getIsAdmin());
+			pstmt.setString(1, SelectMemberUI.user.getId());
+			pstmt.setString(2, SelectMemberUI.user.getPw());
+			pstmt.setInt(3, SelectMemberUI.user.getIsAdmin());
 			
 			ResultSet rs = pstmt.executeQuery();
 			result = rs.next();

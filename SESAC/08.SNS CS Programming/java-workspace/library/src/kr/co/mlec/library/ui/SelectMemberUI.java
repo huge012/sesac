@@ -1,7 +1,11 @@
 package kr.co.mlec.library.ui;
 
+import kr.co.mlec.library.vo.MemberVO;
+
 public class SelectMemberUI extends BaseUI implements IMenuUI {
 
+	public static MemberVO user; 
+	
 	@Override
 	public String menu() {
 		System.out.println("\t<<도서관리 시스템>>");
@@ -19,13 +23,16 @@ public class SelectMemberUI extends BaseUI implements IMenuUI {
 	{
 		BaseUI ui = null;
 		String type = menu();
+		user = new MemberVO();
 		
 		switch(type)
 		{
 		case "1":
+			user.setIsAdmin(0);
 			ui = new MemberLoginUI();
 			break;
 		case "2":
+			user.setIsAdmin(1);
 			ui = new AdminLoginUI();
 			break;
 		case "0":

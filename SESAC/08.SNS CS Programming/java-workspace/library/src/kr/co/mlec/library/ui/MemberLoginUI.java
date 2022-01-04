@@ -24,15 +24,15 @@ public class MemberLoginUI extends BaseUI implements IMenuUI {
 		{
 			BaseUI ui = null;
 			String type = menu();
-			user.setIsAdmin(0);
+			SelectMemberUI.user.setIsAdmin(0);
 			
 			switch(type)
 			{
 			case "1":
-				ui = new SignInUI(user); // 로그인
+				ui = new SignInUI(); // 로그인
 				break;
 			case "2": 
-				ui = new SignUpUI(user); // 회원가입
+				ui = new SignUpUI(); // 회원가입
 				break;
 			case "0":
 				ui = new ExitUI();

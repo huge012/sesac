@@ -36,5 +36,106 @@ html, javascript, css, jsp : 웹 언어
 웹 언어 해석 기능
 - server : jsp, 서블릿, 스프링 - 백엔드(자바기반)
 - 웹브라우저 : html, css, javascript, 리액트, 뷰 - 프론트엔드(자바기반이 늘어나고 있음)
-- 웹 어플리케이션(왓스) 서버 : 자바 파일+해석까지 가능, 톰캣
+- 웹 어플리케이션(왓스) 서버 : 웹에서 자바 해석까지 가능, 톰캣
 
+
+* 소스트리
+깃허브 주소
+https://github.com/huge012/sesac.git
+
+깃 토큰 사용한 주소 - 아이디:토큰@주소
+https://huge012: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@github.com/huge012/sesac.git
+
+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
+설정 - origin - 편집 - 주소에 깃토큰사용한 주소 붙여넣기
+
+
+
+--
+
+* JSP -> Web project
+ Sprint -> Web project
+html, css, javascript, jquery, ajax, jsp, servlet 필요
+
+* html (hyper text markup language)
+- markup : <aaa> ~ </aaa> 태그(<>, 꺽쇠)로 구성
+- 대소문자 구문 x
+- 확장자 .html
+- 공백 인지 불가
+- 태그 안에 html 명령어만 인식 가능
+- 시작 태그 있으면 무조건 종료태그 있어야 함 ( 시작 태그 : <aa>, 종료 태그 : </aa> )
+- 엘리먼트 요소 : 시작태그 ~ 종료태그 사이에 있는 명령어
+- 기본 구성 태그 : html, head, title, body
+<html>
+	<head>
+		<title> title은 제목 </title>
+	</head>
+	<body>
+		실제 내용부가 들어가는 영역
+	</body>
+</html>
+
+
+----
+
+
+* 서버 구축, 서버에 html 만들어서 실제로 웹에서 볼 수 있게 하기
+
+* 톰캣, oracle 포트 8080으로 충돌
+톰캣 포트를 9999로 바꿔서 설치
+http://localhost:9999 쳐서 뜨면 설치 및 실행 성공
+http://127.0.0.1:9999
+http://192.168.35.160:9999
+
+* localhost = 내 컴퓨터 = 127.0.0.1 = 내 ip(cmd 확인)
+
+* cmd창에서 ipconfig 치면 내컴퓨터 아이피 확인 가능
+
+
+* 이클립스 팁
+alt+shift+a 여러 블럭에 동시에 입력 가능
+
+--
+
+이클립스 프로젝트에서 하단 Servers
+-> 톰캣 9.0 연결시켜줌
+-> 톰캣 클릭해서 환경설정 창 띄움
+-> server Locations 서버구동 시스템을 어디에 만들것인지 설정 : 3번째, 새로 만든 경로로 설정(서버실행하면 수정불가)
+
+
+workspace, web-css/html/jsp 전부 utf-8로 설정 바꿔주기
+
+ctrl+f11 -> 서버 이용해서 실행 -> 프로토콜로 접근
+http://localhost:9999/Lecture-Web/html/exam01.html  -> 로컬호스트:포트/프로젝트명/폴더/파일명
+ㄴ 원래는 프로젝트명이 안들어가는게 맞으나 이클립스 내에서 프로젝트 구분을 위해 플젝명 들어감
+
+* 다이나믹 프로젝트 : 서버로 움직이는 것이 목표
+- 프로젝트 안에 wepapp(webcontent) : 루트 폴더, 필수로 있어야 함. 모든 파일은 이 아래에 존재하게 하기
+- 루트 아래 web-inf : web.xml, lib, classes 포함. web-inf는 보안 폴더, 웹에서 직접적(url)으로 접근 불가, html, css 파일은 web-inf 밖에 만들어야 함
+- 실행 시 workspace에서 가져오는게 아니라 설정한 server path(우리는 eclipse-work)에서 봄, 서버 패스에 필요한 파일을 복사함
+- Deploy path : 루트
+
+
+* html : 정적 문서, 항상 같은 결과 출력
+* 자바스크립트 : 정적 언어
+
+* a 태그 : 문자나 이미지에 링크를 걸어줌
+<a 속성명="값">  </a>
+- 속성 값은 항상 문자열
+- href(h-레퍼런스) : 이동 위한 속성
+- target : 속성 옵션 넣을 때 사용, 새 창 등
+
+* web browser 실행창 바꾸기
+window -> web browser  수정 후 실행
+
+
+* html : 뼈대 / css : 채색 / javascript : 동작
+
+
+* Block 태그 : 내용의 길이에 상관없이 한 개의 라인씩 잡히는 태그
+- div
+
+* inline 태그 : 내가 작성한 내용만큼 공간이 생기는 태그
+- span
+
+* br 태그 : 자기자신이 시작이자 종료인 태그.

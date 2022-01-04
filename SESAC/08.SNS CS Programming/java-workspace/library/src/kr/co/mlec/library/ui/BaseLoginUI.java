@@ -10,11 +10,4 @@ public class BaseLoginUI extends BaseUI {
 		super();
 		dao = new LoginDAO();
 	}
-	
-	public BaseLoginUI(MemberVO user)
-	{
-		super();
-		dao = new LoginDAO();
-		this.user = user;
-	}
 }

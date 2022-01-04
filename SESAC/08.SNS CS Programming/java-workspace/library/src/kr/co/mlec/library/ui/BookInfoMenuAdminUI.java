@@ -4,11 +4,6 @@ import kr.co.mlec.library.vo.MemberVO;
 
 public class BookInfoMenuAdminUI extends BaseUI implements IMenuUI {
 
-	public BookInfoMenuAdminUI(MemberVO user)
-	{
-		super(user);
-	}
-	
 	@Override
 	public String menu() {
 		System.out.println("\t<< 도서 관련 - 괸리자용 >>");
@@ -43,7 +38,7 @@ public class BookInfoMenuAdminUI extends BaseUI implements IMenuUI {
 				ui = new SearchTitleUI();
 				break;
 			case "3":
-				 도서 추가
+				 //도서 추가
 				break;
 			case "4":
 				// 도서 폐기

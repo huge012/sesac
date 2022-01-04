@@ -4,11 +4,6 @@ import kr.co.mlec.library.vo.MemberVO;
 
 public class AdminMenuUI extends BaseUI implements IMenuUI {
 
-	public AdminMenuUI(MemberVO user)
-	{
-		super(user);
-	}
-	
 	@Override
 	public String menu() {
 		System.out.println("\t<< 메인 메뉴 - 관리자용>>");
@@ -32,11 +27,11 @@ public class AdminMenuUI extends BaseUI implements IMenuUI {
 			switch(type)
 			{
 			case "1":
-				ui = new BookInfoMenuAdminUI(user);
+				ui = new BookInfoMenuAdminUI();
 				break;
 			case "2": 
 				ui = new MemberInfoMenuUI();
-				미구현
+				//미구현
 				break;
 			case "3":
 				return;

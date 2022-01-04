@@ -3,19 +3,16 @@ package kr.co.mlec.library.ui;
 import kr.co.mlec.library.vo.MemberVO;
 
 public class SignUpUI extends BaseLoginUI {
-
-	public SignUpUI(MemberVO user)
-	{
-		super(user);
-	}
 	
 	public void execute()
 	{
+		MemberVO user = new MemberVO();
 		user.setId(scanStr("아이디를 입력하세요 : "));
 		user.setPw(scanStr("비밀번호를 입력하세요 : "));
 		user.setName(scanStr("이름을 입력하세요 : "));
 		user.setBirth(scanInt("생년월일 8자리를 입력하세요 : "));
 		user.setPhone(scanInt("전화번호 11자리를 입력하세요 : "));
+		user.setIsAdmin(0);
 		
 		int result = dao.signUp(user);
 		
