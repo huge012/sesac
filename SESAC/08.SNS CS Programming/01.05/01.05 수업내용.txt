@@ -1,0 +1,54 @@
+01.05 수업내용
+
+* html
+a : 링크 연결
+br : 줄바꿈
+h1 : 글자 줄바꿈 1~6
+select option : 옵션 여러개 보여주고 선택할 수 있는 태그
+
+* block
+div : 영역 잡음
+p : 영역+여백
+h : 글자 헤더
+hr : 줄
+
+* inline
+span
+
+* 새로운 태그
+strong
+mark
+audio
+video
+header
+section
+footer
+nav
+article
+aside
+address
+figure
+datalist
+input
+
+
+* table 태그
+<tr> : 행
+<td> : 열
+colspan="합칠 칸수" 가로 병합
+rowspan="합칠 칸수" 세로 병합
+
+
+* 구글 크롬 개발자 도구 (F12)
+
+
+<table border="1" style="width:400px; height: 400px;">
+	<thead>
+	</thead>
+
+	<tbody>
+	</tbody>
+	
+	<tfoot>
+	</tfoot>
+</table>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<!-- 
+
+<form> form 태그 안에서 입력받은 정보를 서버를 통해 넘겨받음
+	<input type="">
+			type 종류
+				text(한줄입력)
+				password(암호처리)
+				checkbox(다중선택)
+				radio(단일선택)
+				button(사용자정의이벤트)
+				file(첨부파일)
+				reset(초기화)
+				hidden(입력받지 않은 데이터를 서버에 전송)
+				submit(입력받은 데이터를 서버에 전송) 
+			<textarea> </textarea> 텍스트 여러 줄 입력 가능
+<form>
+
+ -->
+ 
+ <h1 align="center">이력서?</h1>
+ 
+ <form action="http://www.naver.com"> <!-- input의 버튼 누르면 action으로 가게 됨 -->
+	<div align="center">
+ 	아이디 : <input type="text" size="20"><br>
+ 	비밀번호 : <input type="password" size="20"><br>
+ 	
+ 	<br><br>
+ 	
+ 	<strong>희망 연봉<br></strong>
+ 	<input type="radio" name="salary">2500~2800
+ 	<input type="radio" name="salary">2800~3100
+ 	<input type="radio" name="salary">3100~3400
+ 	<input type="radio" name="salary">3400~3700
+ 	<input type="radio" name="salary">3700 이상<br>
+ 	
+ 	<br><br>
+ 	
+ 	<strong>사용 언어(중복선택 가능)<br></strong>
+ 	<input type="checkbox" name="lang">C<br>
+ 	<input type="checkbox" name="lang">C++<br>
+ 	<input type="checkbox" name="lang">JAVA<br>
+ 	<input type="checkbox" name="lang">JAVASCRIPT<br>
+ 	<input type="checkbox" name="lang">SERVLET/JSP<br>
+ 	<input type="checkbox" name="lang">ASP<br>
+ 	<input type="checkbox" name="lang">PYTHON<br>
+ 	
+ 	<br><br>
+ 	
+ 	<strong>취미(중복선택 가능)<br></strong>
+ 	<input type="checkbox" name="hobby">음악감상<br>
+ 	<input type="checkbox" name="hobby">코딩<br>
+ 	<input type="checkbox" name="hobby">디버깅<br>
+ 	<input type="checkbox" name="hobby">영화감상<br>
+ 	
+ 	<br><br>
+ 	
+ 	<strong>자기소개<br></strong>
+ 	<textarea rows="20" cols="100"></textarea>
+ 	
+ 	<br><br>
+ 	
+ 	<strong>첨부파일 : </strong><input type="file">
+ 	
+ 	<br><br>
+
+	<button type="reset">초기화</button>
+	<button>버튼</button>
+	<button type="submin">전송</button>
+	
+	<!--  과거 버전 버튼들
+	<input type="reset" value="초기화">
+	<input type="button" value="버튼">
+ 	<input type="submit" value="전송" >
+	-->
+ 	
+ 	<br><br>
+ 	
+ 	<button type="submit"><image src="/Lecture-Web/html/images/submit-btn.png"></button>
+ 	
+ 	</div>
+ </form>
+
+</body>
+</html>
