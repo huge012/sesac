@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style>
+
+/*
+	화면 구성
+	제일 왼쪽 위 : 0,0 top, left
+	제일 오른쪽 위 : top, right
+	position : default로 static 가짐,
+
+ */
+
+	div {
+		width: 100px;
+		height: 100px;
+		position: relative; /* 0,0(left top에서 시작) */
+	}
+
+	.pink {
+		background-color: pink;
+		left: 50px;
+	}
+	
+	.skyblue {
+		background-color: skyblue;
+		top: 50px;
+	}
+	
+	.div01 {
+		width: 200px;
+		height: 200px;
+		left: 50px;
+		top: 50px;
+		background-color: lightgray;
+	}
+</style>
+
+</head>
+<body>
+
+	<div class="pink">첫번째 사각형</div>
+	<div class="skyblue">두번째 사각형</div>
+
+	<div class="div01">
+		<div class="pink">  <!-- 부모 기준으로 alsolute 위치 잡힘 -->
+			세번째 사각형
+		</div>
+	
+	</div>
+
+</body>
+</html>

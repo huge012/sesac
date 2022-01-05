@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style>
+
+	div {
+		width: 100px;
+		border-color: gray;
+		border-width: 5px;
+		margin: 5px;
+		padding: 10px;
+		text-align: center;
+		float: left;  /* block이지만 공간이 남아있을 경우 빈 공간으로 이동 */
+	}
+	
+	.div01 {
+		border-style: solid;
+		
+	}
+	
+	.div02{
+		border-style: dotted;
+		/* visibility : 보여줌, hidden으로 하면 영역은 잡히지만 보이진 않음 */
+		/* visibility: visible; */
+		
+		/* display : 보여줄지 말지(영역수준까지) none - 영역도 안 잡고 보이지도 않음, block - 블록 영역 잡음 */
+		display: none;
+	}
+	
+	.div03{
+		border-style: dashed;
+	}
+
+	.div04{
+		border-style: double;
+	}
+	
+</style>
+
+</head>
+<body>
+
+	<div class="div01">사각형1</div>
+	<div class="div02">사각형2</div>
+	<div class="div03">사각형3</div>
+	<div class="div04">사각형4</div>
+
+</body>
+</html>
