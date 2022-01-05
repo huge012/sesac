@@ -161,7 +161,7 @@ public class RentBookDAO {
 			result = pstmt.executeUpdate();
 			pstmt.close();
 			
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql.toString());
 
 			
 		} catch (Exception e) {

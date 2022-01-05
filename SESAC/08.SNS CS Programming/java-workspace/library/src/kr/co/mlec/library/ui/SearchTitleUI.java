@@ -26,8 +26,8 @@ public class SearchTitleUI extends BaseUI {
 			
 			//foreach문 사용하여 출력
 			for(BookVO book : list) {
-				System.out.println(book.getTitle()+"\t"
-						+book.getBookCode()+"\t "
+				System.out.println(book.getBookCode()+"\t"
+						+book.getTitle()+"\t "
 						+book.getWriter()+"\t "
 						+book.getPublisher());
 			}
