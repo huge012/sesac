@@ -14,7 +14,7 @@ public class SearchAllUI extends BaseUI {
 		
 		if (list.isEmpty())
 		{
-			System.out.println("조회할 게시물이 없습니다.");
+			System.out.println("도서가 없습니다.");
 		}
 		else
 		{

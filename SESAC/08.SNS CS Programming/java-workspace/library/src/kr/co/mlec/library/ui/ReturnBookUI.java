@@ -16,7 +16,7 @@ public class ReturnBookUI extends BaseUI {
 		
 		int result = dao.ReturnInfo(rent);
 		
-		if (result == 1)
+		if (result != 0)
 			System.out.println("성공적으로 반납했습니다. 이용해주셔서 감사합니다.");
 		else
 			System.out.println("빌린 정보가 일치하지 않습니다. 다시 시도해주세요.");

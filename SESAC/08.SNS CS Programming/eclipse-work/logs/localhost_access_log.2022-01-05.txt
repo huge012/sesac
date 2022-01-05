@@ -282,3 +282,5 @@
 0:0:0:0:0:0:0:1 - - [05/Jan/2022:16:39:44 +0900] "GET /Lecture-Web/css/exam08.html HTTP/1.1" 200 776
 0:0:0:0:0:0:0:1 - - [05/Jan/2022:16:39:54 +0900] "GET /Lecture-Web/css/exam08.html HTTP/1.1" 200 776
 0:0:0:0:0:0:0:1 - - [05/Jan/2022:16:42:08 +0900] "GET /Lecture-Web/css/exam08.html HTTP/1.1" 200 773
+127.0.0.1 - - [05/Jan/2022:20:08:54 +0900] "GET / HTTP/1.1" 404 807
+0:0:0:0:0:0:0:1 - - [05/Jan/2022:20:08:55 +0900] "GET /Lecture-Web/css/exam08.html HTTP/1.1" 200 773

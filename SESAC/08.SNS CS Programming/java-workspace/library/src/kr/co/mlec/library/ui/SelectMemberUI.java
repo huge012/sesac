@@ -22,27 +22,31 @@ public class SelectMemberUI extends BaseUI implements IMenuUI {
 	public void execute()
 	{
 		BaseUI ui = null;
-		String type = menu();
-		user = new MemberVO();
 		
-		switch(type)
-		{
-		case "1":
-			user.setIsAdmin(0);
-			ui = new MemberLoginUI();
-			break;
-		case "2":
-			user.setIsAdmin(1);
-			ui = new AdminLoginUI();
-			break;
-		case "0":
-			break;
+		while (true) {
+			String type = menu();
+			user = new MemberVO();
+			
+			switch(type)
+			{
+			case "1":
+				user.setIsAdmin(0);
+				ui = new MemberLoginUI();
+				break;
+			case "2":
+				user.setIsAdmin(1);
+				ui = new AdminLoginUI();
+				break;
+			case "0":
+				System.out.println("시스템을 종료합니다.");
+				return;
+			}
+			
+			if (ui != null)
+				ui.execute();
+			else
+				System.out.println(">> 잘못 입력하셨습니다. 다시 입력해주세요.");
 		}
-		
-		if (ui != null)
-			ui.execute();
-		else
-			System.out.println(">> 잘못 입력하셨습니다. 다시 입력해주세요.");
 	}
 	
 }

@@ -77,16 +77,12 @@ public class RentBookDAO {
 	}
 	
 	// t_manage insert
-	private int SetRentInfo(ManageVO rent)
+	private int SetRentInfo(Connection conn, ManageVO rent)
 	{
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
 		try {
-			
-			conn = new ConnectionFactory().getConnection();
-			
 			StringBuilder sql = new StringBuilder();
 			sql.append(" insert into t_manage(no, book_code, id ) ");
 			sql.append(" values(Numbering.nextval, ?, ? ) ");
@@ -100,23 +96,19 @@ public class RentBookDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			JDBCClose.close(pstmt, conn);
+			JDBCClose.stmtClose(pstmt);
 		}
 		
 		return result;
 	}
 	
 	// t_books 책 수 조정
-	private int UpdateavailableBook(ManageVO rent, int insert)
+	public int UpdateavailableBook(Connection conn, ManageVO rent, int insert)
 	{
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
 		try {
-			
-			conn = new ConnectionFactory().getConnection();
-			
 			StringBuilder sql = new StringBuilder();
 			sql.append(" update t_books ");
 			sql.append(" set available_book = available_book + ? ");
@@ -132,22 +124,19 @@ public class RentBookDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			JDBCClose.close(pstmt, conn);
+			JDBCClose.stmtClose(pstmt);
 		}
 		
 		return result;
 	}
 	
 	// t_user 내가 빌린 책수 조정
-	private int updateUserRent(ManageVO rent, int insert)
+	private int updateUserRent(Connection conn, ManageVO rent, int insert)
 	{
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
 		try {			
-			conn = new ConnectionFactory().getConnection();
-			
 			StringBuilder sql = new StringBuilder();
 			sql.append(" update t_user ");
 			sql.append(" set lending_book_num = lending_book_num + ? ");
@@ -159,15 +148,11 @@ public class RentBookDAO {
 			pstmt.setString(2, rent.getId());
 			
 			result = pstmt.executeUpdate();
-			pstmt.close();
-			
-			pstmt = conn.prepareStatement(sql.toString());
-
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			JDBCClose.close(pstmt, conn);
+			JDBCClose.stmtClose(pstmt);
 		}
 		
 		return result;
@@ -175,21 +160,46 @@ public class RentBookDAO {
 	
 	public int insertRentInfo(ManageVO rent)
 	{
+		Connection conn = null;
 		int result = 0;
 		
 		int hasBook = CheckBook(rent.getBookCode());
 		int canRent = CheckRent(rent.getId());
 		
-		if (hasBook == 0 || canRent == 0)
-			return 0;
+		if (hasBook == 0)
+		{
+			System.out.println("빌릴 수 있는 책이 없습니다. 다른 책을 찾아주세요.");
+		}
+		else if (canRent == 0)
+		{
+			System.out.println("더이상 책을 빌릴 수 없습니다. 기존 책을 반납 후 다시 시도해주세요.");
+		}
 		else
 		{
-			result = SetRentInfo(rent) + UpdateavailableBook(rent, -1) + updateUserRent(rent, 1);
-			
-			if (result < 3)
-				result = 0;
+			try {
+				conn = new ConnectionFactory().getConnection();
+				conn.setAutoCommit(false);
+				
+				result += SetRentInfo(conn, rent); // 책 대출내역 입력 insert
+				result += UpdateavailableBook(conn, rent, -1); // 책수 조정 update
+				result += updateUserRent(conn, rent, 1); // 책 수 조정 update
+				
+				if (result == 3)
+				{
+					conn.commit();
+				}
+				else
+				{
+					conn.rollback();
+					result = 0;
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				JDBCClose.connClose(conn);
+			}
 		}
-		
 		
 		return result;
 	}
@@ -197,19 +207,21 @@ public class RentBookDAO {
 	public int ReturnInfo(ManageVO rent)
 	{
 		Connection conn = null;
-		PreparedStatement pstmt = null;
 		int result = 0;
 		
+		
 		try {
+			conn = new ConnectionFactory().getConnection();
 			
-			 //빌린 코드와 id로 조회, return date sysdate로 업데이트
-			// t_user id 찾아서 빌린 책 --
-			// t_books 코드 찾아서 보유 권수 ++
+			
+			1. 빌린 코드와 id로 조회, return date sysdate로 업데이트
+			2. t_user id 찾아서 빌린 책 --
+			3. t_books 코드 찾아서 보유 권수 ++
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			JDBCClose.close(pstmt, conn);
+			JDBCClose.connClose(conn);
 		}
 		
 		

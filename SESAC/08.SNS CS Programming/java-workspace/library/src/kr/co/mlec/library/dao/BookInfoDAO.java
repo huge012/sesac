@@ -9,10 +9,11 @@ import java.util.List;
 import kr.co.mlec.library.util.ConnectionFactory;
 import kr.co.mlec.library.util.JDBCClose;
 import kr.co.mlec.library.vo.BookVO;
+import kr.co.mlec.library.vo.ManageVO;
 
 public class BookInfoDAO {
 
-	
+	// 도서 전체 조회
 	public List<BookVO> selectAll()
 	{
 		Connection conn = null;
@@ -51,6 +52,7 @@ public class BookInfoDAO {
 		return bookList;
 	}
 	
+	// 도서 제목 조회
 	public List<BookVO> selectTitle(String str)
 	{
 		Connection conn = null;
@@ -90,5 +92,90 @@ public class BookInfoDAO {
 		}
 		
 		return bookList;
+	}
+	
+	// 도서 정보 조회 (제목, 저자, 출판사)
+	public int selectBook(BookVO book)
+	{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		try {
+			conn = new ConnectionFactory().getConnection();
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append(" select book_code, title, writer, publisher, available_book ");
+			sql.append(" from t_books ");
+			sql.append(" where title = ? and writer = ? and publisher = ? ");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, book.getTitle());
+			pstmt.setString(2, book.getWriter());
+			pstmt.setString(3, book.getPublisher());
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+				result = rs.getInt("book_code");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCClose.close(pstmt, conn);
+		}
+		
+		return result;
+	}
+	
+	public int addBook(BookVO book)
+	{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		try {
+			conn = new ConnectionFactory().getConnection();
+			conn.setAutoCommit(false);
+			
+			// 이미 있는 책
+			result = selectBook(book);
+			if (result != 0)
+			{
+				RentBookDAO bookdao = new RentBookDAO();
+				ManageVO bookcode = new ManageVO();
+				bookcode.setBookCode(result);
+				result = bookdao.UpdateavailableBook(conn, bookcode, 1);
+			}
+			// 기존에 없던 책
+			else
+			{
+				StringBuilder sql = new StringBuilder();
+				sql.append( " insert into t_books(book_code, title, writer, publisher) " );
+				sql.append( " values(?, ?, ?, ?) " );
+				
+				pstmt = conn.prepareStatement(sql.toString());
+				
+				pstmt.setInt(1, book.getBookCode());
+				pstmt.setString(2, book.getTitle());
+				pstmt.setString(3, book.getWriter());
+				pstmt.setString(4, book.getPublisher());
+				
+				result = pstmt.executeUpdate();
+				
+			}
+			
+			if (result != 0)
+				conn.commit();
+			else
+				conn.rollback();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCClose.close(pstmt, conn);
+		}
+		
+		return result;
 	}
 }

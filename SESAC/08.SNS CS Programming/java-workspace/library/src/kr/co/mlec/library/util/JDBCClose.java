@@ -31,4 +31,28 @@ public class JDBCClose {
 		}
 	}
 	
+	static public void stmtClose(Statement stmt)
+	{
+		if (stmt != null)
+		{
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	static public void connClose(Connection conn)
+	{
+		if (conn != null)
+		{
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }

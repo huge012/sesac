@@ -1,8 +1,32 @@
 package kr.co.mlec.library.ui;
 
-public class UpdateInfoUI extends kr.co.mlec.library.ui.BaseUI {
+import kr.co.mlec.library.dao.UpdateUserInfoDAO;
+import kr.co.mlec.library.vo.MemberVO;
 
-    public void execute(){
-    }
+public class UpdateInfoUI extends BaseUI {
 
+	public void execute(){
+
+		String pw = scanStr("수정할 비밀번호를 입력하세요: ");
+		int phone = scanInt("수정할 전화번호를 입력하세요: ");
+		
+		UpdateUserInfoDAO dao = new UpdateUserInfoDAO();
+		MemberVO member = new MemberVO();
+		
+		member.setId(SelectMemberUI.user.getId());
+		member.setPw(pw);
+		member.setPhone(phone);
+		int result = dao.updateInfo(member);
+		
+		if(result == 0) 
+		{
+			System.out.println("변경하지 못했습니다. 다시 하세요.");
+		}
+		else
+		{
+			System.out.println("비밀번호가 수정되었습니다.");
+			System.out.println("전화번호가 수정되었습니다.");
+		}
+
+	}
 }

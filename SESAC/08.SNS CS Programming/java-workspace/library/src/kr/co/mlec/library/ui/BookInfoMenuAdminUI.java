@@ -38,10 +38,10 @@ public class BookInfoMenuAdminUI extends BaseUI implements IMenuUI {
 				ui = new SearchTitleUI();
 				break;
 			case "3":
-				 //도서 추가
+				 ui = new AddBookUI();
 				break;
 			case "4":
-				// 도서 폐기
+				//도서 폐기
 				break;
 			case "5":
 				// 도서 정보 수정
