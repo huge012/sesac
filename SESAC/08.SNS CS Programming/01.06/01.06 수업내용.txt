@@ -1,0 +1,56 @@
+01.06 수업내용
+
+<style>
+- css 코드를 html에 embeded시킨 태그
+
+class
+- 별칭 달아줌
+
+id
+- 유니크한 별칭 달아줌
+
+border
+- 외곽선 관리
+
+div
+- width
+- border-color
+- border-width
+- margin
+- padding
+- text-align
+- float
+
+position
+- absolute : 절대값, (부모위치의) left, top 기준
+- relative : 상대적 위치
+- fixed : 스크롤 상관없이 위치고정
+- static : 위치고정
+
+<table>
+	<tr>
+		<td>
+</table>
+
+thead, tbody, tfood 존재. 언급 없으면 전부 tbody에 들어감
+rowspan, colspan : 칸 병합
+
+form : 사용자가 입력한 데이터를 전송
+input : 한줄 입력, type별로 생기는게 다름
+text : 문자 입력
+radio : 단일선택
+checkbox : 다중선택
+password : 비밀번호 입력
+file : 첨부파일 업로드
+reset : 입력값 초기화
+url
+email
+search
+tel
+
+
+부트스트랩
+https://getbootstrap.com/
+
+
+textarea : 여러줄 입력

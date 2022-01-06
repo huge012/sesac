@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	#numberlist li {
+		/* numbering-roman, none, circle, square 등 */
+		list-style-type: none;
+		fint-size: 16pt;
+		float : left;
+		
+		/* top, right, bottom, left 순 */
+		margin: 0px 20px 0px 0px;
+	}
+	
+	/* 리스트의 첫 요소 */
+	li:first-child {
+		color: orange
+	}
+	
+	/* 리스트의 마지막 요소 */
+	li:last-child {
+		color: gray;
+	
+	}
+	
+	/* 수열 적용 가능 */
+	li:nth-child(2n){
+		color: green;
+	}
+	
+	a {
+		margin: 20px;
+	}
+	
+	a:link {
+		color: pink;
+		text-decoration: none;
+	}
+	
+	a:visited {
+		color: pink;
+	}
+	
+	a:hover {
+		background-color: darkgray;
+		text-decoration: underline;
+	}
+	
+	p {
+		/* 위에 있던 float 설정을 무효화시키는 방법, left, right, both 옵션 사용 가능 */
+		clear: both;
+	}
+	
+</style>
+
+</head>
+<body>
+	
+
+	<ul id = "numberlist">
+		<li>ONE</li>
+		<li>TWO</li>
+		<li>THREE</li>
+		<li>FOUR</li>
+		<li>FIVE</li>
+		<li>SIX</li>
+		<li>SEVEN</li>
+		<li>EIGHT</li>
+		<li>NINE</li>
+		<li>TEN</li>
+	</ul>
+	
+	<p>
+		<a href="http://www.naver.com">NAVER</a>
+		<a href="http://www.daum.net">DAUM</a>
+		
+	</p>
+</body>
+</html>
