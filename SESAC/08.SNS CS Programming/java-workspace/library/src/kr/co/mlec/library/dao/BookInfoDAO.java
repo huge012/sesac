@@ -128,6 +128,7 @@ public class BookInfoDAO {
 		return result;
 	}
 	
+	// 도서 추가
 	public int addBook(BookVO book)
 	{
 		Connection conn = null;
@@ -142,14 +143,15 @@ public class BookInfoDAO {
 			result = selectBook(book);
 			if (result != 0)
 			{
+				// RentBookDAO에 있는 UpdateavailableBook 사용해서 권수 조정
 				RentBookDAO bookdao = new RentBookDAO();
-				ManageVO bookcode = new ManageVO();
-				bookcode.setBookCode(result);
-				result = bookdao.UpdateavailableBook(conn, bookcode, 1);
+				result = bookdao.UpdateavailableBook(conn, result, 1);
 			}
-			// 기존에 없던 책
+			
+			// 새로 insert
 			else
 			{
+				// 기존에 없던 책 추가하는 sql 쿼리
 				StringBuilder sql = new StringBuilder();
 				sql.append( " insert into t_books(book_code, title, writer, publisher) " );
 				sql.append( " values(?, ?, ?, ?) " );

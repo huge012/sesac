@@ -9,6 +9,7 @@ import kr.co.mlec.library.vo.MemberVO;
 
 public class UpdateUserInfoDAO {
 	
+	// 회원/관리자가 개인정보 수정 - 비번/핸드폰번호만 수정
 	public int updateInfo(MemberVO user) {
 		
 		Connection conn = null;
@@ -38,6 +39,26 @@ public class UpdateUserInfoDAO {
 		}
 		
 		return rs;
+	}
+	
+	// 관리자가 회원 정보 삭제
+	public int deleteMemberInfo(MemberVO user) {
+		
+		int rs = 0;
+		
+		// 이름, 비번, 핸드폰번호 수정
+		
+		return rs;
+		
+	}
+	
+	// 회원을 관리자로 등록
+	public int setupManager(MemberVO user) {
+		
+		int rs = 0;
+		
+		return rs;
+		
 	}
 	
 }

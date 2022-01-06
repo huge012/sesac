@@ -5,9 +5,9 @@ public class ManageVO {
 	private int number;
 	private int bookCode;
 	private String id;
-	private int lendDate;
-	private int deadLine;
-	private int returnDate;
+	private String lendDate;
+	private String deadLine;
+	private String returnDate;
 	
 	
 	// 생성자
@@ -16,7 +16,15 @@ public class ManageVO {
 		super();
 	}
 	
-	public ManageVO(int number, int bookCode, String id, int lendDate, int deadLine, int returnDate) {
+	public ManageVO(int bookCode, String id, String lendDate, String deadLine) {
+		super();
+		this.bookCode = bookCode;
+		this.id = id;
+		this.lendDate = lendDate;
+		this.deadLine = deadLine;
+	}
+
+	public ManageVO(int number, int bookCode, String id, String lendDate, String deadLine, String returnDate) {
 		super();
 		this.number = number;
 		this.bookCode = bookCode;
@@ -52,27 +60,27 @@ public class ManageVO {
 		this.id = id;
 	}
 
-	public int getLendDate() {
+	public String getLendDate() {
 		return lendDate;
 	}
 
-	public void setLendDate(int lendDate) {
+	public void setLendDate(String lendDate) {
 		this.lendDate = lendDate;
 	}
 
-	public int getDeadLine() {
+	public String getDeadLine() {
 		return deadLine;
 	}
 
-	public void setDeadLine(int deadLine) {
+	public void setDeadLine(String deadLine) {
 		this.deadLine = deadLine;
 	}
 
-	public int getReturnDate() {
+	public String getReturnDate() {
 		return returnDate;
 	}
 
-	public void setReturnDate(int returnDate) {
+	public void setReturnDate(String returnDate) {
 		this.returnDate = returnDate;
 	}
 

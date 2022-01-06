@@ -3,7 +3,10 @@ package kr.co.mlec.library.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
+import kr.co.mlec.library.ui.SelectMemberUI;
 import kr.co.mlec.library.util.ConnectionFactory;
 import kr.co.mlec.library.util.JDBCClose;
 import kr.co.mlec.library.vo.ManageVO;
@@ -103,7 +106,7 @@ public class RentBookDAO {
 	}
 	
 	// t_books 책 수 조정
-	public int UpdateavailableBook(Connection conn, ManageVO rent, int insert)
+	public int UpdateavailableBook(Connection conn, int bookcode, int insert)
 	{
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -117,7 +120,7 @@ public class RentBookDAO {
 			pstmt = conn.prepareStatement(sql.toString());
 			
 			pstmt.setInt(1, insert);
-			pstmt.setInt(2, rent.getBookCode());
+			pstmt.setInt(2, bookcode);
 			
 			result = pstmt.executeUpdate();
 			
@@ -181,7 +184,7 @@ public class RentBookDAO {
 				conn.setAutoCommit(false);
 				
 				result += SetRentInfo(conn, rent); // 책 대출내역 입력 insert
-				result += UpdateavailableBook(conn, rent, -1); // 책수 조정 update
+				result += UpdateavailableBook(conn, rent.getBookCode(), -1); // 책코드 이용해서 책수 조정 update
 				result += updateUserRent(conn, rent, 1); // 책 수 조정 update
 				
 				if (result == 3)
@@ -214,10 +217,10 @@ public class RentBookDAO {
 			conn = new ConnectionFactory().getConnection();
 			
 			
-			1. 빌린 코드와 id로 조회, return date sysdate로 업데이트
-			2. t_user id 찾아서 빌린 책 --
-			3. t_books 코드 찾아서 보유 권수 ++
-			
+//			1. 빌린 코드와 id로 조회, return date sysdate로 업데이트
+//			2. t_user id 찾아서 빌린 책 --
+//			3. t_books 코드 찾아서 보유 권수 ++
+//			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -226,6 +229,48 @@ public class RentBookDAO {
 		
 		
 		return result;
+	}
+	
+	// 대출내역 조회
+	public List<ManageVO> SearchMyRent() 
+	{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		List<ManageVO> searchmyrent = null;
+		
+		try {
+			conn = new ConnectionFactory().getConnection();
+			searchmyrent = new ArrayList<>();
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append(" select book_code, id, lend_date, deadline from t_manage ");
+			sql.append(" where id = ? and return_date is null " );
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, SelectMemberUI.user.getId());
+			ResultSet rs = pstmt.executeQuery();
+			
+			
+			while(rs.next())
+			{
+				int bookCode = rs.getInt("book_code");
+				String id = rs.getString("id");
+				String lendDate = rs.getString("lend_date");
+				String deadLine = rs.getString("deadline");
+				
+				ManageVO myrent = new ManageVO(bookCode, id, lendDate, deadLine);
+				
+				searchmyrent.add(myrent);
+				
+			}
+			
+		} catch(Exception e) { 
+			e.printStackTrace();
+		} finally {
+			JDBCClose.close(pstmt, conn);
+		}
+		return searchmyrent;   
+		
 	}
 	
 }
