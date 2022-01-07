@@ -273,4 +273,34 @@ public class RentBookDAO {
 		
 	}
 	
+	public boolean isRentingBook(int book_code)
+	{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		boolean result = false;
+		
+		try {
+			
+			conn = new ConnectionFactory().getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append(" Select id ");
+			sql.append(" from t_manage ");
+			sql.append(" where book_code = ? and return_date is null ");
+
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, book_code);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			result = rs.next();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCClose.close(pstmt, conn);
+		}
+		
+		return result;
+	}
+	
 }

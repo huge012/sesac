@@ -31,10 +31,10 @@ public class MemberInfoMenuUI extends BaseUI implements IMenuUI {
 				ui = new UpdateMemberInfoUI();
 				break;
 			case "2": 
-				 //ui = new SetAdminUI();
+				 ui = new SetAdminUI();
 				break;
 			case "3":
-				 //ui = DeleteMemberUI();
+				 ui = new DeleteMemberUI();
 				break;
 			case "4":
 				System.out.println("이전 메뉴로 돌아갑니다.");

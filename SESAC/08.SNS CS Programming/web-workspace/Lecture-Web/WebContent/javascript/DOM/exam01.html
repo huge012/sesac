@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	// body에 있는 텍스트들을 불러오기 위해서는 onload 먼저 실행해야 함
+	
+	window.onload = function(){
+		alert('innerHTML: ' + document.body.innerHTML) // body 안에 있는 내용 추출	
+		alert('innerText : '+ document.body.innerText) // html 뺀 텍스트만 나옴
+		
+		let tags = ''
+			tags += '<ul>'
+			tags += '	<li>red</li>'
+			tags += '	<li>green</li>'
+			tags += '	<li>blue</li>'
+			tags += '</ul>'
+		//document.body.innerHTML = tags
+		document.body.innerHTML += tags
+		
+		//document.body.innerText = tags
+	}
+</script>
+</head>
+<body>
+	<h1>안녕하세요</h1>
+	hello
+</body>
+</html>

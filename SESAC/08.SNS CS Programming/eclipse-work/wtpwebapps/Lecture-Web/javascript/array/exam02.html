@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script>
+	let names = ['홍길동', '박길동', '윤길동', '강길동', '현길동']
+	
+	document.write('<h2><방법1 - for></h2>')
+	for (let i = 0; i < names.length; i++){
+		document.write(names[i] + '<br>')
+	}
+	
+	document.write('<h2><방법2 - for in></h2>')
+	for(let i in names) { 
+		document.write( i + '번지 : ')
+		document.write(names[i] + '<br>')
+	}
+	
+	document.write('<h2><방법3 - for of></h2>')
+	for (let name of names){
+		document.write(name + '<br>')
+	}
+	
+	document.write('<h2><방법3 - for of></h2>')
+	/* forEach : 원소 갯수만큼 매개변수(함수)를 호출함, 호출 시 현재 요소와 현재 인덱스, 전체 배열을 매개변수로 넣어줌 */
+	names.forEach(function(element, index, names){
+		document.write(element+'<br>')
+	})
+	
+	
+	/* sort() 데이터 정렬 */
+	names.sort()
+	document.write('<h2><데이터 정렬></h2>')
+	names.forEach(function(element, index, names){
+		document.write(element+'<br>')
+	})
+	
+</script>
+
+</head>
+<body>
+
+</body>
+</html>

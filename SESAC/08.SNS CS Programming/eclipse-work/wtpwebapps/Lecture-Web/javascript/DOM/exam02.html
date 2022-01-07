@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	table {
+		width: 300px;
+		height: 400px;
+	}
+</style>
+<script>
+	window.onload = function() {
+		let id = document.getElementById('id')
+		// let id = document.querySelector('#id')
+		id.innerHTML = '아이디' // innerText로 적어도 됨, 현재 id가 가리키는건 텍스트 뿐임
+		
+		let pass = document.querySelector('.pass') // selector에 의해 검색
+		pass.innerText = '패스워드'
+	}
+</script>
+</head>
+<body>
+	<table border="1">
+		<tr>
+			<td id="id">ID</td>
+		</tr>
+		<tr>
+			<td class="pass">PASSWORD</td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+/*
+ 	브라우저 객체 모델 (BOM)
+ 	- Window (최상위 객체)
+ 		- location 객체
+ 		- navigator 객체
+ 		- history 객체
+ 		- screen 객체
+ 		- document 객체
+ */
+ 
+ 	window.alert('!!!') // 이미 존재하는 윈도우 객체 내에 포함된 함수이기때문에 window를 안붙여도 호출 가능
+ 	
+ 	var aaa = 10
+ 	bbb = 20 // 자료형 안 써도 돌아감, window 객체 내에서 자동으로 bbb 변수가 생성됨
+ 	alert(`aaa: ${aaa}, bbb: ${bbb}`)
+ 	
+ 	let sub = window.open("", "", "width=400, height=300") // 팝업창 띄우기
+	if (!sub) {
+		alert('팝업창 옵션을 확인하세요.')
+	}
+	sub.moveTo(100, 100)
+	
+	/*
+	setInterval(function(){
+		sub.moveBy(20, 20) // 현재 창을 기준으로 (n,n)씩 이동
+	}, 1000)
+	*/
+	
+	let width = screen.width
+	let height = screen.height
+	
+	sub.resizeTo(width, height)
+</script>
+</head>
+<body>
+
+</body>
+</html>

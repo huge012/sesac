@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script>
+	/* 
+		함수 선언 - function 함수이름 () {}
+			return 타입 안 적음
+			모든 변수는 var 형으로 표현 가능함
+			리턴 있거나 없거나 둘 중 하나기때문에 굳이 안 써도 됨
+	*/
+	
+	
+	/* 함수 오버로딩 테스트
+	function testFunction() {
+		alert('call...')
+	}
+	
+	function testFunction(data) {
+		alert('data : '+data)
+	}
+	testFunction() 
+	testFunction(10) // 함수 오버로딩 지원 x 함수 이름으로만 함수를 비교
+	*/
+	
+	
+	/* 선언적 함수(함수선언식) */
+	function testFunction() {
+		alert('call...')
+	}
+	
+	function testFunction2(data) {
+		alert('data : '+data)
+	}
+	
+	testFunction() 
+	testFunction2(10)
+	
+	function testFunction3(data, data2) {
+		alert(`data : ${data}, data2 : ${data2}`)
+	}
+	
+	testFunction3(4, 9)
+	
+	function sum(a, b) {
+		return a + b
+	}
+	
+	let total = sum(10, 20)
+	
+	
+	/* 함수를 변수에 넣으면 변수 이름으로만 함수를 호출할 수 있음 */
+	var temp = function func() {
+		alert('call func()')
+	}
+	
+	
+	/* 익명함수(함수표현식) 함수 정의 시 이름 x, 함수를 변수에 넣어줘서 변수 이름으로 접근 */
+	var func01 = function() {
+		alert('call func01()...')
+	}
+	
+	alert('총합 : ' + total)
+	// func()	실행 안됨
+	temp()
+	
+	
+	/* 선언함수와 익명함수의 우선순위 테스트 */
+	function aaa() {
+		alert('선언적 함수 aaa 호출...')
+	}
+	
+	var aaa = function() {
+		alert('익명함수 aaa 호출...')
+	}
+		
+	aaa()  // 선언적함수와 익명함수 둘 다 존재 시 익명함수의 우선순위가 더 높게 적용됨
+	
+	
+	
+	/* callback 함수 : 함수 호출부에서 어떤 함수를 넣어주든 실행 가능함 */
+	function callbackFunction(f) { // let f = function testFunction() { ... }
+		f()
+	}
+	
+	// 함수 호출부
+	callbackFunction(testFunction)
+	callbackFunction(temp)
+	callbackFunction(function() { alert('즉석에서 만든 익명함수 호출...') })
+	
+	
+</script>
+
+</head>
+<body>
+
+</body>
+</html>

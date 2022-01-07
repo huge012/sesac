@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script>
+	/* 배열 안에 여러개의 타입 다 넣을 수 있음 */
+	let array = ['A', 123, 12.34, "Hello", true]
+	document.write(`첫번째 요소 : ${array[0]}<br>`)
+	document.write(`두번째 요소 : ${array[1]}<br>`)
+	document.write(`세번째 요소 : ${array[2]}<br>`)
+	document.write(`네번째 요소 : ${array[3]}<br>`)
+	document.write(`다섯번째 요소 : ${array[4]}<br>`)
+	document.write(`여섯번째 요소 : ${array[5]}<br>`) // 범위 넘어가도 에러나진 않음 undefined 뜸
+	
+	array[8] = false // 6,7번지 자동으로 null 들어감
+	
+	document.write(array+'<br>')
+	document.write('원소 개수 : '+array.length+'개<br>')
+	
+	array[array.length] = "add"
+	array.push("end") // push, pop
+	document.write('add, end추가 후 array : ' + array + '<br>')
+	document.write('add, end추가 후 array 원소 개수 : '+ array.length + '개<br>')
+		
+	let data = array.pop();
+	document.write(`삭제된 데이터 : ${data}<br>`)
+	document.write(array + '<br>')
+	
+</script>
+
+</head>
+<body>
+
+</body>
+</html>

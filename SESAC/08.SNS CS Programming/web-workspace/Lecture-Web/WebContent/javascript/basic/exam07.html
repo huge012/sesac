@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	/* var 형 변수의 수명은 block scope가 아님 */
+	// alert(a)		undefined 출력. 선언되어있지 않다는 오류메세지가 뜨지 않음.
+	var a = 10
+	
+	/* 아래 두개는 block scope, 선언 전에 호출하면 에러남, 에러는 개발자도구에서 확인 가능 */
+	// alert(`a : ${a}, b : ${b}, c : ${c}`)
+	let b = 20
+	const c = 30
+	alert(`a : ${a}, b : ${b}, c : ${c}`)
+	
+	a = a + 50
+	b = b + 50
+	// c = c + 50	const : 변수를 상수화 시킴, 변경 불가능, 대입금지
+	alert(`a : ${a}, b : ${b}, c : ${c}`)
+	
+	var a = 100 // var는 재선언 가능
+	// let b = 200 // let은 재선언할 수 없음
+	alert(`a : ${a}, b : ${b}, c : ${c}`)
+	 
+	{
+		var temp = 1000
+		let letTemp = 2000
+		alert(`temp : ${temp}, letTemp : ${letTemp}`)
+	}
+	// alert(`temp : ${temp}, letTemp : ${letTemp}`) // block 끝난 뒤 letTemp는 해제됨
+	
+</script>
+
+</head>
+<body>
+
+</body>
+</html>

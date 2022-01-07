@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script>
+
+	let array = [10, 20, 30]
+
+	
+	/* 얕은 복사(Shallow copy) - copyArray는 array가 가리키는 주소를 가리키게 됨, 같은 번지를 가짐, 원본 훼손될 수 있음 */
+	document.write('얕은 복사<br>')
+	let copyArray = array
+	
+	document.write(`array : ${array}<br>`)
+	document.write(`copyArr : ${copyArray}<br>`)
+
+	
+	copyArray[1] = 2000
+	
+	document.write(`array : ${array}<br>`)
+	document.write(`copyArr : ${copyArray}<br>`)
+	
+	array[1] = 20
+	/* 깊은 복사(Deep copy) - 각각의 요소를 새 배열에 하나씩 넣어줌, 원본 유지 */
+	document.write('깊은 복사<br>')
+	let copyArr2 = []
+	for (let data of array) {
+		copyArr2.push(data)
+	}
+	
+	copyArr2[1] = 2000
+	
+	document.write(`array : ${array}<br>`)
+	document.write(`copyArr2 : ${copyArr2}<br>`)
+		
+	/* 깊은복사 - 전개연산자 ( ... ) : array 내 요소를 전부 풀라는 연산자 */
+	document.write('깊은복사2 ...<br>')
+	let copyArr3 = [...array]
+	document.write(`array : ${array}<br>`)
+	document.write(`copyArr3 : ${copyArr3}<br>`)
+	
+	
+	
+	
+</script>
+
+</head>
+<body>
+
+</body>
+</html>

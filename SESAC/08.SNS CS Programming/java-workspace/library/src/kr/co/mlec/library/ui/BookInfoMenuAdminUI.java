@@ -38,13 +38,13 @@ public class BookInfoMenuAdminUI extends BaseUI implements IMenuUI {
 				ui = new SearchTitleUI();
 				break;
 			case "3":
-				 ui = new AddBookUI();
+				ui = new AddBookUI();
 				break;
 			case "4":
-				//도서 폐기
+				ui = new DeleteBookUI();
 				break;
 			case "5":
-				// 도서 정보 수정
+				ui = new UpdateBookUI();
 				break;
 			case "6":
 				System.out.println("이전 메뉴로 돌아갑니다.");

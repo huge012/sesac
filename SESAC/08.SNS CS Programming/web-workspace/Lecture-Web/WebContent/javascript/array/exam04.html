@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	let nums = [10, 34, 65, 23, 43, 8, 2]
+	nums.forEach(function(element){
+		document.write(element + '&nbsp;&nbsp;&nbsp;')
+		
+	})
+	document.write('<br>')
+	
+	/* 깊은 복사 */
+	let nums2 = []
+	for(let i in nums)
+		nums2[i] = nums[i] + 100
+	document.write('nums: ' + nums+'<br>')
+	document.write('nums2:' + nums2+'<br>')
+	
+	/* map : 각각 요소별로 함수를 실행한 후 리턴값들을 모아서 배열로 만들어줌, deep copy */
+	let nums3 = nums.map(function(element, index, array){
+		return element + 100
+	})
+	document.write('nums3: ' +nums3+'<br>')
+	
+	
+	/* 데이터 정렬 */
+	// nums.sort()		문자열 정렬
+	nums.sort(function(left, right){
+		return left-right
+		// return right-left	내림차순
+	})
+	document.write('nums 정렬: ' + nums+'<br>')
+	
+	
+</script>
+</head>
+<body>
+
+</body>
+</html>

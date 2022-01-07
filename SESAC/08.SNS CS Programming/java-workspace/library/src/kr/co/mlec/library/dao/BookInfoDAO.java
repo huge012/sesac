@@ -180,4 +180,142 @@ public class BookInfoDAO {
 		
 		return result;
 	}
+	
+	// 책 정보 수정 - BookInfoDAO 클래스 안
+	public int updateBook(BookVO book)
+	{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		try {
+			conn = new ConnectionFactory().getConnection();
+
+			StringBuilder sql = new StringBuilder();
+			sql.append(" update t_books ");
+			sql.append(" set title = ?, writer = ?, publisher = ? ");
+			sql.append(" where book_code = ? ");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, book.getTitle());
+			pstmt.setString(2, book.getWriter());
+			pstmt.setString(3, book.getPublisher());
+			pstmt.setInt(4, book.getBookCode());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCClose.close(pstmt, conn);
+		}
+		
+		return result;
+	}
+	
+	public int selectNumOfBooks(int book_code) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		try {
+			conn = new ConnectionFactory().getConnection();
+
+			StringBuilder sql = new StringBuilder();
+			sql.append(" select available_book ");
+			sql.append(" from t_books ");
+			sql.append(" where book_code = ? ");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, book_code);
+			
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next())
+				result = rs.getInt("available_book");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCClose.close(pstmt, conn);
+		}
+		
+		return result;
+	}
+	
+	// 책 delete 코드
+	public int deleteBookInfo(Connection conn, int book_code)
+	{
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append(" delete t_books ");
+			sql.append(" where book_code = ? ");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			
+			pstmt.setInt(1, book_code);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCClose.stmtClose(pstmt);
+		}
+		
+		return result;
+	}
+	
+	// 책 삭제 종합 dao 코드
+	public int deleteBookCheck(int book_code) {
+		RentBookDAO rentdao = new RentBookDAO();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		try {
+			conn = new ConnectionFactory().getConnection();
+			conn.setAutoCommit(false);
+			
+			int numOfBooks = selectNumOfBooks(book_code);
+			boolean isrent = rentdao.isRentingBook(book_code);
+			
+			// 누가 빌리고 있음 : 책 1권 이상이면 -1, 0권이면 삭제불가
+			if (isrent) {
+				if (numOfBooks > 0)
+				{
+					result = rentdao.UpdateavailableBook(conn, book_code, -1);
+				}
+				else
+				{
+					result = 0;
+				}
+			}
+			
+			// 아무도 빌리지 않음 : 책 2권 이상 -1, 1권이면 삭제
+			else {
+				if (numOfBooks > 1)
+				{
+					result = rentdao.UpdateavailableBook(conn, book_code, -1);
+				}
+				else {
+					result = deleteBookInfo(conn, book_code);
+				}
+			}
+			
+			if (result > 0)
+				conn.commit();
+			else
+				conn.rollback();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCClose.connClose(conn);
+		}
+
+		return result;
+	}
+	
 }

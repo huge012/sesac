@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script>
+	let d = new Date()
+	let hour = d.getHours()
+	
+	if (hour < 12) {
+		alert('아침먹자...')	
+	} else if (hour < 18) {
+		alert('점심먹자...')
+	} else {
+		alert('저녁먹자...')
+	}
+	
+	/* 
+		alert('text') : 알림창 띄움
+		prompt('text') : text 띄우고 입력받음
+		confirm('text') : 확인/취소 (true/false) 입력받음
+	*/
+	
+	let ans = confirm("쉬는시간을 가질까요?")
+	if (ans)
+	{
+		alert ("쉽니당")
+	} else {
+		alert ("계속합니당")
+	}
+	
+</script>
+
+</head>
+<body>
+
+</body>
+</html>

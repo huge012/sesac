@@ -31,7 +31,6 @@ public class AdminMenuUI extends BaseUI implements IMenuUI {
 				break;
 			case "2": 
 				ui = new MemberInfoMenuUI();
-				//미구현
 				break;
 			case "3":
 				return;
