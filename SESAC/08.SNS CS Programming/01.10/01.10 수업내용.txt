@@ -1,7 +1,111 @@
 01/10 수업내용
 
-톰캣 연결 (다시)
+톰캣 9.0 연결 (재연결)
 
 워크스페이스 위치 확인, eclipse-work
 port tomcat admin port : 8005 그대로
 아래 포트 번호 바꿔야 함 : 9999
+
+
+---
+
+자바 스크립트 : 서버 연결 전, 올바른 데이터 입력했는지 체크 가능
+
+---
+
+서블릿
+- 웹 어플리케이션을 개발하는 것이 목적
+- 자바 플랫폼에서 컴포넌트 기반의 웹 애플리케이션 개발 기술
+- jsp : 서블릿의 확장판
+- html, css, javascript 구조 만들기 힘듬
+- jsp model2방식(MVC 패턴) 등장으로 서블릿 중요성 대두
+- 응답, 요청을 처리하는 구조
+- java 코드, 웹 프로그래밍 할 수 없음, web 개발 클래스를 상속받게 만듦
+- Servlet(인터페이스), GenericServlet(추상클래스), HttpServlet(추상클래스) 셋 중 하나 상속받아야 함
+- Httpservlet을 주로 상속받음
+
+M : 모델 : 자바 클래스(DAO, VO) 요청
+V : 뷰 JSP(JSTL, EL) 응답
+C : 컨트롤러 서블릿
+
+생명주기 : init, service, destroy 세 단계로 구분
+- init : 해당 서블릿이 맨 처음 호출될 때 사용되는 메소드
+- service : 실제 요청과 응답을 처리하는 메소드
+- destroy : 메모리 해제될 경우 호출(별로 호출 안함)
+
+
+
+-
+java Resources -> src 내에 class 만들어줌
+
+javase -> java ee : 톰캣이 가지고 있음
+톰캣 파일 밑 lib -> servlet-api 복사 -> WebContent/web-inf/lib에 붙여넣기
+
+서블릿 파일 접근하는 url이 보안폴더 안에 있기때문에 경로설정할 수 없음
+-> 톰캣이 가상경로(/Lecture-Web/helloServlet)를 만들어서 맵핑해줘야함
+-> 톰캣 : 자바로 구현된 웹 프로그래밍을 해석, 응답 처리하기 위한 서버
+
+Lecture-web
+- html
+- css
+- Javascript
+-WEB-INF
+	- lib
+	- classes
+	- web.xml
+
+classes : .java -> .class 바꿔서 저장하는 곳
+WEB-INF : 보안폴더, 외부에서 직접 접근 X
+
+
+※ 프로젝트 파일 확인사항
+- project Facets - dynamic web module, java 체크되어있어야 함
+- buildpass에서 web app library 추가
+- source 파일 경로 있어야함 (Lecture-Web/src)
+
+환경설정 파일 원래 .xml -> 버전 올라오며 anotation 기반으로 해결
+
+- 다이나믹 프로젝트 생성 시 generate web.xml deployment descriptor 체크하는게 좋음
+- WEB-INF 폴더 아래(lib 위)에 web.xml 파일 있어야 함
+- web.xml 파일에 서블릿 추가해서 경로 맵핑해줘야 함
+	<servlet>
+		<servlet-name>hello</servlet-name>
+		<servlet-class>kr.co.bit.servlet.HelloServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>hello</servlet-name>
+		<!-- http://localhost:9999/Lecture-Web/WEB-INF를 기본으로 잡음 -->
+		<url-pattern>/hi.bit</url-pattern> 
+	</servlet-mapping>
+-     @WebServlet(urlPatterns= {"/examMethod"})
+or   @WebServlet("/examMethod") 어노테이션으로 맵핑 가능
+
+
+* service는 get/post 방식 둘 다 사용 가능
+- doGet : Get방식 일 처리
+- doPost : Post방식 일 처리
+
+
+* 클라이언트 -> /Lecture-Web/servlet/method.html 요청 -> 서버
+클라이언트 <- <html><head>...</body></html> 응답 <- 서버
+
+
+http://localhost:9999/Lecture-Web/method?id=aaa
+- http://localhost:9999/Lecture-Web/method 주소에 name=value 함께 보냄
+
+*
+HttpServletRequest request : 요청하는 객체
+HttpServletResponse response : 응답하는 객체
+
+
+* GET / POST
+
+GET 방식 : 캐시 가능, 브라우저 히스토리에 남음, 북마크 가능, 길이 제한 있음, 보안 취약, 데이터 요청할 때만 사용됨
+
+POST 방식 : http body부분에 전송할 데이터를 담아서 전달
+
+
+alt+shift+s : 오버라이딩 창 띄울 수 있음
+
+
+서블릿은 웹 코드 작성이 불편함, 화면 출력(응답)은 jsp에서 할 것
