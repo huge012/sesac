@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+
+/* 태그만으로 스타일 지정해주는 건 좋지 않음, class라는 속성으로 원하는 것만 선택해서 속성 먹이는게 좋음 */
+	p, h3 {
+		color: yellow
+	}
+
+/* 클래스 사용하기 : .(클래스명), 여러개의 태그를 묶어서 사용할 수 있음 */
+	.c01 { /* .(클래스명) */
+		color:skyblue;
+	}
+	
+	h3.c02 {	/* 태그명.(클래스명) */
+		color:pink;
+	}
+	
+/* 아이디 사용하기 : #(아이디명), 특정한 하나의 태그를 선택하기 위한 유니크템, 하나의 .html 파일 안에 하나만 존재해야 함, 클래스명볻 ㅏ우선순위 */
+	#id01 {
+		color:darkgray;
+	}
+	
+	#id02 {
+		color: purple;
+	}
+	
+	.c03 {
+		background-color: lightgray;
+	}
+	
+</style>
+</head>
+
+<body>
+	<p class="c01">안녕하세요</p>
+	<div class="c02">
+		안녕하세요
+	</div>
+	<h3 id="id01">안녕하세요</h3>
+	<p>안녕하세요</p>
+	<div class="c01">
+		안녕하세요
+	</div>
+	<h3 class="c02">안녕하세요</h3>
+	<p class="c01 c03">안녕하세요</p>
+	<p class="c01" id="id02">안녕하세요</p>
+</body>
+</html>

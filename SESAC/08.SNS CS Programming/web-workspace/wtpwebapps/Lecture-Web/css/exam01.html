@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<!-- 
+		css로 style 설정 (선택자가 좁은 범위인 것이 더 높은 우선순위 가짐)
+		
+		<style type="text/css">		type="text/css" 생략 가능
+			선택자 {
+				속성:값; 하나만 쓸 땐 ; 안붙여도 됨
+				속성:값; 여러개 적용할 경우 ; 붙임
+			}
+		</style> 
+	-->
+<style>
+
+	p {
+		color: orange;
+		background-color: darkgray;
+	}
+	
+	h {
+		color: gray;
+	}
+	
+	p {
+		color: lightblue !important; /* !important : 형식 바뀌지 않게 강조 */
+	}
+	
+	* {
+		color:pink;
+	}
+	
+	p {
+		color: red;
+	}
+	
+	h2 {
+		/*color: rgb(225, 165, 231)*/
+		color : #E1A5E7 /* 16진수 */
+	}
+	
+</style>
+
+</head>
+
+<body>
+
+	<p>
+		Hello World
+	</p>
+	
+	<p>
+	
+		Hello World
+	</p>
+	
+	<h2>Hello World</h2>
+
+</body>
+</html>

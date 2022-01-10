@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script>
+/*
+	자바스크립트 내장함수
+	1. 타이머
+		setTimeout(함수, ms) : 수행할 함수와 타이머, ms(3초 = 3000), ms초 뒤에 함수 실행
+		setInterval(함수, ms) : 수행할 함수를 ms초마다 반복
+		clearInterval(id) : setInterval 작업을 중단시킴, 
+		clearTimeout()
+		
+	2. 코드실행
+		eval(문자열)
+		
+	3. 숫자변환함수
+		parseInt(문자열) - 문자열의 숫자만 뽑아서 int형으로 만들어줌. (Number는 문자가 섞여있을 경우 변환 x)
+		parseFloat(문자열)
+		
+ 
+ */
+ 
+	 /* 익명함수 만들어서 setTimeout에 함수 넣어줌
+ 	let func = function() {
+			alert('3초가 지났습니다')
+	}
+ 
+	setTimeout(func, 3000)
+	*/
+	
+	
+	/* setTimeout - n초 뒤 실행, 매개변수에 익명함수를 바로 구현해서 넣어줌 */
+ 	setTimeout(function(){
+ 		alert('4초가 지났습니다')	
+ 	}, 4000)
+ 	
+ 
+ 	/* setInterval - n초마다 실행 */
+ 	let id = setInterval(function(){
+ 		document.write('현재 시간 : ' + new Date() + '<br>')
+ 	}, 1000)
+ 	
+ 	
+ 	/* setTimeout + clearInterval - n초 뒤에 반복작업 중지 */
+ 	setTimeout(function(){
+ 		clearInterval(id)
+ 		alert('날짜 출력 종료...')
+ 	}, 10000)
+ 	
+ 	
+</script>
+
+</head>
+<body>
+
+</body>
+</html>

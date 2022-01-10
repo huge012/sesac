@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	window.onload = function() {
+		let div = document.querySelector('div')
+		let h1 = document.querySelector('h1')
+		let span = document.querySelector('span')
+		
+		// 이벤트 버블링(bubbling) : 알람창 3개 다 뜸 - 자식 이벤트 발생하면 부모 이벤트까지 올라감 (onclick 이벤트를 가진 부모 전부 실행)
+		// 캡쳐링(capturing) : 부모 이벤트에서 자식 이벤트까지 내려감
+		span.onclick = function() {
+			alert('span click...')
+		}
+		// e 파라미터 : x,y축 정보
+		h1.onclick = function(e) {
+			alert('h1 click...')
+			e.cancelBubble = true // 버블링(부모 객체까지 올라가는것) 막음
+		}
+		div.onclick = function() {
+			alert('div click...')			
+		}
+		
+		
+	}
+</script>
+</head>
+<body>
+	<div>
+		<h1>
+			<span>Hello</span>
+		</h1>
+	</div>
+</body>
+</html>

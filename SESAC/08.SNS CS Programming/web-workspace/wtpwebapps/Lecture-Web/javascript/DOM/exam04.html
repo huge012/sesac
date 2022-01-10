@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	window.onload = function(){
+		//document.write('<h1>Hello</h1>')
+		let h1Tag = document.createElement('h1') // <h1></h1> 태그 만듬
+		let h1TagText = document.createTextNode('hello') // 텍스트노드 만듬
+		h1Tag.appendChild(h1TagText)
+		//console.log(h1Tag)
+		document.body.appendChild(h1Tag)
+		
+		let imgTag = document.createElement('img')
+		imgTag.src = 'https://t1.daumcdn.net/daumtop_chanel/op/20200723055344399.png'
+		//console.log(imgTag)
+		document.body.appendChild(imgTag)
+		
+		leg aTag = document.createElement('a')
+		// aTag.href = 'http://www.daum.net'
+		// aTag.target = '_blank'
+		aTag.setAttribute('href', 'http://www.daum.net')
+		aTag.setAttribute('target'. '_blank')
+		aTag.appendChild(imgTag)
+		document.body.appendChild(aTag)
+		//console.log(aTag)
+	}
+</script>
+</head>
+<body>
+	<!-- <h1>Hello</h1> -->
+	<!--  <img src="https://t1.daumcdn.net/daumtop_chanel/op/20200723055344399.png">-->
+</body>
+</html>

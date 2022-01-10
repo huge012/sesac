@@ -207,21 +207,61 @@ public class RentBookDAO {
 		return result;
 	}
 	
+	//반납일 현 시점으로 바꿔주기  (UpdateReturnDate로 이름,,바꿔)
+	public int insertReturnInfo(Connection conn, ManageVO returnbook)
+	{
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		try {
+			conn = new ConnectionFactory().getConnection();
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("update t_manage ");
+			sql.append("set return_date = sysdate ");
+			sql.append("where book_code = ? and id = ? and rownum<=1 ");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			
+			pstmt.setInt(1, returnbook.getBookCode());
+			pstmt.setString(2, returnbook.getId());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCClose.stmtClose(pstmt);
+		}
+		
+		return result;
+	}
+	
 	public int ReturnInfo(ManageVO rent)
 	{
 		Connection conn = null;
 		int result = 0;
 		
-		
 		try {
 			conn = new ConnectionFactory().getConnection();
+			conn.setAutoCommit(false);
+			
+			result +=insertReturnInfo(conn, rent);//반납일 변경
+			result +=updateUserRent(conn, rent, -1);   //사용자의 빌린 책 수 업뎃
+			result +=UpdateavailableBook(conn, rent.getBookCode(), +1); // 빌려줄 수 있는 책 수 
 			
 			
-//			1. 빌린 코드와 id로 조회, return date sysdate로 업데이트
-//			2. t_user id 찾아서 빌린 책 --
-//			3. t_books 코드 찾아서 보유 권수 ++
-//			
-		} catch (Exception e) {
+			//이게 다 만족하면 commit하고 아니면 rollback
+			if (result == 3)
+			{
+				conn.commit();
+			}
+			else
+			{
+				conn.rollback();
+				result = 0;
+			}
+		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
 			JDBCClose.connClose(conn);
@@ -229,6 +269,7 @@ public class RentBookDAO {
 		
 		
 		return result;
+	
 	}
 	
 	// 대출내역 조회
