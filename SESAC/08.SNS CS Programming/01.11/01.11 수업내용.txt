@@ -1,0 +1,87 @@
+01/11
+
+* 서블릿
+- 자바 기반 웹 어플리케이션 개발 언어
+- init - service - destroy
+- service : doGet, doPost로 나뉨
+- 매개변수 타입 : HttpServletRequest, HttpServletResopnse
+- Rosponse : 대부분 html 코드 발송 (I/O Stream, 문자로 html 작성해야 함)->불편
+- 가상 url 만들어서 보안폴더 안 파일 실행하게끔 연동 (web.xml에 맵핑or어노테이션 맵핑)
+
+* jsp (java server page)
+- 확장자 .jsp : html 파일에 확장자를 .jsp로 바꿈
+- webapp(webcontent) 폴더에 존재
+- 가상경로 필요x
+- 내부 : 서블릿
+- 서버에서 jsp 엔진을 가지고 있어야 함 : WAS (동적 컨텐츠를 제공하기 위해 만들어진 어플리케이션 서버 Web Server + Web Container)
+
+
+* jsp 구성요소
+지시문 : <%@  %>Directive
+스크립트 : <%  %>Scriptles, <%= %> 표현식, <%! %> 선언문
+주석문 : <%-- --%>
+
+
+기본 객체
+- request
+- response
+- page
+- application
+- out
+- pageContext
+- exception
+- sessin
+- config
+
+
+*제일 중요
+표현 언어 (EL)
+표준 태그 라이브러리 (JSTL)
+
+
+표준 액션태그 : <jsp: /> include, forward만 사용
+커스텀 태그: 사용자 정의 태그
+
+
+-----
+<< 지시문 스크립트 주석문 >>
+
+* JSP 주석문
+<%-- ... --%> : .jsp가 서블릿으로 번역될 때 주석 가려짐, 개발자 주석은 이것으로
+<!-- ... --> html 주석(컨텐트 주석) : jsp에서는 해석 불가능, html 코드로 전송하게 되어 화면에서 알아서 출력 거름
+
+
+* JSP 지시문
+- <%@ ...  %>
+- JSP 페이지에 대한 설정 정보 지정
+
+http://localhost:9999 의 위치
+- C:\Users\user\Documents\sesac\SESAC\08.SNS CS Programming\eclipse-work\wtpwebapps
+- 404 : file not found 해당하는 위치에 파일이 없음
+
+- 기본 객체 : 서블릿 메소드 일부분에 들어감, service 메소드 안에 있는 객체들을 사용할 수 있음
+
+- 실행문scriptlet : 자바 코드 실행할 때 사용하는 코드 블록
+<% ... %>
+
+- 표현식Expression : 값을 출력결과에 포함
+
+- 선언문 : 변수 또는 메소드 선언 - 거의 사용하지 않음
+
+
+
+* jsp에서 자바로 작성한 코드는 보이지 않음 -> 보안성
+
+
+* 필수로 입력해야 하는 내용 처리
+1) html5
+<input type="어쩌구" name="저쩌구" required>
+
+2) javascript
+<form action="파일명" method="post" onsubmit="함수">
+
+
+
+* form 태그에 name 부여 시, document.(name)으로 접근 가능
+
+* write.jsp : db에 등록하고 전체 게시글을 보여주면 되므로 html 필요 없음

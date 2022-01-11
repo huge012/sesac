@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	#monitor {
+		text-align: right
+	}
+</style>
+<script>
+	function clickBtn(val) {
+		let monitor = document.getElementById('monitor')
+		if(val == 'clear') {
+			monitor.value = ""
+		} else if (val == '=') {
+			monitor.value = eval(monitor.value)
+		} else {
+			document.getElementById('monitor').value += val
+		}
+	}
+</script>
+</head>
+<body>
+	<input type="text" id="monitor"><br>
+	<!-- this : 해당 오브젝트를 보내줌 (value 1인 버튼타입의 객체) -->
+	<input type="button" value="1" onclick="clickBtn(this.value)">
+	<input type="button" value="2" onclick="clickBtn(this.value)">
+	<input type="button" value="3" onclick="clickBtn(this.value)">
+	<input type="button" value="4" onclick="clickBtn(this.value)">
+	<input type="button" value="5" onclick="clickBtn(this.value)">
+	<input type="button" value="+" onclick="clickBtn(this.value)">
+	<input type="button" value="-" onclick="clickBtn(this.value)">
+	<input type="button" value="*" onclick="clickBtn(this.value)">
+	<input type="button" value="=" onclick="clickBtn(this.value)">
+	<input type="button" value="clear" onclick="clickBtn(this.value)">
+	
+</body>
+</html>
