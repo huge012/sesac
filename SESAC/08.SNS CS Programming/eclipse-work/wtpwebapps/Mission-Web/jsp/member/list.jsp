@@ -4,6 +4,9 @@
 	- 회원가입 버튼
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="kr.co.mlec.user.vo.UserVO"%>
+<%@page import="java.util.List"%>
 <%@page import="kr.co.mlec.util.JDBCClose"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -11,7 +14,7 @@
 <%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	Connection conn = new ConnectionFactory().getConnection();
 	PreparedStatement pstmt = null;
@@ -22,6 +25,27 @@
 	
 	pstmt = conn.prepareStatement(sql.toString());
 	ResultSet rs = pstmt.executeQuery();
+	
+	List<UserVO> list = new ArrayList<>();
+	
+	while (rs.next())
+	{
+		String id = rs.getString("id");
+		String name = rs.getString("name");
+		String emailId = rs.getString("email_id");
+		String emailDomain = rs.getString("email_domain");
+		String tel1 = rs.getString("tel1");
+		String tel2 = rs.getString("tel2");
+		String tel3 = rs.getString("tel3");
+		String basicAddr = rs.getString("basic_addr");
+		UserVO user = new UserVO(id, name, emailId, emailDomain, tel1, tel2, tel3, basicAddr);
+		list.add(user);
+	}
+	
+	JDBCClose.close(pstmt, conn);
+	
+	pageContext.setAttribute("users", list);
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -60,45 +84,18 @@
 				<th width="20%">전화번호</th>
 				<th>기본 주소</th>
 			</tr>
- 		<% 
- 		int cnt = 1;
- 		while (rs.next()) {
- 			
- 			String id = rs.getString("id");
- 			String name = rs.getString("name");
- 			String email;
- 			String tel;
- 			String addr;
- 			
- 			if (rs.getString("email_id") == null) {
- 				email = "-";
- 			} else {
- 				email = rs.getString("email_id")+"@"+rs.getString("email_domain");
- 			}
- 			
- 			if (rs.getString("tel1") == null || rs.getString("tel2") == null || rs.getString("tel3") == null) {
- 				tel = "-";
- 			} else {
- 				tel = rs.getString("tel1")+"-"+rs.getString("tel2")+"-"+rs.getString("tel3");
- 			}
- 			
- 			if (rs.getString("basic_addr") == null) {
- 				addr = "-";
- 			} else {
- 				addr = rs.getString("basic_addr");
- 			}
- 			
- 		%>
+		<c:set var="cnt" value="1" />
+		<c:forEach var="user" items="${users}" >
 			<tr>
-				<td><%= cnt++ %></td>
-				<td><%= id%></td>
-				<td><%= name%></td>
-				<td><%= email%></td>
-				<td><%= tel%></td>
-				<td><%= addr%></td>
+				<td>${ cnt }</td>
+				<td>${user.id}</td>
+				<td>${user.name}</td>
+				<td>${ user.emailId }@${ user.emailDomain }</td>
+				<td>${user.tel1}-${user.tel2 }-${user.tel3}</td>
+				<td>${ user.basicAddr }</td>
 			</tr>
-		<% } %>
-		</table>
+		</c:forEach>
+			</table>
 		
 		<br>
 		<br>
@@ -109,5 +106,3 @@
 	
 </body>
 </html>
-
-<% JDBCClose.close(pstmt, conn); %>

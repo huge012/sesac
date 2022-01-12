@@ -1,3 +1,5 @@
+<%@page import="kr.co.mlec.board.vo.BoardVO"%>
+<%@page import="java.util.List"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -6,7 +8,7 @@
 <%@page import="kr.co.mlec.util.ConnectionFactory"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%
 
 	/* tbl_board에서 전체 게시글(번호, 제목, 작성자, 등록일) 조회 */
@@ -23,9 +25,23 @@
 		
 	pstmt = conn.prepareStatement(sql.toString());
 	ResultSet rs = pstmt.executeQuery();
-
 	
-
+	List<BoardVO> list = new ArrayList<>(); 
+	
+	while(rs.next()) {
+		int no = rs.getInt("no");
+		String title = rs.getString("title");
+		String writer = rs.getString("writer");
+		String regDate = rs.getString("reg_date");
+		BoardVO board = new BoardVO(no, title, writer, regDate);
+		// System.out.println(board);	
+		list.add(board);
+	}
+	
+	JDBCClose.close(pstmt, conn);
+	
+	pageContext.setAttribute("boards", list);
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -38,6 +54,16 @@
 	}
 	td {
 		text-align: center;
+	}
+	a:link {
+		text-decoration: none;
+		color: black;
+	}
+	a:visited {
+		color: black;
+	}
+	a:hover {
+		text-decoration: underline;
 	}
 </style>
 <script>
@@ -59,29 +85,18 @@
 			<th width="16%">작성자</th>
 			<th width="20%">등록일</th>
 		</tr>
-		<%
-			while(rs.next()) {
-				int no = rs.getInt("no");
-				String title = rs.getString("title");
-				String writer = rs.getString("writer");
-				String date = rs.getString("reg_date");
-		%>
+		
+		<c:forEach var="board" items="${ boards }" >
 			<tr>
-				<td><%= no %></td>
-				<td><%= title %></td>
-				<td><%= writer %></td>
-				<td><%= date %></td>
+				<td>${ board.no }</td>
+				<td>
+					<a href="detail.jsp?no=${ board.no }">	${ board.title } </a>
+				</td>
+				<td>${ board.writer }</td>
+				<td>${ board.regDate }</td>
 			</tr>
-			
-		<!--
-			<tr>
-				<td><%= rs.getInt("no") %></td>
-				<td><%= rs.getString("title") %></td>
-				<td><%= rs.getString("writer") %></td>
-				<td><%= rs.getString("reg_date") %></td>
-			</tr>
-		-->
-			<% } %>
+		</c:forEach>
+		
 		</table>
 		
 		<!-- <a href="#">새글등록</a> -->
@@ -93,7 +108,3 @@
 		
 </body>
 </html>
-
-<%
-	JDBCClose.close(pstmt, conn);
-%>
