@@ -1,0 +1,84 @@
+01.13 수업내용
+
+* try-catch
+jsp 파일 : try-catch가 있어서 DAO에 따로 안 넣어줘도 됨
+java 파일 : try-catch가 없어서 DAO에 try-catch 넣어줘야 함
+
+
+* 사용자가 입력하는 부분은 <c:out /> 태그 이용해서 코드 손상 없게 하기
+
+
+* 페이지 포함 기술 (include) : 웹페이지 메뉴 등 공통부분을 모든 페이지에 적용
+- directive(지시자) include
+- action(액션) include
+- jstl import
+
+
+* directive(지시자) include
+- <%@ include file = "파일경로" %>
+- 파일에 있는 정보가 함께 출력됨
+- jsp가 서블릿에서 java로 변환될 때 포함됨
+- jsp 페이지에서 사용되는 공통변수 지정 가능
+- 모든 코드가 고스란히 들어가서 무거워짐, 하단부 고정내용(footer)에서만 사용
+
+
+* action include : 포함관계에서 가장 많이 사용됨
+- <jsp:include page="파일경로" />
+- 다른 페이지의 실행결과를 내 페이지로 포함
+- 실행 시점에 포함됨(실행된 결과값)
+- org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "one.jsp", out, false);
+- 필요한 순간에 include 호출하며 out 변수 공유
+- 호출한 파일과 호출된 파일 두 군데에서 공유하고 싶은 경우 : request영역 사용
+- 호출한 파일에서 호출된 파일에게 파라미터 전달(단방향) : param 태그
+	<jsp:param name="" />
+
+
+* JSTL - import : 페이지 포함시킬 수 있는 태그
+- <c:import url="파일경로" /> : 프로토콜을 포함한 웹사이트 경로
+- 파라미터 사용 가능
+- action include와 유사
+
+※ 포함할 수 있는 파일 범위
+지시자 / 액션 인클루드는 같은 서버 내의 파일만 인클루드 가능
+JSTL import는 다른 서버의 파일도 인클루드 가능
+
+
+
+* WEB-INF/web.xml
+- welcome-file : 경로만 치고 루트 경로만 적으면 바로 뜨는 파일
+
+- index.jsp : 모든 페이지에 적용시킬 레이아웃 만들어주기
+- index.jsp에 include 할 파일은 전부 절대경로로 적어주기
+
+* 외부 css파일 가져와서 적용시키기 : <link>
+
+* 일반적 링크
+/ : http://localhost:9999/
+include, foward에서의 링크
+/ : http://localhost:9999/Mission-Web/
+
+
+* 페이지 이동 : 액션-forward
+- <jsp:foward page="" />
+- 호출된 페이지에서 다른 페이지로 요청 처리가 이동
+- 응답을 떠넘기기
+- request 공유영역 / param 데이터 공유 가능
+- 요청에 대한 응답은 클라이언트에게 발송
+- 관리자 / 유저에 따라 보여지는 것 다르게 가능
+
+
+
+* include : 내부에 코드 실행
+forward : 본인 화면 닫고 떠넘긴 화면 띄움
+
+
+* response.sendRedirect
+- 호출하는 페이지는 종료되고 호출된 애를 열어줌 (호출하는 애와 호출된 애 사이 연결 끊어짐)
+
+
+※ javascript보다 EL이 먼저 해석됨
+script의 if에 EL/JSTL 넣으면 동작 안될 수 있음! 주의!
+
+
+
+* <input type="hidden" name="" value="" /> : 입력받지 않았으나 원하는 데이터 넘겨줄 수 있음

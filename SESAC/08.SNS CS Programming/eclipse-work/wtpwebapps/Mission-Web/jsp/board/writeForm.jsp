@@ -5,12 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>새 게시글 작성</title>
-<style>
-	hr, table {
-		width: 80%;
-	}
-	
-</style>
+<link rel="stylesheet" href="/Mission-Web/css/layout.css">
+<link rel="stylesheet" href="/Mission-Web/css/board.css">
 <script>
 	function doWrite() {
 		let f = document.inputForm
@@ -35,7 +31,12 @@
 </script>
 </head>
 <body>
-	<div align="center">
+	<header>
+		<jsp:include page="/jsp/include/topMenu.jsp" />
+	</header>
+	
+	<section>
+		<div align="center">
 		<hr>
 		<h2>새글 등록</h2>
 		<hr>
@@ -65,5 +66,10 @@
 		</form>
 		
 	</div>
+	</section>
+	
+	<footer>
+		<%@include file="/jsp/include/footer.jsp" %>
+	</footer>
 </body>
 </html>

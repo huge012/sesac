@@ -90,10 +90,38 @@
 				<td>${ cnt }</td>
 				<td>${user.id}</td>
 				<td>${user.name}</td>
-				<td>${ user.emailId }@${ user.emailDomain }</td>
-				<td>${user.tel1}-${user.tel2 }-${user.tel3}</td>
-				<td>${ user.basicAddr }</td>
+				<td>
+				<c:choose>
+					<c:when test="${ user.emailId eq null }">
+					-
+					</c:when>
+					<c:otherwise>
+					${ user.emailId }@${ user.emailDomain }
+					</c:otherwise>
+				</c:choose>
+				</td>
+				<td>
+				<c:choose>
+					<c:when test="${ user.tel1 eq null }">
+					-
+					</c:when>
+					<c:otherwise>
+					${user.tel1}-${user.tel2 }-${user.tel3}
+					</c:otherwise>
+				</c:choose>
+				</td>
+				<td>
+				<c:choose>
+					<c:when test="${ user.basicAddr eq null }">
+					-
+					</c:when>
+					<c:otherwise>
+					${ user.basicAddr }
+					</c:otherwise>
+				</c:choose>
+				</td>
 			</tr>
+		<c:set var="cnt" value="${ cnt + 1 }" />
 		</c:forEach>
 			</table>
 		
