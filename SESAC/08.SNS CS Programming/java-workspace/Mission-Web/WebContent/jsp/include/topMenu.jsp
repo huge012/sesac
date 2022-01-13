@@ -13,9 +13,9 @@
 	<tr>
 		<td>
 			<nav>
-				회원관리 |
+				<a href="/Mission-Web/jsp/member/list.jsp">회원관리</a> |
 				<a href="/Mission-Web/jsp/board/list.jsp">게시판</a> |
-				회원가입 |
+				<a href="/Mission-Web/jsp/member/writeForm.jsp">회원가입</a> |
 				로그인 |
 				마이페이지 |
 				로그아웃

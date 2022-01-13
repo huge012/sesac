@@ -1,0 +1,125 @@
+* html
+
+<a href="주소"></a>
+- 새로운 웹페이지 여는 명령어
+- target 속성
+	- _blank : 새 윈도우창을 열어서 웹페이지를 열어줌
+	- _self : 현재 윈도우 창에서 그대로 열어줌
+	- _parent : 현재 프레임의 부모 프레임에서 새 웹페이지 열어줌
+	- _top : 최상위 프레임에서 열림
+- 절대경로/상대경로로 html 접근 가능
+
+<div></div>
+- 블록 단위
+- 속성 : style, width, height, border, background-color, float, margin
+
+<span></span>
+- 라인단위
+- 속성 : display, width, height, background-color, color, font-style, margin, padding, border
+
+<br>
+- 엔터
+
+<p></p>
+- 상하좌우 여백 있는 문단
+- 속성 : align(right, left, center, justify; html5에서는 지원x)
+
+<hr>
+- 가로선 ( html5에서는 속성 지원 x, css에서 해야함)
+- 속성 : align, noshade, size, width
+
+<h1~6></h1~6>
+- 제목 태그
+- 속성 : align (html5에서 지원 x)
+
+<img src="소스 위치">
+- 이미지
+- 속성 : src, width, height, alt(대체텍스트), title
+
+<figure></figure>
+- 삽화, 다이어그램, 사진 등 문서의 독립 콘텐츠를 정의
+- html5에 추가된 요소
+
+<select><option></option></select>
+- 드롭다운
+- 속성 : name, value size, multiple, label(optgroup
+
+<ul></ul>
+- 순서 없는 목록
+- 글머리 기호를 붙여서 목록을 만듦
+- 속성 : type(disc, circle, square)
+
+<ol></ol>
+- 순서 있는 목록
+- 번호 형식으로 순서를 매김
+- 속성 : type(1, A, a, i, I)
+
+<dl></dl>
+- 정의 목록을 만듦, 어떤 용어의 정의를 나열
+- <dt></dt> : 용어의 제목
+- <dd></dd> : 용어의 내용, 탭 들어감
+
+<li></li>
+- 목록의 내용이 되는 실질적 태그
+- 속성 : type(disc, circle, square, 1, A, a, i, I)
+
+<i></i> : 이태릭
+
+<table>
+	<th></th>
+	<tr>
+		<td></td>
+	</tr>
+</table>
+- 테이블, 가로세로
+- 속성 : colspan, rowspan, border, bgcolor, width, height, cellpadding(셀과 경계 사이 여백), cellbacing(셀과 셀 사이 여백), align(셀 가로줄을 정렬), valign(셀의 세로줄을 정렬)
+- align, bgcolor, border, cellpadding, cellspacing, frame, rules, summary, width는 html5에서 지원 x
+
+
+<form> 
+	<input type="">
+			type 종류
+				text(한줄입력)
+				password(암호처리)
+				checkbox(다중선택)
+				radio(단일선택)
+				button(사용자정의이벤트)
+				file(첨부파일)
+				reset(초기화)
+				hidden(입력받지 않은 데이터를 서버에 전송)
+				submit(입력받은 데이터를 서버에 전송) 
+			<textarea> </textarea> 텍스트 여러 줄 입력 가능
+<form>
+- form 태그 안에서 입력받은 정보를 서버를 통해 넘겨받음
+
+
+
+* html5
+<header></header>
+- 사이트 로고, 사이트명
+
+<nav></nav>
+- 사이트의 메뉴
+
+<section></section>
+- 문서의 내용
+
+<article></article>
+- 문서의 내용 세부 구분
+
+<aside></aside>
+- 문서의 주 내용을 제외한 section 좌우 배치
+
+<footer></footer>
+- 사이트 정보, 저작권, 주요 정보
+
+html5 이전
+<embed src="위치">
+- 음성, 동영상 파일
+
+html5 이후
+<audio src="위치"></audio>
+- 음성 파일
+
+<video src="위치"></video>
+- 동영상 파일

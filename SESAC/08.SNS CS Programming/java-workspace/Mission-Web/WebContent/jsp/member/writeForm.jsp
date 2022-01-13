@@ -14,29 +14,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	hr, table {
-		width: 80%;
-	}
-	tr {
-		height : 40px;
-	}
-	td {
-		text-align: center;
-	}
-	input {
-		width: 95%;
-	}
-	input.tel {
-		width: 30%;
-	}
-	input.email {
-		width: 45%;
-	}
-	input#submit {
-		width: 50px;
-	}
-</style>
+<link rel="stylesheet" href="/Mission-Web/css/layout.css">
+<link rel="stylesheet" href="/Mission-Web/css/board.css">
 <script>
 	function doWrite(){
 		let f = document.inputForm
@@ -62,43 +41,47 @@
 </script>
 </head>
 <body>
-
-	<div align="center">
+	<header>
+		<jsp:include page="/jsp/include/topMenu.jsp" />
+	</header>
+	
+	<section>
+		<div align="center">
 		<hr>
 		<h2>회원가입</h2>
 		<hr>
 		<form action="write.jsp" method="post" name="inputForm" onsubmit="return doWrite()">
 			<table border="1">
 				<tr>
-					<td width="25%">아이디</td>
+					<th width="25%">아이디</th>
 					<td width="75%"><input type="text" name="id"></td>
 				</tr>
 				<tr>
-					<td>비밀번호</td>
+					<th>비밀번호</th>
 					<td><input type="text" name="password"></td>
 				</tr>
 				<tr>
-					<td>이름</td>
+					<th>이름</th>
 					<td><input type="text" name="name"></td>
 				</tr>
 				<tr>
-					<td>이메일</td>
+					<th>이메일</th>
 					<td><input type="text" class="email" name="email_id">@<input type="text" class="email" name="email_domain"></td>
 				</tr>
 				<tr>
-					<td>전화번호</td>
+					<th>전화번호</th>
 					<td><input type="text" class="tel" name="tel1">-<input type="text" class="tel" name="tel2">-<input type="text" class="tel" name="tel3"></td>
 				</tr>
 				<tr>
-					<td>우편번호</td>
+					<th>우편번호</th>
 					<td><input type="text" name="post"></td>
 				</tr>
 				<tr>
-					<td>기본 주소</td>
+					<th>기본 주소</th>
 					<td><input type="text" name="basic_addr"></td>
 				</tr>
 				<tr>
-					<td>상세 주소</td>
+					<th>상세 주소</th>
 					<td><input type="text" name="detail_addr"></td>
 				</tr>
 			
@@ -107,6 +90,10 @@
 			<input type="submit" value="등록" id="submit">
 		</form>
 	</div>
-
+	</section>
+	
+	<footer>
+		<%@include file="/jsp/include/footer.jsp" %>
+	</footer>
 </body>
 </html>
