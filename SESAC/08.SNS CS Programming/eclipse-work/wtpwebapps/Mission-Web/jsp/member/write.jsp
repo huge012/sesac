@@ -3,6 +3,8 @@
 	-
  --%>
 
+<%@page import="kr.co.mlec.member.dao.MemberDAO"%>
+<%@page import="kr.co.mlec.member.vo.MemberVO"%>
 <%@page import="kr.co.mlec.util.JDBCClose"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -17,46 +19,34 @@
 	String name = request.getParameter("name");
 	String id = request.getParameter("id");
 	String password = request.getParameter("password");
-	String email_id = request.getParameter("email_id");
-	String email_domain = request.getParameter("email_domain");
+	String emailId = request.getParameter("email_id");
+	String emailDomain = request.getParameter("email_domain");
 	String tel1 = request.getParameter("tel1");
 	String tel2 = request.getParameter("tel2");
 	String tel3 = request.getParameter("tel3");
 	String post = request.getParameter("post");
-	String basic_addr = request.getParameter("basic_addr");
-	String detail_addr = request.getParameter("detail_addr");
+	String basicAddr = request.getParameter("basic_addr");
+	String detailAddr = request.getParameter("detail_addr");
 	
-	Connection conn = new ConnectionFactory().getConnection();
-	PreparedStatement pstmt = null;
+	MemberVO user = new MemberVO();
+	user.setName(name);
+	user.setId(id);
+	user.setPassword(password);
+	user.setEmailId(emailId);
+	user.setemailDomain(emailDomain);
+	user.setTel1(tel1);
+	user.setTel2(tel2);
+	user.setTel3(tel3);
+	user.setPost(post);
+	user.setBasicAddr(basicAddr);
+	user.setDetailAddr(detailAddr);
 	
-	StringBuilder sql = new StringBuilder();
-	sql.append(" insert into tbl_member(name, id, password, email_id, email_domain, tel1, tel2, tel3, post, basic_addr, detail_addr) ");
-	sql.append(" values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
-	
-	pstmt = conn.prepareStatement(sql.toString());
-	pstmt.setString(1, name);
-	pstmt.setString(2, id);
-	pstmt.setString(3, password);
-	pstmt.setString(4, email_id);
-	pstmt.setString(5, email_domain);
-	pstmt.setString(6, tel1);
-	pstmt.setString(7, tel2);
-	pstmt.setString(8, tel3);
-	pstmt.setString(9, post);
-	pstmt.setString(10, basic_addr);
-	pstmt.setString(11, detail_addr);
-	
-	int rs = pstmt.executeUpdate();
+	MemberDAO dao = new MemberDAO();
+	int rs = dao.insertUser(user);
+	pageContext.setAttribute("rs", rs);
 %>
 
  <script>
- 	<% if (rs != 0) { %>
- 		alert('회원 가입이 완료되었습니다')
- 	<% } else { %>
- 		alert('회원 가입에 실패했습니다')
- 	<% } %>
+ 	alert("${ rs > 0 ? '회원가입이 완료되었습니다' : '회원가입에 실패했습니다' }")
  	location.href = 'list.jsp'
  </script>
- <%
- 	JDBCClose.close(pstmt, conn);
- %>

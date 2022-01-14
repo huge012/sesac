@@ -4,65 +4,24 @@
 	- 회원가입 버튼
 --%>
 
-<%@page import="java.util.ArrayList"%>
-<%@page import="kr.co.mlec.user.vo.UserVO"%>
+<%@page import="kr.co.mlec.member.dao.MemberDAO"%>
+<%@page import="kr.co.mlec.member.vo.MemberVO"%>
 <%@page import="java.util.List"%>
-<%@page import="kr.co.mlec.util.JDBCClose"%>
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.PreparedStatement"%>
-<%@page import="kr.co.mlec.util.ConnectionFactory"%>
-<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-	Connection conn = new ConnectionFactory().getConnection();
-	PreparedStatement pstmt = null;
-	
-	StringBuilder sql = new StringBuilder();
-	sql.append(" select id, name, email_id, email_domain, tel1, tel2, tel3, basic_addr ");
-	sql.append(" from tbl_member ");
-	
-	pstmt = conn.prepareStatement(sql.toString());
-	ResultSet rs = pstmt.executeQuery();
-	
-	List<UserVO> list = new ArrayList<>();
-	
-	while (rs.next())
-	{
-		String id = rs.getString("id");
-		String name = rs.getString("name");
-		String emailId = rs.getString("email_id");
-		String emailDomain = rs.getString("email_domain");
-		String tel1 = rs.getString("tel1");
-		String tel2 = rs.getString("tel2");
-		String tel3 = rs.getString("tel3");
-		String basicAddr = rs.getString("basic_addr");
-		UserVO user = new UserVO(id, name, emailId, emailDomain, tel1, tel2, tel3, basicAddr);
-		list.add(user);
-	}
-	
-	JDBCClose.close(pstmt, conn);
-	
+	MemberDAO dao = new MemberDAO();
+	List<MemberVO> list = dao.selectAllUser();
 	pageContext.setAttribute("users", list);
-	
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>회원 정보</title>
-<style>
-	hr {
-		width : 80%;
-	}
-	table {
-		width : 80%;
-	}
-	th, td {
-		text-align : center;
-	}
-</style>
+<link rel="stylesheet" href="/Mission-Web/css/layout.css">
+<link rel="stylesheet" href="/Mission-Web/css/board.css">
 <script>
 	function goWriteForm() {
 		location.href="writeForm.jsp"	
@@ -70,7 +29,12 @@
 </script>
 </head>
 <body>
-	<div align="center">
+	<header>
+		<jsp:include page="/jsp/include/topMenu.jsp" />
+	</header>
+	
+	<section>
+		<div align="center">
 		<hr>
 		<h2>회원 목록</h2>			
 		<hr>
@@ -131,6 +95,10 @@
 		<button onclick="goWriteForm()">회원가입</button>
 		
 	</div>
+	</section>
 	
+	<footer>
+		<%@include file="/jsp/include/footer.jsp" %>
+	</footer>
 </body>
 </html>

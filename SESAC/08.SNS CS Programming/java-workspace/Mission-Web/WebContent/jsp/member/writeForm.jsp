@@ -53,15 +53,15 @@
 		<form action="write.jsp" method="post" name="inputForm" onsubmit="return doWrite()">
 			<table border="1">
 				<tr>
-					<th width="25%">아이디</th>
+					<th width="25%">* ID</th>
 					<td width="75%"><input type="text" name="id"></td>
 				</tr>
 				<tr>
-					<th>비밀번호</th>
+					<th>* PASSWORD</th>
 					<td><input type="text" name="password"></td>
 				</tr>
 				<tr>
-					<th>이름</th>
+					<th>* 이 름 </th>
 					<td><input type="text" name="name"></td>
 				</tr>
 				<tr>

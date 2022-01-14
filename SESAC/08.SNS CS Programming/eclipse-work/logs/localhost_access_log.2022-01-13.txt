@@ -535,3 +535,10 @@
 0:0:0:0:0:0:0:1 - - [13/Jan/2022:17:38:49 +0900] "GET /Mission-Web/image/logo.png HTTP/1.1" 304 -
 0:0:0:0:0:0:0:1 - - [13/Jan/2022:17:39:03 +0900] "POST /Mission-Web/jsp/board/write.jsp HTTP/1.1" 200 132
 0:0:0:0:0:0:0:1 - - [13/Jan/2022:17:39:04 +0900] "GET /Mission-Web/jsp/board/list.jsp HTTP/1.1" 200 2500
+0:0:0:0:0:0:0:1 - - [13/Jan/2022:17:50:17 +0900] "GET /Mission-Web HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [13/Jan/2022:17:50:17 +0900] "GET /Mission-Web/ HTTP/1.1" 200 857
+0:0:0:0:0:0:0:1 - - [13/Jan/2022:17:50:17 +0900] "GET /Mission-Web/css/layout.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [13/Jan/2022:17:50:17 +0900] "GET /Mission-Web/css/board.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [13/Jan/2022:17:50:17 +0900] "GET /Mission-Web/image/logo.png HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [13/Jan/2022:17:50:19 +0900] "GET /Mission-Web/jsp/board/list.jsp HTTP/1.1" 200 2500
+0:0:0:0:0:0:0:1 - - [13/Jan/2022:17:50:21 +0900] "GET /Mission-Web/jsp/board/writeForm.jsp HTTP/1.1" 200 1960

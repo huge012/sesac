@@ -4,18 +4,16 @@
 	- 회원가입 버튼
 --%>
 
-<%@page import="kr.co.mlec.user.dao.UserDAO"%>
-<%@page import="kr.co.mlec.user.vo.UserVO"%>
+<%@page import="kr.co.mlec.member.dao.MemberDAO"%>
+<%@page import="kr.co.mlec.member.vo.MemberVO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-	
-	UserDAO dao = new UserDAO();
-	List<UserVO> list = dao.selectAllUser();
+	MemberDAO dao = new MemberDAO();
+	List<MemberVO> list = dao.selectAllUser();
 	pageContext.setAttribute("users", list);
-	
 %>
 <!DOCTYPE html>
 <html>

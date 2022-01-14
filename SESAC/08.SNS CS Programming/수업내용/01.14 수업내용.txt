@@ -1,0 +1,94 @@
+01.14 수업내용
+
+* 상태정보 유지 기술 : 쿠키, 세션 (둘 다 내장객체, import 필요없음)
+
+* 쿠키
+- 사용자의 컴퓨터에 정보(개인정보 등) 저장
+- 서버 부하 분산
+- 사용자 컴퓨터에 저장되므로 보안상 문제 발생할 수 있음
+- 정보 저장 유효기간을 사용자가 설정(팝업창 등, 브라우저 종료 후에도 유지)
+- 한 사이트 쿠키 객체는 최대 20개, 한 쿠키엔 4k
+- 컴퓨터에 쿠키 한계치(300개)가 넘으면 쿠키 랜덤 삭제
+- 문자열만 가능, 한글 저장 시에는 인코딩 필수
+- 별다른 이야기 없을 경우 브라우저 종료 시 사라짐
+
+- JSP : 서버에서 해석하고 응답해줌
+- 쿠키 : 서버에서 쿠키를 만들고 클라이언트 pc에 저장함, 서버에 요청할 때 쿠키저장소에서 관련 쿠키 찾아 함께 발송, 실제 쿠키 생성 및 access하는건 서버
+
+* 전부 문자열이어야 함!
+
+* 쿠키 만들어서 전송
+Cookie cookie = new Cookie("이름", "값");
+response.addCookie(cookie);
+
+
+* 쿠키 가져오기 - 쿠키 배열로 가져옴
+Cookie[] cookies = request.getCookies();
+
+
+* 자바를 html에서 출력하고 싶을 때 : 표현석 <%= %>
+EL, JSTL로 표현하고 싶을 때 : 공유영역에 올림
+
+
+* JSESSIONID : 세션 아이디
+_ga, _ga_ZLMCDSG8JM : 
+
+* java char : 2byte
+utf-8 : 3byte
+
+
+* 쿠키 유효시간
+- 설정 안 하면 브라우저 닫힐 때 쿠키도 함께 삭제
+- Cookie.setMaxAge(int maxAge) : 초단위 설정
+- setMaxAge(0);	// 쿠키 삭제
+- setMaxAge(-1);	// 브라우저 닫을 때 삭제
+
+
+* 쿠키 경로 지정
+- Cookie.setPath(String path)
+- 설정한 경로 및 하위 경로에 쿠키 보내줌
+
+
+* 세션
+- 서버에 저장
+- 서버 부하 가중
+- 보안상 문제 발생 소지 줄어듦
+- 브라우저 닫힐 때까지 유지
+- 객체 타입 가능
+- page, request, session, application 중 session 영역
+- 클라이언트마다 세션 생성, 서버에서만 생성하며 웹 컨테이너에서 정보 교환
+- 클라이언트가 자신의 세션 외의 다른 세션에 접근 불가
+
+- 세션 기본값이 true, 내장객체라 선언 안 해도 사용 가능
+session.setAttribute("이름", 값);
+- 세션은 내장객체이므로 EL에선 getAttribute 안 해도 불러올 수 있음 (표현식에선 써야함)
+
+* 세션 종료/타임아웃
+- 시간 설정 
+1) web.xml에 설정, 아무것도 하지 않은 채 해당 시간 흘러야 함
+2) 프로그램 설정, session.setMaxInactiveInterval(int);
+
+
+* 서블릿에서는 Session 객체 만들어야 함
+HttpSession session = request.getSession();
+
+
+* 각 세션을 구분하기 위해 cookie에 sessionID를 저장함
+
+
+login
+- 아이디, 비밀번호 입력
+- DB 검색
+- 세션에 id, password 저장
+- 홈페이지로 가기
+
+logout
+- 로그아웃하시겠습니까?
+yes : 세션정보 삭제
+
+
+
+
+* 1.7버전 try () {} catch {}
+() : 변수 선언 가능, 참조자료형(class), autocloseable 인터페이스 상속받은 객체
+Connection, PreparedStatement 형 사용 가능

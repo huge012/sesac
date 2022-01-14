@@ -142,4 +142,23 @@ public class BoardDAO {
 		}
 	}
 	
+	public void addViewCnt(int boardNo)
+	{
+		StringBuilder sql = new StringBuilder();
+		sql.append(" update tbl_board ");
+		sql.append(" set view_cnt = view_cnt+1 ");
+		sql.append(" where no = ? ");
+		
+		try(
+				Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+		) {
+			pstmt.setInt(1, boardNo);
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

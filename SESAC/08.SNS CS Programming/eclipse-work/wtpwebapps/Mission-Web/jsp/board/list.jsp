@@ -1,3 +1,4 @@
+<%@page import="kr.co.mlec.page.vo.PageVO"%>
 <%@page import="kr.co.mlec.board.dao.BoardDAO"%>
 <%@page import="kr.co.mlec.board.vo.BoardVO"%>
 <%@page import="java.util.List"%>
@@ -13,6 +14,8 @@
 	
 	pageContext.setAttribute("boards", list);
 	
+	PageVO pageVO = new PageVO();
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -24,6 +27,20 @@
 	function goWriterForm() {
 		location.href = "writeForm.jsp"
 	}
+	
+	function doAction(boardNo) {
+		<c:choose>
+			<c:when test="${ not empty userVO }">
+				location.href = "addViewCnt.jsp?no="+boardNo
+			</c:when>
+			<c:otherwise>
+				if (confirm("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+					location.href = "/Mission-Web/jsp/login/loginForm.jsp"
+				}
+			</c:otherwise>
+		</c:choose>
+	}
+	
 </script>
 <link rel="stylesheet" href="/Mission-Web/css/layout.css">
 </head>
@@ -50,9 +67,12 @@
 			<tr>
 				<td>${ board.no }</td>
 				<td>
-					<a href="detail.jsp?no=${ board.no }">
-						<c:out value="${ board.title }" />
+					<a href="javascript:doAction(${ board.no })">
+						<c:out value="${board.title }" />
 					</a>
+					<%-- <a href="detail.jsp?no=${ board.no }">
+						<c:out value="${ board.title }" />
+					</a>  --%>
 				</td>
 				<td>${ board.writer }</td>
 				<td>${ board.regDate }</td>
@@ -64,7 +84,15 @@
 		<!-- <a href="#">새글등록</a> -->
 		<br>
 		<br>
+		<div id="paging">
+			<c:forEach var="i" step="1" begin="1" end="10">
+			${ i }
+			</c:forEach>
+		</div>
+		<br>
+		<c:if test="${ not empty userVO }">
 		<button onclick="goWriterForm()">새글등록</button>
+		</c:if>
 	</div>
 	</section>
 	

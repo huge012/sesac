@@ -8,6 +8,7 @@
  --%>
 <%@page import="kr.co.mlec.board.dao.BoardDAO"%>
 <%@page import="kr.co.mlec.board.vo.BoardVO"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
 	// 1. 번호 추출
@@ -44,7 +45,6 @@
 		case 'L':
 			location.href = "list.jsp"
 			break;
-		
 		}
 	}
 </script>
@@ -89,9 +89,10 @@
 		</table>
 		
 		<br><br>
-		
-		<button onclick="doAction('U')">수정</button>
-		<button onclick="doAction('D')">삭제</button>
+		<c:if test="${ board.writer eq userVO.id }">
+			<button onclick="doAction('U')">수정</button>
+			<button onclick="doAction('D')">삭제</button>
+		</c:if>
 		<button onclick="doAction('L')">목록</button>
 		
 		<br><br>

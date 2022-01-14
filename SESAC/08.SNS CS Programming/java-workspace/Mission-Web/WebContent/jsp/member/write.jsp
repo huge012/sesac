@@ -3,8 +3,8 @@
 	-
  --%>
 
-<%@page import="kr.co.mlec.user.dao.UserDAO"%>
-<%@page import="kr.co.mlec.user.vo.UserVO"%>
+<%@page import="kr.co.mlec.member.dao.MemberDAO"%>
+<%@page import="kr.co.mlec.member.vo.MemberVO"%>
 <%@page import="kr.co.mlec.util.JDBCClose"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -28,7 +28,7 @@
 	String basicAddr = request.getParameter("basic_addr");
 	String detailAddr = request.getParameter("detail_addr");
 	
-	UserVO user = new UserVO();
+	MemberVO user = new MemberVO();
 	user.setName(name);
 	user.setId(id);
 	user.setPassword(password);
@@ -41,11 +41,9 @@
 	user.setBasicAddr(basicAddr);
 	user.setDetailAddr(detailAddr);
 	
-	UserDAO dao = new UserDAO();
+	MemberDAO dao = new MemberDAO();
 	int rs = dao.insertUser(user);
 	pageContext.setAttribute("rs", rs);
-	
-	
 %>
 
  <script>
