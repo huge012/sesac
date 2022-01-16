@@ -1,14 +1,14 @@
 package kr.co.mlec.page.vo;
 
 public class PageVO {
-	private int page;
-	private int totalCount;
-	private int beginPage;
-	private int endPage;
-	private int displayRow;
-	private int displayPage;
-	boolean prev;
-	boolean next;
+	private int page; // 현재 해당 페이지
+	private int totalCount; // 게시글 총 갯수
+	private int beginPage; // 시작 페이지 
+	private int endPage; // 끝 페이지
+	private int displayRow; // 보여줄 게시글 갯수
+	private int displayPage; // 보여줄 페이지 수 (10개 페이지 )
+	boolean prev; // 이전 버튼 유무
+	boolean next; // 다음 버튼 유무
 	
 	public PageVO() {
 		page = 1;
@@ -101,7 +101,7 @@ public class PageVO {
 				+ next + "]";
 	}
 	
-	// totalPage 들어오면 자동 계산
+	// totalPage 들어오면 자동 계산 - endPage, beginPage, totalPage, prev, next
 	private void paging() {
 		// 현재의 10번째 페이지 번호
 		endPage = ((int)Math.ceil(page/(double)displayPage))*displayPage;

@@ -27,3 +27,12 @@ table th {
 table.list tr:nth-child(odd) {
 	background-color: #F7F9FC;
 }
+
+a:link, a:visited {
+	color: #718ABE;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}

@@ -16,7 +16,7 @@
 	<tr>
 		<td>
 			<nav>
-				<a href="/Mission-Web/jsp/board/list.jsp">게시판</a> 
+				<a href="/Mission-Web/jsp/board/list.jsp?page=1">게시판</a> 
 				<c:if test="${ userVO.type eq 'S' }">
 				| <a href="/Mission-Web/jsp/member/list.jsp">회원관리</a> 
 				</c:if>

@@ -25,8 +25,11 @@ public class BoardDAO {
 	}
 	
 	/* 전체 게시글 조회 */
-	public List<BoardVO> selectAllBoard() {
+	public List<BoardVO> selectAllBoard(int page) {
 		
+		int endNum = page*10;
+		//int startNum = page*10-9;
+		int startNum = endNum-9;
 		List<BoardVO> list = new ArrayList<>(); 
 		
 		try {
@@ -34,10 +37,15 @@ public class BoardDAO {
 			
 			StringBuilder sql = new StringBuilder();
 			sql.append("select no, title, writer, to_char(reg_date, 'yyyy-mm-dd') as reg_date ");
-			sql.append(" from tbl_board ");
-			sql.append(" order by no desc ");
+			sql.append(" from ( ");
+			sql.append(" 		select * from ( ");
+			sql.append(" 			select ROW_NUMBER() over(order by no desc) row_num, tbl_board.* from tbl_board ");
+			sql.append(" 		) where row_num >= ? ");
+			sql.append(" ) where row_num <= ? ");
 				
 			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, startNum);
+			pstmt.setInt(2, endNum);
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -159,6 +167,30 @@ public class BoardDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/* 전체 게시글 수 세는 메소드 */
+	public int countAll()
+	{
+		int result = 0;
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append(" select count(*) as count ");
+		sql.append(" from tbl_board ");
+		
+		try(
+				Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+		) {
+				ResultSet rs = pstmt.executeQuery();
+				if(rs.next())
+					result = rs.getInt("count");
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 }
