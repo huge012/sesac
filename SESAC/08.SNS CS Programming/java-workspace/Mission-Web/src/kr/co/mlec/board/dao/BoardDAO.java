@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.mlec.board.vo.BoardVO;
+import kr.co.mlec.page.vo.PageVO;
 import kr.co.mlec.util.ConnectionFactory;
 import kr.co.mlec.util.JDBCClose;
 
@@ -25,11 +26,11 @@ public class BoardDAO {
 	}
 	
 	/* 전체 게시글 조회 */
-	public List<BoardVO> selectAllBoard(int page) {
+	public List<BoardVO> selectAllBoard(PageVO page) {
 		
-		int endNum = page*10;
+		int endNum = page.getPage()*page.getDisplayRow();
 		//int startNum = page*10-9;
-		int startNum = endNum-9;
+		int startNum = endNum-page.getDisplayRow()+1;
 		List<BoardVO> list = new ArrayList<>(); 
 		
 		try {

@@ -16,11 +16,10 @@
 		nowPage = Integer.parseInt(request.getParameter("page"));
 	}
 
-	/* tbl_board에서 전체 게시글(번호, 제목, 작성자, 등록일) 조회 */
-	BoardDAO dao = new BoardDAO();
-	List<BoardVO> list = dao.selectAllBoard(nowPage);
 	
-	pageContext.setAttribute("boards", list);
+	BoardDAO dao = new BoardDAO();
+	
+	
 
 	/* pageVO 설정 */
 	int total = dao.countAll();
@@ -28,6 +27,10 @@
 	pageVO.setPage(nowPage);
 	pageVO.setTotalCount(total);
 	pageContext.setAttribute("paging", pageVO);
+	
+	/* tbl_board에서 전체 게시글(번호, 제목, 작성자, 등록일) 조회 */
+	List<BoardVO> list = dao.selectAllBoard(pageVO);
+	pageContext.setAttribute("boards", list);
 	
 	
 %>
@@ -38,7 +41,15 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="/Mission-Web/css/layout.css">
 <link rel="stylesheet" href="/Mission-Web/css/board.css">
+<script src="/Mission-Web/js/jquery-3.6.0.min.js"></script>
 <script>
+	
+	$(document).ready(function(){
+		$('button').click(function() {
+			location.href = "writeForm.jsp"
+		})
+	})
+
 	function goWriterForm() {
 		location.href = "writeForm.jsp"
 	}
@@ -99,14 +110,15 @@
 		<br>
 		<br>
 		<c:if test="${ not empty userVO }">
-		<button onclick="goWriterForm()">새글등록</button>
+		<!-- <button onclick="goWriterForm()">새글등록</button>  -->
+		<button>새글등록</button>
 		</c:if>
-		
+		<br>
 		<br>
 		<%-- 페이징 --%>
 		<div id="paging">
-				<c:if test="${ paging.prev }">
-				<a href="list.jsp?page=${ paging.beginPage-1 }">이전</a>... 
+			<c:if test="${ paging.prev }">
+				<<<a href="list.jsp?page=${ paging.beginPage-1 }">이전</a>... 
 			</c:if>
 			<c:forEach var="i" step="1" begin="${ paging.beginPage }" end="${ paging.endPage }">
 				<c:choose>
@@ -119,7 +131,7 @@
 				</c:choose>
 			</c:forEach>
 			<c:if test="${ paging.next }">
-				... <a href="list.jsp?page=${ paging.endPage+1 }">다음</a>
+				... <a href="list.jsp?page=${ paging.endPage+1 }">다음</a>>>
 			</c:if>
 		</div>
 		

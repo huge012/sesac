@@ -1,0 +1,92 @@
+01/17 수업내용 - jquery
+DOM 구조 access하는게 목표 - body 내용을 알고있어야 함
+jquery 사용하기 위해서는 사이트가 존재해야 함
+
+jquery.com
+
+* compressed / uncompressed 차이 : 엔터/스페이스 유무
+
+* jquery 다른이름으로 링크 저장해서 jquery/js에 붙여넣어서 셋팅
+<script src="js/jquery-3.6.0.min.js"></script> 로 script 불러옴
+
+* jquery-ui 받아서 jquery/js에 붙여넣어서 셋팅함
+https://jqueryui.com/
+혹은
+https://releases.jquery.com/ui/ 의 링크 복붙
+
+* CDN : 네트워크를 이용해서 각 벤더 회사들이 제공하는 jquery lib를 가져옴
+https://jquery.com/download/  에서 소스코드 가져옴
+
+
+* jquery 시작은 $, 기본 문법 : $(선택자).함수(), 전부 함수로 이루어져있어서 개발자 입장에선 편하지만 속도는 느릴 수 있음
+
+
+* $(document).read() : window.onload와 유사, document가 준비되었다면 실행
+$(document).ready(function() {
+		
+	})
+ㄴ 콜백함수 넣어줌
+
+window.onload : 한 번만 실행됨, 여러번 호출해도 하나만 반환됨
+$().ready() : 여러번 실행됨
+$() : ready 축약버전
+
+* S.fn.init(2) : jquery 객체가 2개 있음을 의미
+$().hide() : 객체 잠시 숨김
+$().show() : 숨긴 객체 보여줌
+id, class 등 사용법이 css와 유사 (#id, .class)
+
+
+* 자바스크립트 / jquery 객체 사용법이 다름
+
+* $('ul li:first').hide() : 모든 li를 하나로 생각하고 제일 위에있는 li가 사라짐
+$('ul li:first-child').hide() : 각각 ul 안의 첫 li를 지워줌
+
+
+* jquery와 javascript
+$('tr') : jquery 객체, .css() 함수 적용 가능
+$('tr')[0] : javascript 객체, .css() 함수 적용 불가, style.color 로 접근
+
+
+* javascript 객체
+{} 안에 변수명:값 넣어줌
+let person = {
+		// 변수명 : 값, 변수명 : 값
+		// 변수명에는 '' 안붙여도 됨, 특수문자 들어갈 때에는 붙여야함
+		'name':'홍길동',
+		'phone':'010-1111-2222'
+}
+접근 : person.name, person['name']
+
+
+* jquery의 animate() 함수에서는 백그라운드 컬러가 함께 변하지 않음
+jqueryUI 사용해야 함
+
+
+
+* 자동완성 탬플릿 만들기
+Window - Preferences - Web - JSP Files -Editor - Templates - new - 이름 : jquery-3.6.0, pattern에 코드 붙임, $를 두개로 써줌, apply+close
+
+
+<script src="js/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function(){
+		alert("!!")
+	})
+</script>
+
+
+* EL - jsp
+$ {} : body 안에 있어야 함, 공유 영역의 변수값을 출력하는 용도
+
+* jquery - javascript
+$(선택자).함수()
+
+$(선택자).함수(function(){ 	← jquery
+	location.href="detail.jsp?no=${no}"	← EL
+})
+
+
+
+* 월화수목금토일 각 빨주노초파남보 색
+- 마우스 올리면 커지면서 ""+요일 뜸

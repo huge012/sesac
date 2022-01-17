@@ -12,11 +12,11 @@
 	LoginVO loginVO = new LoginVO();
 	loginVO.setId(id);
 	loginVO.setPassword(password);
-	
+		
 	// DB에서 사용자 조회
 	LoginDAO dao = new LoginDAO();
 	loginVO = dao.login(loginVO);
-	
+		
 	/*
 		반환값	null이면		로그인 실패
 				null아니면	로그인 성공

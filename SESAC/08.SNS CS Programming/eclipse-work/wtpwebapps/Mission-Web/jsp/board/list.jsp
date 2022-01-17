@@ -7,14 +7,31 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%
 
-	/* tbl_board에서 전체 게시글(번호, 제목, 작성자, 등록일) 조회 */
+	/* 최초 게시글 목록 들어왔을 때의 페이지 설정 */
+	
+	int nowPage = 1;
+	
+	/* 페이지 파라미터가 존재할 경우 파라미터 가져옴 */
+	if (request.getParameter("page") != null) {
+		nowPage = Integer.parseInt(request.getParameter("page"));
+	}
+
 	
 	BoardDAO dao = new BoardDAO();
-	List<BoardVO> list = dao.selectAllBoard();
 	
+	
+
+	/* pageVO 설정 */
+	int total = dao.countAll();
+	PageVO pageVO = new PageVO();
+	pageVO.setPage(nowPage);
+	pageVO.setTotalCount(total);
+	pageContext.setAttribute("paging", pageVO);
+	
+	/* tbl_board에서 전체 게시글(번호, 제목, 작성자, 등록일) 조회 */
+	List<BoardVO> list = dao.selectAllBoard(pageVO);
 	pageContext.setAttribute("boards", list);
 	
-	PageVO pageVO = new PageVO();
 	
 %>
 <!DOCTYPE html>
@@ -22,8 +39,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="/Mission-Web/css/layout.css">
 <link rel="stylesheet" href="/Mission-Web/css/board.css">
+<script src="/Mission-Web/js/jquery-3.6.0.min.js"></script>
 <script>
+	
+	$(document).ready(function(){
+		$('button').click(function() {
+			location.href = "writeForm.jsp"
+		})
+	})
+
 	function goWriterForm() {
 		location.href = "writeForm.jsp"
 	}
@@ -42,7 +68,6 @@
 	}
 	
 </script>
-<link rel="stylesheet" href="/Mission-Web/css/layout.css">
 </head>
 <body>
 	<header>
@@ -84,15 +109,32 @@
 		<!-- <a href="#">새글등록</a> -->
 		<br>
 		<br>
-		<div id="paging">
-			<c:forEach var="i" step="1" begin="1" end="10">
-			${ i }
-			</c:forEach>
-		</div>
-		<br>
 		<c:if test="${ not empty userVO }">
-		<button onclick="goWriterForm()">새글등록</button>
+		<!-- <button onclick="goWriterForm()">새글등록</button>  -->
+		<button>새글등록</button>
 		</c:if>
+		<br>
+		<br>
+		<%-- 페이징 --%>
+		<div id="paging">
+			<c:if test="${ paging.prev }">
+				<<<a href="list.jsp?page=${ paging.beginPage-1 }">이전</a>... 
+			</c:if>
+			<c:forEach var="i" step="1" begin="${ paging.beginPage }" end="${ paging.endPage }">
+				<c:choose>
+					<c:when test="${ paging.page == i }">
+						<span>${ i }</span>
+					</c:when>
+					<c:otherwise>
+						<a class="otherpage" href="list.jsp?page=${ i }">${ i }</a>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<c:if test="${ paging.next }">
+				... <a href="list.jsp?page=${ paging.endPage+1 }">다음</a>>>
+			</c:if>
+		</div>
+		
 	</div>
 	</section>
 	
