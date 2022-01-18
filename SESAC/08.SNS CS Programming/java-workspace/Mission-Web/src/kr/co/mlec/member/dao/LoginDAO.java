@@ -43,4 +43,30 @@ public class LoginDAO {
 		return loginVO;
 	}
 	
+	public boolean checkId(String id) {
+		boolean check = false;
+		StringBuilder sql = new StringBuilder();
+		sql.append(" select id ");
+		sql.append(" from tbl_member ");
+		sql.append(" where id = ? ");
+		
+		try(
+				Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+		)
+		{
+			pstmt.setString(1, id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+			{
+				check = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return check;
+	}
+	
 }

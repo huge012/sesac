@@ -16,6 +16,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="/Mission-Web/css/layout.css">
 <link rel="stylesheet" href="/Mission-Web/css/board.css">
+<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	function doWrite(){
 		let f = document.inputForm
@@ -38,6 +39,25 @@
 		
 		return true
 	}
+	
+	$(document).ready(function(){
+		$('#check').click(function() {
+			$.ajax({
+				type: "get",
+				url: "checkId.jsp",
+				data: "id=" + $('#id').val(),
+				success: function(data){
+					if (data.trim() == 'true')
+						alert('이미 존재하는 아이디입니다.')
+					else
+						alert('사용할 수 있는 아이디입니다.')
+				}, error: function() {
+					alert('실패')
+				}
+			})
+		})
+	})
+	
 </script>
 </head>
 <body>
@@ -54,7 +74,7 @@
 			<table border="1">
 				<tr>
 					<th width="25%">* ID</th>
-					<td width="75%"><input type="text" name="id"></td>
+					<td width="75%"><input type="text" id="id" name="id">  <button type="button" id="check">중복확인</button></td>
 				</tr>
 				<tr>
 					<th>* PASSWORD</th>

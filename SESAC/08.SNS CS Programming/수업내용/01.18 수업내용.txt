@@ -1,0 +1,56 @@
+01.18 수업내용
+
+ajax
+- 비동기 방식의 자바스크립트 XML
+- 필요한 부분만 수정
+- 자바스크립트가 요청을 받아서 자체적으로 서버에게 요청 전달 및 받아옴, 그 사이 html은 다른 작업 가능
+- ajax가 화면 일부 수정을 위해 응답을 xml or 자바스크립트 객체로 넘겨줌, html이 받아서 내용 일부를 수정함
+
+* 동기와 비동기 통신
+- 동기식 방식 : 클라이언트가 요청하면 서버에서 응답 올 때까지 대기하는 방식(포그라운드 작업 방식)
+- 비동기화 : 클라이언트가 요청을 보낸 후에도 다른 동작을 함(백그라운드 작업 방식)
+
+
+* Ajax 통신 : 요청 보내고 응답 받기까지 한 페이지에서 진행
+
+$.ajax() : 비동기 통신 할 때 사용하는 함수
+- 요청 url, 요청 파라미터, 요청 메소드가 무엇인지 설정 필요
+(json 형태로 요청)
+
+
+
+* http 상태코드 에서 코드 확인 가능
+
+
+* Ajax
+입력방식 : get, post, put, delete
+REST : method+url 합쳐서 무슨 작업을 할지 알려줌
+
+기존 방식 -> 각 페이지마다 기능이 다름
+ㄴ html (get, post 두개 뿐)
+list.jsp
+detail.jsp?no=4
+writeForm.jsp write.jsp
+update.jsp?no=4
+delete.jsp?no=5
+
+REST 방식 -> 메소드에 따라 기능이 달라짐
+get	/board		전체조회
+post	/board		새 글 등록
+get	/board?no=4	4번 게시글 조회
+put	/board?no=4	4번 게시글 수정
+delete	/board?no=4	4번 게시글 삭제
+
+
+
+* JSON.stringify(객체명) -> 객체를 스트링형으로 변환
+JSON.parse(문자열) -> 문자열을 객체로 변환
+
+
+* kobis.or.kr 사이트에서 회원가입 후 키 발급받음
+- 일별 박스오피스 api 서비스 rest방식으로 가져옴
+
+요청 URL
+http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml
+
+chrom 확장프로그램 JSON Formatter 추가하면 JSON 보기 편함~!
