@@ -1,0 +1,80 @@
+1.19 수업내용
+
+사용자의 요청 → suvlet이 받음 → DB 접속 → jsp가 응답(forward)
+
+공유영역에 데이터 올려야 함 - 리퀘스트 사용
+(pageContext, request, session, application)
+
+
+* MVC - 소프트웨어 비즈니스 로직과 화면을 구분
+M : Model
+V : View
+C : Controller
+
+servlet → .java에 요청 → DB접속
+         ↘ .java에 요청 ↗
+
+DispacherServlet(=FrontServletController)
+
+
+전체 게시글 조회	/board/list.do
+상세 게시글 조회	/board/detail.do
+새글등록		/board/writeForm.do
+마이페이지	/member/mypage.do
+전체회원		/member/list.do
+
+--
+
+1) 대표 Servlet 생성하기
+- java src파일로 Servlet 만든 후, web.xml에 가상 경로 지정
+- 어떤 uri가 들어왔는지에 따라 분석하여 java 코드 실행
+
+2) Servlet의 결과에 따라 비즈니스 로직 수행할 컨트롤러를 구성하기 (BoardListController, BoardWriteFormController)
+- DB 연결하여 원하는 자료 CRUD 시키기
+- forward 시킬 jsp 정보 알려주는 역할
+- xml, include, forward 의 '/'는 localhost:9999/Mission-Web-MVC를 가리킴!
+- 응답에 따라 DB에서 뽑아낸 데이터를 request 영역에 올려줌
+
+3) 응답할 jsp forward : 각 컨트롤러가 알려준 jsp를 forward
+
+
+* contextPath : 내가 설정한 path (server-modules에서 설정 가능, 실 서비스 할 땐 '/' 로 수정)
+
+
+* 리플렉션
+- 동적으로 임의의 객체를 만들 때 사용하는 방법
+- 프로퍼티 내에 있는 값을 class로 반환하여 생성하기
+
+try {			
+	InputStream is = new FileInputStream(propLoc);
+	prop.load(is);
+	Set<Object> keys = prop.keySet();
+	for(Object key : keys) {
+		String className = prop.getProperty(key.toString());
+		Class<?> clz = Class.forName(className);
+		mappings.put(key.toString(), (Controller)clz.newInstance());
+	}
+} catch(Exception e) {
+	e.printStackTrace();
+}
+
+
+
+
+-----
+코드 내용!
+suvlet : 웹 페이지와 클래스 사이를 연결해주는 가상 경로가 필요해서 web.xml에 매핑해줌
+
+DispatcherServlet.java
+- 서블릿이 실행되면 요청한 페이지에 따라 실행할 컨트롤러를 선택, 기능 실행하게 한 후 결과를 보여줄 페이지에 응답을 forward시킴
+- init()에서 사이트와 클래스객체를 담은 Map 객체를 만들어서 가지고 있기
+- service() 요청할 때마다 요청 URI를 파싱해서 해당 URI에 맞는 컨트롤러를 선택, 컨트롤러에서 결과 실행하고 forward 실행
+
+HandlerMapping
+- bean.properties에 있는 키와 값을 매칭해서 Map에 넣어주는 역할
+- getController() : 파라미터로 받은 uri에 맞는 컨트롤러 객체를 반환
+
+각각의 Controller
+- 각각 해당되는 기능을 수행(VO,DAO 등 이용해서 데이터 받아옴)
+- 결과값을 request 파라미터(공유영역)에 저장 후, forward 시킬 주소값을 반환
+

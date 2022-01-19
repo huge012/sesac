@@ -20,7 +20,7 @@
 				type: "get", // 기본값이 get
 				url: 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json',
 				data: {
-					key : '받은 키 입력하기',
+					key : 'd839e693bcdd8ed3b727a1fa2165754c',
 					//targetDt: $('#searchDate').val().replace(/\-/g,''),
 					targetDt: $('#searchDate').val().split('-').join(''),
 					itemPerPage: '5'
@@ -31,7 +31,26 @@
 				}
 			})
 		})
+		
+		$('#detailBtn').click(function() {
+			$.ajax({
+				type: "get",
+				url: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json",
+				data: {
+					key: 'd839e693bcdd8ed3b727a1fa2165754c',
+					movieCd: ''					
+				},
+				success: showDetail,
+				error: function(){
+					alert('실패')
+				}
+			})
+		}
 	})
+	
+	function showDetail(result){
+		alert("showDetal 호출...")
+	}
 	
 	function callback(result){
 		$('#searchResult').empty()
@@ -46,7 +65,8 @@
 			// 관객수
 			let audiCnt = movie.audiCnt
 			$('#searchResult').append('<h4>' + rank + '위</h4>')
-			$('#searchResult').append('<strong>' + title + '</strong>(' + audiCnt + '명)')
+			$('#searchResult').append('<strong>' + title + '</strong>(' + audiCnt + '명)<br>')
+			$('#searchResult').append('<button id="detailBtn">상세보기</button>')
 			$('#searchResult').append('<hr>')
 			
 		}
