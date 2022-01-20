@@ -1,13 +1,15 @@
-package kr.co.mlec.controller;
+package kr.co.mlec.board.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import kr.co.mlec.controller.Controller;
 
 public class boardWriteFormController implements Controller {
 	
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		return "/jsp/board/write.jsp";
+		return "/jsp/board/writeForm.jsp";
 	}
 }

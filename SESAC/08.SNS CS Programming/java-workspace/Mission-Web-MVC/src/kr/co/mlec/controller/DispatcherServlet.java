@@ -37,13 +37,20 @@ public class DispatcherServlet extends HttpServlet {
 
 			//if (control != null) {
 				callPage = control.handleRequest(request, response);
-	
-				// <jsp:forward> : jsp action태그
-				// RequestDispatcher : java에서 forward 명령어 사용할 객체, request에 있음
-				RequestDispatcher dispatcher = request.getRequestDispatcher(callPage);
 				
-				// 받았던 모든 request 객체와 넘겨주기 위한 response 객체를 보내줌
-				dispatcher.forward(request, response);
+				// callPage 주소에 따라 forward 혹은 sendRedirect 해야함
+				if(callPage.startsWith("redirect:")) {
+					callPage = callPage.substring("redirect:".length());
+					response.sendRedirect(request.getContextPath()+callPage); // 리다이렉트 - 서블릿에서 바로 응답
+				}
+				else {
+					// <jsp:forward> : jsp action태그
+					// RequestDispatcher : java에서 forward 명령어 사용할 객체, request에 있음
+					RequestDispatcher dispatcher = request.getRequestDispatcher(callPage);
+
+					// 받았던 모든 request 객체와 넘겨주기 위한 response 객체를 보내줌
+					dispatcher.forward(request, response);
+				}
 			//}
 		} catch(Exception e) {
 			e.printStackTrace();

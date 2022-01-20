@@ -5,10 +5,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/layout.css">
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/board.css">
 </head>
 <body>
-	<!-- <a href="<%= request.getContextPath() %>/board/list.do">게시판</a>  -->
-	<a href="${ pageContext.request.contextPath }/board/list.do">게시판</a>
-	<a href="${ pageContext.request.contextPath }/board/writeForm.do">새글등록</a>
+	<header>
+		<jsp:include page="/jsp/include/topMenu.jsp" />
+	</header>
+	
+	<section>
+		section부분
+	</section>
+	
+	<footer>
+		<%@include file="/jsp/include/footer.jsp" %>
+	</footer>
 </body>
 </html>

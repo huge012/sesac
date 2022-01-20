@@ -1,0 +1,56 @@
+01.20 수업내용
+
+서블릿		주문조회호출	서비스컨트롤	DAO		DB
+servlet     →	controller     →	Service      →	OrderDAO     →	t_order
+					   →	MemberDAO  →	t_member
+					   →	ProductDAO   → 	t_product
+
+* 하나의 서비스가 여러개의 DB에 접근해야 할 땐 controller에서 바로 DB 연동하지 않고 DB연동을 총괄하는 서비스 단계를 추가
+servlet : 특정 컨트롤러 호출
+controller : 특정 서비스 기능을 호출
+service : 필요한 DB 연동 호출
+
+
+* 단위 테스트
+- 프로그램의 일부를 테스트해서 제대로 동작하는지 확인
+- junit : 자바로 만들어져있는 애들을 작은 범위로 테스트할 수 있음, junit.jar 혹은 buildPath-Library-add 누르면 선택 가능
+- 필요한 코드 넣고 테스트 실행 가능
+
+
+* /Mission-Web => ${ pageContext.request.contextPath }
+
+* image, javascript, css -> resources/images, resources/css, resources/js
+
+* include 파일 복사
+
+
+* properties 파일에는 있는 클래스만 넣어야 에러가 안 남!
+
+
+* form 태그 - enctype="multipart/form-data"
+ㄴ 업로드한 파일까지 포함해 옮겨주는 방식
+ㄴ 기존의 request.getParameter는 사용할 수 없음
+ㄴ cos.jar 파일 받아서 추가해줘야 함 ( http://www.servlets.com/cos/ )
+
+
+* 게시글에 첨부파일을 올릴 경우, 게시글 저장하는 DB 테이블과 첨부파일 저장하는 DB 테이블을 분리하는게 좋음!
+첨부파일은 선택사항이기때문에 함께 저장하면 붕 뜨는 경우가 생김
+primary key를 부여해서 첨부파일을 올린 게시글이 몇번인지 저장해주면 됨
+
+
+
+-- 첨부파일과 관련된 쿼리
+create table tbl_board_file(
+    no number(10) primary key
+    , board_no number(5) not null
+    , file_ori_name varchar2(100)
+    , file_save_name varchar2(100)
+    , file_size number(10)
+    , constraint tbl_board_file_board_no_fk foreign key(board_no)
+    references tbl_board(no) on delete cascade
+)
+
+* constraint tbl_board_file_board_no_fk foreign key(board_no) references tbl_board(no) on delete cascade
+- tbl_board_file 테이블의 board_no를 foregn key로 만드는 규약
+- foreign key : 다른 테이블의 primary key에 국한됨
+- on delete : tbl_board의 내용을 지울 때, tbl_board와 연관 있는 다른 테이블(foreign key)도 함께 삭제할지
