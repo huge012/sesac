@@ -1,9 +1,7 @@
 package kr.co.mlec.board.controller;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +14,7 @@ import kr.co.mlec.board.vo.BoardVO;
 import kr.co.mlec.controller.Controller;
 import kr.co.mlec.util.SesacFileNamePolicy;
 
-public class BoardWriteController implements Controller {
+public class BoardWriteController2 implements Controller {
 
 	
 	
@@ -31,6 +29,7 @@ public class BoardWriteController implements Controller {
 		
 		// request, 저장공간, 파일크기(최대 3mb 설정), 인코딩, 파일명
 		MultipartRequest multi = new MultipartRequest(request, saveFolder, 1024*1024*3, "utf-8", new SesacFileNamePolicy());
+		
 		// 제목, 작성자, 내용 추출
 		String title = multi.getParameter("title");
 		String writer = multi.getParameter("writer");
@@ -41,6 +40,8 @@ public class BoardWriteController implements Controller {
 		board.setWriter(writer);
 		board.setContent(content);
 		
+		BoardService service = new BoardService();
+		//service.insertBoard(board);
 		
 		/* 
 		multi.getFile("attachfile1");
@@ -48,12 +49,9 @@ public class BoardWriteController implements Controller {
 		*/
 		
 		// 첨부파일 추출(file_ori_name, file_save_name, file_size) => tbl_board_file에 저장
-		List<BoardFileVO> fileList = new ArrayList<>();
-		
 		Enumeration<String> files = multi.getFileNames();
 		while (files.hasMoreElements()) {
 			String fileName = files.nextElement();
-			System.out.println(fileName);
 			File file = multi.getFile(fileName); // 넘어온 파일이 없을 땐 null
 			
 			if (file != null) {
@@ -65,15 +63,9 @@ public class BoardWriteController implements Controller {
 				fileVO.setFileOriName(fileOriName);
 				fileVO.setFileSaveName(fileSaveName);
 				fileVO.setFileSize(fileSize);
-				
-				fileList.add(fileVO);
 			}
 			
 		}
-		
-		BoardService service = new BoardService();
-		service.insertBoard(board, fileList);
-		
 		return "redirect:/board/list.do?page=1";
 	}
 

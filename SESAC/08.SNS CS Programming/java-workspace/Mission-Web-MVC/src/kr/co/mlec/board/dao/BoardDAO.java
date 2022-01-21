@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.co.mlec.board.vo.BoardFileVO;
 import kr.co.mlec.board.vo.BoardVO;
 import kr.co.mlec.page.vo.PageVO;
 import kr.co.mlec.util.ConnectionFactory;
@@ -67,7 +68,56 @@ public class BoardDAO {
 	}
 	
 	/* 새 글 등록 */
+	
+	/**
+	 * 게시물번호 추츨
+	 */
+	public int selectBoardNo() {
+		String sql = " select seq_tbl_board_no.nextval from dual ";
+		int boardNo = 0;
+		try(
+				Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+		) {
+			ResultSet rs = pstmt.executeQuery();
+			
+			rs.next();
+			boardNo = rs.getInt(1);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return boardNo;
+	}
+	
 	public int insertBoard(BoardVO board) {
+
+		int result = 0;
+		
+		try {
+			conn = new ConnectionFactory().getConnection();
+		 	StringBuilder sql = new StringBuilder();
+		 	sql.append(" insert into tbl_board(no, title, writer, content) ");
+		 	sql.append(" values(?, ?, ?, ?) ");
+		 	
+		 	pstmt = conn.prepareStatement(sql.toString());
+		 	pstmt.setInt(1, board.getNo());
+		 	pstmt.setString(2, board.getTitle());
+		 	pstmt.setString(3, board.getWriter());
+		 	pstmt.setString(4, board.getContent());
+		 	
+		 	result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCClose.close(pstmt, conn);
+		}
+		
+		return result;
+	}
+	/* 시퀀스 번호 자동 생성
+	 * public int insertBoard(BoardVO board) {
 
 		int result = 0;
 		
@@ -90,7 +140,7 @@ public class BoardDAO {
 		}
 		
 		return result;
-	}
+	}*/
 	
 	public BoardVO selectBoardByNo(int boardNo) {
 		
@@ -124,6 +174,37 @@ public class BoardDAO {
 			JDBCClose.close(pstmt, conn);
 		}
 		return board;
+	}
+	
+	public List<BoardFileVO> selectFileByNo(int boardNo) {
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("select no, file_ori_name, file_save_name, file_size  ");
+		sql.append(" from tbl_board_file ");
+		sql.append(" where board_no = ? ");
+		List<BoardFileVO> files = new ArrayList<>();
+		
+		try(
+			Connection conn = new ConnectionFactory().getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());	
+		
+		){
+			pstmt.setInt(1, boardNo);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardFileVO file = new BoardFileVO();
+				file.setNo(rs.getInt("no"));
+				file.setFileOriName(rs.getString("file_ori_name"));
+				file.setFileSaveName(rs.getString("file_save_name"));
+				file.setFileSize(rs.getInt("file_size"));
+				files.add(file);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return files;
 	}
 	
 	// 글 번호, 제목, 작성자, 내용 날아옴
@@ -194,4 +275,29 @@ public class BoardDAO {
 		return result;
 	}
 	
+	/*
+	 * 첨부파일 CRUD 
+	 */
+	
+	public void insertFile(BoardFileVO fileVO) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("insert into tbl_board_file(  ");
+		sql.append(" no, board_no, file_ori_name, file_save_name, file_size ) ");
+		sql.append(" values( seq_tbl_board_file_no.nextval, ?, ?, ?, ? ) ");
+		
+		try(
+				Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+		){
+			pstmt.setInt(1, fileVO.getBoardNo());
+			pstmt.setString(2, fileVO.getFileOriName());
+			pstmt.setString(3, fileVO.getFileSaveName());
+			pstmt.setInt(4, fileVO.getFileSize());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

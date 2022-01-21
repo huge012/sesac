@@ -71,6 +71,14 @@
 				<th width="20%">등록일</th>
 				<td>${ board.regDate }</td>
 			</tr>
+			<tr>
+				<th width="20%">첨부파일</th>
+				<td>
+				<c:forEach items="${ fileList }" var="file">
+					<a href="${ pageContext.request.contextPath }/upload/${ file.fileSaveName }">${ file.fileOriName }</a> (${ file.fileSize } bytes)<br>
+				</c:forEach>
+				</td>
+			</tr>
 		</table>
 		
 		<br><br>
