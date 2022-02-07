@@ -1,0 +1,8 @@
+127.0.0.1 - - [24/Jan/2022:12:43:53 +0900] "GET / HTTP/1.1" 404 807
+0:0:0:0:0:0:0:1 - - [24/Jan/2022:12:43:53 +0900] "GET /Lecture-Web/html/form/exam02.html HTTP/1.1" 200 1154
+0:0:0:0:0:0:0:1 - - [24/Jan/2022:12:43:53 +0900] "GET /favicon.ico HTTP/1.1" 404 818
+0:0:0:0:0:0:0:1 - - [24/Jan/2022:12:45:07 +0900] "GET /Lecture-Web/html/form/exam02.html HTTP/1.1" 200 1145
+0:0:0:0:0:0:0:1 - - [24/Jan/2022:12:45:07 +0900] "GET /Lecture-Web/html/form/exam02.html HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [24/Jan/2022:12:45:08 +0900] "GET /Lecture-Web/html/form/exam02.html HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [24/Jan/2022:12:45:08 +0900] "GET /Lecture-Web/html/form/exam02.html HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [24/Jan/2022:12:45:19 +0900] "GET /Lecture-Web/html/form/exam02.html? HTTP/1.1" 200 1145
