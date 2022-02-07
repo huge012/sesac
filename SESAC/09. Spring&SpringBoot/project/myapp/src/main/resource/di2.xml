@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- com.sac.di2.SamsungTV samsung = new com.sac.di2.SamsungTV() -->
+	<bean id="samsung1" class="com.sac.di2.SamsungTV"></bean>
+	<bean id="samsung2" class="com.sac.di2.SamsungTV">
+		<constructor-arg name="model" value="DDD"></constructor-arg>
+	</bean>
+	<bean id="lg" class="com.sac.di2.LgTV"></bean>
+</beans>

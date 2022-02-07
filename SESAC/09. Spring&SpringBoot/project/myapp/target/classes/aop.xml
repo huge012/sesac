@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="calcTarget"  class="com.sac.zz.aop.Calculator" />
+	<bean id="logAdvice1"   class="com.sac.zz.aop.LoggingAdvice" />
+	<bean id="watchAdvice" class="com.sac.zz.aop.StopWatchAdvice" />
+	   
+	<!--advisor = advise + pointcut -->
+	<!-- 보조기능 : logging 기능 -->
+	<bean id="advisor1" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+	   <property name="advice" ref="logAdvice1" />
+	   <property name="pointcut"  >
+	      <bean id="aa" class="org.springframework.aop.aspectj.AspectJExpressionPointcut">
+	         <property name="expression">
+	           <value>execution(* add(..))</value>   <!-- 모든 add()함수에 대해 적용 -->      
+	         </property>
+	      </bean>
+	   </property>
+	</bean>
+	   
+	<!-- 보조기능 : stopwatch 기능 -->
+	<bean id="advisor2" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+	   <property name="advice" ref="watchAdvice" />
+	   <property name="pointcut"  >
+	      <bean id="bb" class="org.springframework.aop.aspectj.AspectJExpressionPointcut">
+	         <property name="expression"><value>execution(* div(..))</value></property>
+	      </bean>
+	   </property>
+	</bean>
+	   
+	<!-- Aspect.. advisor+target =  -->
+	<!-- 주 기능 : 계산기능 -->
+	<bean id="proxyCal" class="org.springframework.aop.framework.ProxyFactoryBean">
+	   <property name="target" ref="calcTarget"/>
+	   <property name="interceptorNames">
+	      <list>
+	         <value>advisor1</value><value>advisor2</value>                 
+	      </list>
+	   </property>
+	</bean>
+</beans>
