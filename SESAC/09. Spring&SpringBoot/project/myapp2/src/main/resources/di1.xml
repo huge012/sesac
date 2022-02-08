@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="book1" class="com.sac.myapp2.BookVO"></bean>
+	<bean id="book2" class="com.sac.myapp2.BookVO">
+		<constructor-arg name="bno" value="100"></constructor-arg>
+		<constructor-arg name="title" value="spring"></constructor-arg>
+		<constructor-arg name="author" value="홍길동"></constructor-arg>
+		<constructor-arg name="pub" value="seSac"></constructor-arg>
+		<constructor-arg name="pubDate" value="2022-02-08"></constructor-arg>
+	</bean>
+
+</beans>
