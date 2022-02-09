@@ -1,0 +1,71 @@
+02/09 수업내용
+
+* tern repository
+help - install new - add - 아카이브에 집파일 선택 - 전부 선택 후 next 눌러서 설치 - 프로젝트 우클릭 - configure - convert to tern project - browser, jquㄷry 선택
+
+
+* RequestMapping에서 사용 가능한 변수
+javax.servlet.http.HttpServletRequest
+javax.servlet.ServletRequest
+javax.servlet.http.HttpServletResponse
+javax.servlet.ServletResponse
+javax.servlet.http.HttpSession
+
+
+* View 설정
+redirect, Forward 두가지 방식 사용 가능
+- redirect시 값 전달 가능
+
+- 값 전달
+RedirectAttributes redirectAttr;
+redirectAttr.addFlashAttribute{ name, value };
+
+- 값 받기
+Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+if (flashMap != null) {
+	String msg = (String)flashMap.get("msg");
+	model.addAttribute("msg", msg);
+}
+
+
+* post방식 인코딩 : web.xml에서 filter 설정
+
+	<!-- 한글 필터 넣어주기 -->
+	<filter>
+		<!-- 필터 이름, 클래스 설정하기 -->
+		<filter-name>encodingFilterAA</filter-name>
+		<filter-class>
+			org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	
+	<!-- 모든 url에 해당 필터를 적용 -->
+	<filter-mapping>
+		<filter-name>encodingFilterAA</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+
+* exception Handling : 에러났을 때 에러 페이지 보여주기
+
+- 각 controller마다 Exception 처리하는 방법 : @ExceptionHandler
+
+- servlet-context.xml에 Exception 처리하는 방법 : bean에 추가
+
+- controller 만드는 방법 : @ControllerAdvice 모든 Controller에 적용됨
+ㄴ 디스패처서블릿 설정 아래 파라미터 추가
+	<init-param>
+		<param-name>throwExceptionIfNoHandlerFound</param-name>
+		<param-value>true</param-value>
+	</init-param>
+
+
+----
+
+
+* DB 연동

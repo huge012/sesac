@@ -15,16 +15,27 @@ table, tr {
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+<c:if test="${not empty msg}">
+	alert("${msg}");
+</c:if>
 //고전적 방법
 $(function(){
 	$('.del').click(function(){
 		//BOM(Browser Object Model): window, document, loaction, history, screen
-		location.href="delete?no="+$(this).attr('name')
+		if (confirm("삭제하시겠습니까?"))
+		{
+			location.href="delete?//bno="+$(this).data('bno')
+		}
 	});
+	
 });
+
 </script>
 </head>
 <body>
+<c:set var="path" value="${ pageContext.request.contextPath }/book"/>
+<a href="${ path }/insert">신규책 등록하기</a>
+<hr>
 <h1>책 목록</h1>
 <table>
 	<tr>
@@ -39,12 +50,13 @@ $(function(){
 	<c:forEach items="${ bookList }" var="book">
 		<tr>
 			<td>${ book.bno }</td>
-			<td><a href="detail?bno=${ book.bno }">${ book.title }</a></td>
+			<!-- <td><a href="detail?bno=${ book.bno }">${ book.title }</a></td>  상대경로 -->
+			<td><a href="${ path }/detail?bno=${ book.bno }">${ book.title }</a></td> <!-- 절대경로 -->
 			<td>${ book.author }</td>
 			<td>${ book.pub }</td>
 			<td>${ book.pubDate }</td>
 			<td>${ book.status }</td>
-			<td><button class="del" name="${ book.bno }">삭제</button></td>
+			<td><button class="del" data-bno="${ book.bno }">삭제</button></td>
 		</tr>
 	</c:forEach>
 </table>

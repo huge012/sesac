@@ -56,7 +56,7 @@ public class HelloController {
 	//String, void 방법 권장
 	
 	
-	
+	/*
 	//Get방식 요청하는 방법
 	//1. 직접 url 경로 엔터 2.a태그 이용 3.form 태그 이용
 	@RequestMapping(value = "/login", method = RequestMethod.GET) //method = RequestMethod.GET 원래는 생략되어 있음
@@ -77,7 +77,7 @@ public class HelloController {
 		
 		return "user/loginResult"; 
 	}
-	
+	*/
 	
 	
 	

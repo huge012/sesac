@@ -2,13 +2,19 @@ package com.sesac.education.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import kr.co.sesac.model.BookVO;
 
@@ -44,19 +50,23 @@ public class BookController {
 	 * 
 	 */
 	
-	 @RequestMapping(value="/insert", method = RequestMethod.POST) 
-	 public String bookInsertPost(@RequestParam("bno")int bookNo, @RequestParam String title, String author, String pub, String pubDate, int status, @ModelAttribute("book") BookVO book, Model model) { 
+	@RequestMapping(value="/insert", method = RequestMethod.POST) 
+	public String bookInsertPost(@RequestParam("bno")int bookNo, @RequestParam String title, String author, String pub, String pubDate, int status, @ModelAttribute("book") BookVO book, Model model, RedirectAttributes redi) { 
 		// ->BookVO 형태로 넣자
-		 System.out.println("bno : "+bookNo);
-		 System.out.println("title : "+title);
-		 System.out.println("author : "+author);
-		 System.out.println("pub : "+pub);
-		 System.out.println("pubDate : "+pubDate);
-		 System.out.println("status : "+status);
-		 System.out.println("bookVO 받기 : "+book);
-		 model.addAttribute("myname", "jin");
-		 model.addAttribute("book2", book);
-		 return "book/bookResult"; 
+		/*
+		System.out.println("bno : "+bookNo);
+		System.out.println("title : "+title);
+		System.out.println("author : "+author);
+		System.out.println("pub : "+pub);
+		System.out.println("pubDate : "+pubDate);
+		System.out.println("status : "+status);
+		System.out.println("bookVO 받기 : "+book);
+		model.addAttribute("myname", "jin");
+		model.addAttribute("book2", book);
+		*/
+		blist.add(book);
+		redi.addFlashAttribute("msg", "책 등록 성공!");
+		return "redirect:/book/list"; 
 	 } //함수의 경우 파라미터가 보이지 않음!
 	 
 
@@ -76,16 +86,22 @@ public class BookController {
 	*/
 	
 	@RequestMapping("/list")
-	public String bookList(Model model) {
+	public String bookList(Model model, HttpServletRequest request) {
+		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+		if (flashMap != null) {
+			String msg = (String)flashMap.get("msg");
+			System.out.println(msg);
+			model.addAttribute("msg", msg);
+		}
 		model.addAttribute("bookList", blist);
 		return "book/bookList";
 	}
 	
 	
 	@RequestMapping("/detail")
-	public String detailBook(int bno, Model model) {
+	public String detailBook(int no, Model model) {
 		for(BookVO b : blist) {
-			if (b.getBno() == bno)
+			if (b.getBno() == no)
 			{
 				model.addAttribute("book", b);
 				break;
@@ -95,20 +111,21 @@ public class BookController {
 	}
 	
 	@RequestMapping("/delete")
-	public String deleteBook(int bno, Model model) {
+	public String deleteBook(int bno, Model model, RedirectAttributes redi) {
 		for(BookVO b : blist) {
 			if (b.getBno() == bno)
 			{
 				blist.remove(b);
-				model.addAttribute("bookList", blist);
 				break;
 			}
 		}
-		return "book/bookList";
+		redi.addFlashAttribute("msg", "책 삭제 성공!");
+		return "redirect:/book/list";
 	}
 
-	@RequestMapping("/update")
-	public String update(BookVO book, Model model) {
+	@RequestMapping(value="/update", method = RequestMethod.POST)
+	public String update(BookVO book, RedirectAttributes redi) {
+		System.out.println("수정된 Book : "+book);
 		for(BookVO b: blist) {
 			if(b.getBno() == book.getBno()) {
 				b.setAuthor(book.getAuthor());
@@ -118,8 +135,19 @@ public class BookController {
 				break;
 			}
 		}
-		model.addAttribute("message", "수정성공");
-		return "book/bookResult";
+		redi.addFlashAttribute("msg", "책 수정 성공!");
+		return "redirect:/book/list"; // 새로운 요청
 
 	}
+	
+	/* 하나의 controller에서의 Exception 처리
+	
+	@ExceptionHandler(Exception.class)
+	public String processException(Exception ex) {
+		ex.printStackTrace();
+		System.out.println("오류 발생 : "+ex.getMessage());
+		
+		return "error/errorPage500";
+	}
+	*/
 }
