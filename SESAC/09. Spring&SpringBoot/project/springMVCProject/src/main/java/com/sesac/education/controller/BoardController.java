@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -22,7 +24,8 @@ public class BoardController {
 	BoardService bService;
 	
 	@RequestMapping("/board/list.do")
-	public String boardList(Model model, HttpServletRequest request) {
+	//@ResponseBody = 응답 문서에 데이터 보내기
+	public String boardList(Model model, HttpServletRequest request, @RequestParam(value="keyword", required=false) String keyword, @RequestParam(value="contents", required=false) String contents) {
 		
 		// list.do를 호출할 때 넘어온 데이터 있는지 확인
 		Map<String, ?> map = RequestContextUtils.getInputFlashMap(request);
@@ -30,9 +33,12 @@ public class BoardController {
 			// 데이터가 있을 경우 list.jsp로 넘겨줌
 			model.addAttribute("msg", map.get("msg"));
 		}
-		model.addAttribute("list", bService.selectAllBoard());
+		model.addAttribute("list", bService.selectAllBoard(keyword, contents));
+		model.addAttribute("boardCnt", bService.boardCnt());
 		
-		return "board/list";
+		System.out.println(keyword+"------->"+contents);
+		if(keyword==null) return "board/list";
+		return "board/list_table";
 	}
 	
 	@RequestMapping("/board/detail.do")
@@ -42,7 +48,6 @@ public class BoardController {
 		model.addAttribute("fileList", bService.selectFileByNo(no));
 		return "board/detail";
 	}
-
 	
 	@RequestMapping("/board/writeForm.do")
 	public String formView(Model model) {

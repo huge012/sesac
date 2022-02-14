@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- id를 호출할 예정, namespace는 url로 넣어줘야 중복 안 생길 수 있음 -->
+<mapper namespace="com.sesac.member">
+	<select id="selectAll" resultType="loginVO">
+		select * from tbl_member
+	</select>
+	
+	<select id="login" parameterType="loginVO" resultType="loginVO">
+		select * from tbl_member where id = #{id} and password = #{password}
+	</select>
+	
+	<select id="selectById" parameterType="string" resultType="loginVO">
+		select * from tbl_member where id = #{id}
+	</select>
+	
+	<insert id="insert" parameterType="loginVO">
+		insert into tbl_member values(#{id}, #{name}, #{password}, #{email_id}, #{email_domain}, #{tel1}, #{tel2}, #{tel3}, #{post}, #{basic_addr}, #{detail_addr}, #{type}, sysdate)
+	</insert>
+	
+	<update id="update" parameterType="loginVO">
+		update tbl_member set name=#{name}, password=#{password}, email_id=#{email_id}, email_domain=#{email_domain}, tel1=#{tel1}, tel2=#{tel2}, tel3=#{tel3}, post=#{post}, basic_addr=#{basic_addr}, detail_addr=#{detail_addr}
+		where id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from tbl_member where id=#{id}
+	</delete>
+</mapper>

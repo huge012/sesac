@@ -1,4 +1,4 @@
-package kr.co.mlec.member.dao;
+package com.sesac.education.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,19 +7,30 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
-import kr.co.mlec.member.vo.MemberVO;
-import kr.co.mlec.util.ConnectionFactory;
-import kr.co.mlec.util.JDBCClose;
+import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.sesac.education.util.JDBCClose;
+
+@Repository
 public class MemberDAO {
 	
-	public List<MemberVO> selectAll(){
+	@Autowired
+	DataSource ds;
+	
+	/**
+	 * 회원 전체 조회
+	 * @return
+	 */
+	public List<LoginVO> selectAll(){
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		List<MemberVO> list = new ArrayList<>();
+		List<LoginVO> list = new ArrayList<>();
 		
 		try {
-			conn = new ConnectionFactory().getConnection();
+			conn = ds.getConnection();
 			StringBuilder sql = new StringBuilder();
 			sql.append("select id, name, password, email_id, email_domain, tel1, tel2, tel3, post, ");
 			sql.append(" basic_addr, detail_addr, type, to_char(reg_date, 'yyyy-mm-dd') as reg_date from tbl_member");
@@ -41,7 +52,7 @@ public class MemberDAO {
 				String type = rs.getString("type");
 				String regDate = rs.getString("reg_date");
 
-				MemberVO member = new MemberVO(id, pw, name, eId, eDomain, tel1, tel2, tel3, post, bAddr, dAddr, type, regDate);
+				LoginVO member = new LoginVO(id, name, pw, eId, eDomain, tel1, tel2, tel3, post, bAddr, dAddr, type, regDate);
 				list.add(member);
 			}
 		}catch(Exception e) {
@@ -52,12 +63,16 @@ public class MemberDAO {
 		return list;
 	}
 	
-	public void singUp(MemberVO member) {
+	/**
+	 * 회원가입
+	 * @param member
+	 */
+	public void singUp(LoginVO member) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt2 = null;
 		try {
-			conn = new ConnectionFactory().getConnection();
+			conn = ds.getConnection();
 			StringBuilder sql2 = new StringBuilder();
 			sql2.append("select * from tbl_member");
 			pstmt2 = conn.prepareStatement(sql2.toString());

@@ -1,0 +1,119 @@
+02/10 수업내용
+
+* Spring DB 연동 (1) xml에 설정
+- pom.xml에 oracle db 디펜던시 추가 (ojdbc)
+- web.xml에 DispatcherServlet 설정 추가
+ㄴ contextConfigLocation : 속성파일 있는 위치 (servlet-context.xml)
+ㄴinit-param 내 param-value에 파일명 추가(/WEB-INF/spring/appServlet/action-dataSource.xml) - 배열로 파일을 읽기때문에 추가 가능
+ㄴ해당 경로에 파일 생성
+ㄴDB 커넥션하는 코드를 넣어줌
+ㄴ변경가능성 있는 값은 전부 서블릿으로 옮길 것! -> 위와 같은 위치에 oracleDBInfo.properties 생성 (이름 상관x)
+	jdbc.driverClassName=oracle.jdbc.driver.OracleDriver
+	jdbc.url= ... 
+	jdbc.username=hr
+	jdbc.password=hr
+ㄴ jdbc 설정 properties를 action-dataSource에 bean 형태로 추가
+ㄴ spring에서 제공하는 driver 연결
+
+
+* Spring DB 연동 (2) DataSource 설정 - Connection Pool - DBCP
+- 필요할 때 커넥션하는게 아니라, 서버가 쉬는동안 미리 커넥션 만들어 Data Source 가져와서 요청 시마다 값 전달
+- DBCP (DataBase Connection Pool) - 아파치에서 제공
+ㄴ pom.xml 디펜던시 추가
+ㄴ action-dataSource에 bean 수정 (class = org.apache.commons.dbcp2.BasicDataSource 사용)
+
+
+
+* Spring DB 연동 (3) DataSource 설정 - Connection Pool - JNDI
+- Java Naming and Directory Interface
+- 서버에 DB정보 저장해두고 서버에게 DB pooling 사용하라고 지정해줌
+- 톰캣->도큐먼트->톰캣9.0->오라클-> resource 복사->server의 context.xml->맨아랫부분에 resource 추가
+ㄴ container라는 리소스를 톰캣이 관리하겠다
+- 프로젝트 내 web.xml -> resource-ref 추가
+
+
+
+---
+
+
+Mybatis : spring Framework
+https://mybatis.org/mybatis-3/ko/getting-started.html
+
+
+* JDBC : java에서 DB연동할 수 있도록 제공하는 api, Persistence Framework는 내부적으로 JDBC API를 사용
+Application(DAO) -> JDBC Interface(Spring JDBC-DataSource) -> JDBC Implementations(JDBC Driver) -> Persistence Layer(Database)
+
+* JDBC 문제점 : Connection -> Statement 객체 생성 -> SQL문 전송 -> 결과반환 -> close
+ㄴ 유지보수 어려움
+
+* Mybatis : SQL 실행 결과를 자바빈즈 또는 Map 객체에 매핑해주는 Persistence 솔루션
+
+* Persistence 영속성
+- 데이터를 생성한 프로그램이 종료되더라도 사라지지 않는 데이터의 특성
+- 영속성을 갖지 않는 데이터 : 메모리에서만 존재하므로 프로그램 종료 시 모두 잃음
+
+* SQL Mapper & ORM
+- SQL Mapper : sql 문장으로 직접 DB 다룸, 필드 매핑이 목적, MyBatis, JDBCTemplates
+- ORM : 객체를 통해 간접적으로 DB 다룸, 관계형 DB의 관계를 Object에 반영하는 것이 목적, JPA, Hibernate 등 - 스프링부트
+
+* Mybatis : Apache Foundation의 iBatis였으나, 생산성, 개발프로세스, 커뮤니티 등의 이유로 Google Code로 이전되며 Mybatis로 변경됨
+- Mybatis 사용 설정 : pom.xml에 dependency 추가
+- Mybatis 설정파일 생성 : java resource폴더에 mybatis 폴더 생성, sqlMapConfig.xml 파일 생성
+- log4j.xml 내 html doctype 수정
+	<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+- mybatis 폴더 내 mappers 폴더 생성
+- boardMapper.xml 관련 sql문 전부 해당 xml에 추가
+- action-dataSource.xml에서 db와 mybatis의 sql문 연결시키기 (sqlSessionFactory)
+
+* JPA : Java Persistent API
+- 자바의 ORM 기술에 대한 API
+
+
+
+
+----
+* SqlSession session; // session : sql 문장을 실행하는 단위, action-dataSource.xml에 설정
+* action-dataSource.xml 내 mybatis 설정 bean
+
+	<!-- mybatis로 db와 db sql문 연결 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- sqlMapConfig.xml 파일 위치 지정 -->
+		<property name="configLocation" value="classpath:mybatis/sqlMapConfig.xml" />
+		<!-- mapper 파일(sql 파일들) -->
+		<property name="mapperLocations" value="classpath:mybatis/mappers/*Mapper.xml" />
+	</bean>
+
+	<!--  sqlSession 생성(위의 sqlSessionFactory 저장) -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+
+- name은 실제로 사용되지 않음, class 속성에 적어준 클래스를 사용함.
+- org.mybatis.spring.SqlSessionTemplate : constructor-arg (생성자) 넣어줌, 따라스 클래스임을 유추할 수 있음
+- org.mybatis.spring.SqlSessionFactoryBean : property를 set 해줌(setter 존재), 따라서 클래스임을 유추할 수 있음
+
+* *Mapper.xml : Mapper로 끝나는 xml 파일
+- <mapper namespace="com.sesac.board"> : namespace sql 구문들을 구분지어주는 그룹명 (기존 java 코드와 상관x, java sql 호출할 때 사용)
+- sql문과 VO 타입 일치하지 않을 때 resultMap 사용해서 이름 지정할 수 있음, 이 때 반환 속성명은 resultType이 아닌 resultMap
+	<resultMap type="boardVO" id="usermap">
+		<result column="no" property="no"/>
+		<result column="title" property="title"/>
+		<result column="writer" property="writer"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="view_cnt" property="viewCnt"/>
+	</resultMap>
+
+
+- 사용가능한 jdbcType : varchar, char, integer, float, double, decimal, date, time, boolean, timestamp  등
+- null값 처리 : null로 셋팅되는 파라미터 값에 옵션 붙이기 or 설정파일에 추가(setting name="jtbcTypeForNull" value="NULL")
+- 동적 SQL : <if> 태그 사용
+
+
+- ajax 보내기
+controller 매개변수
+// 해당 파라미터가 들어올 수도 있고 아닐 수도 있음!
+@RequestParam(value="keyword", required=false) String keyword,
+@RequestParam(value="keyword", required=false) String contents
+
+@ResponseBody // 응답문서에 문자만 보내고 싶을 때 사용 (return값을 forward하는게 아닌 문자로 반환)

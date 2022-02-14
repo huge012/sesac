@@ -4,12 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.sesac.education.util.ConnectionFactory;
-
-@Repository
+@Repository // @Component + DB
 public class LoginDAO {
+	
+	@Autowired // type이 같으면 injection(넣어줌)
+	DataSource dataSource;
 	
 	/**
 	 * 로그인 서비스
@@ -30,18 +34,19 @@ public class LoginDAO {
 		sql.append(" from tbl_member ");
 		sql.append(" where id = ? and password = ? ");
 		try(
-			Connection conn = new ConnectionFactory().getConnection();
+			//Connection conn = new ConnectionFactory().getConnection();
+			Connection conn = dataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 		){
 			pstmt.setString(1, loginVO.getId());
-			pstmt.setString(2, loginVO.getPw());
+			pstmt.setString(2, loginVO.getPassword());
 			
 			ResultSet rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				userVO = new LoginVO();
 				userVO.setId(rs.getString("id"));
-				userVO.setPw(rs.getString("password"));
+				userVO.setPassword(rs.getString("password"));
 				userVO.setType(rs.getString("type"));
 			}
 			

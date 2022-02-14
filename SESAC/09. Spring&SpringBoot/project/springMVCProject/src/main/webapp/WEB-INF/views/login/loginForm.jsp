@@ -44,7 +44,7 @@
 				</tr>
 				<tr>
 					<th>PASSWORD</th>
-					<td><input type="password" name="pw"></td>
+					<td><input type="password" name="password"></td>
 				</tr>
 			</table>
 			<br>

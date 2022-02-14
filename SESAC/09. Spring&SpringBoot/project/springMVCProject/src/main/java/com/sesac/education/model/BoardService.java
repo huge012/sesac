@@ -1,16 +1,9 @@
 package com.sesac.education.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.sesac.education.util.ConnectionFactory;
-import com.sesac.education.util.JDBCClose;
 
 /**
  * 게시판 DB(tbl_board) CRUD
@@ -22,14 +15,15 @@ import com.sesac.education.util.JDBCClose;
 public class BoardService {
 	
 	@Autowired
-	BoardDAO dao;
+	BoardDAO_mybatis dao; // Mybatis를 이용함
+	//BoardDAO dao; // JDBC 직접 이용함
 	
 	/**
 	 * 전체게시글 조회
 	 */
-	public List<BoardVO> selectAllBoard() {
+	public List<BoardVO> selectAllBoard(String keyword, String Contents) {
 		
-		return dao.selectAllBoard();
+		return dao.selectAllBoard(keyword, Contents);
 	}
 	
 	/**
@@ -69,12 +63,16 @@ public class BoardService {
 		return dao.updateBoard(board);
 	}
 	
-	/**
-	 * 페이징
-	 */
 	public int boardCnt() {
 		return dao.boardCnt();
 	}
+	
+	/**
+	 * 페이징
+	 */
+	/*public int boardCnt() {
+		return dao.boardCnt();
+	}*/
 	
 	public int deleteBoardByNo(int boardNo) {
 		return dao.deleteBoardByNo(boardNo);

@@ -14,10 +14,10 @@
 		
 		switch(type){
 		case 'U':
-			location.href = "update.do?no=${ param.no }";
+			location.href = "update.do?id=${ param.no }";
 			break;
 		case 'D':
-			if (confirm('정말 삭제하시겠습니까?')) {
+			if (confirm('정말 탈퇴하시겠습니까?')) {
 				location.href = "delete.do?no=${ param.no }";
 			}
 			break;
@@ -35,43 +35,29 @@
 	<section>
 		<div align="center">
 		<hr>
-		<h2>게시판 상세</h2>
+		<h2>내정보</h2>
 		<hr>
 		<br>
 		<table border="1">
 			<tr>
-				<th width="25%">번호</th>
-				<td>${board.no}</td>
+				<th width="25%">아이디</th>
+				<td>${ user.id }</td>
 			</tr>
 			<tr>
-				<th width="25%">제목</th>
-				<td>${board.title }</td>
+				<th width="25%">이름</th>
+				<td>${ user.name }</td>
 			</tr>
 			<tr>
-				<th width="25%">작성자</th>
-				<td>${board.writer }</td>
+				<th width="25%">전화번호</th>
+				<td>${ user.tel1 }-${ user.tel2 }-${ user.tel3 }</td>
 			</tr>
 			<tr>
-				<th width="25%">내용</th>
-				<td>${board.content}</td>
+				<th width="25%">이메일</th>
+				<td>${ user.email_id }@${ user.email_domain }</td>
 			</tr>
 			<tr>
-				<th width="25%">조회수</th>
-				<td>${board.viewCnt }</td>
-			</tr>
-			<tr>
-				<th width="25%">등록일</th>
-				<td>${board.regDate }</td>
-			</tr>
-			<tr>
-				<th width="25%">첨부파일</th>
-				<td>
-					<c:forEach items="${ fileList }" var="file">
-						<a href="${ pageContext.request.contextPath }/upload/${ file.fileSaveName }">
-							${ file.fileOriName }
-						</a>(${ file.fileSize } bytes)<br>
-					</c:forEach>
-				</td>
+				<th width="25%">가입일</th>
+				<td>${ user.reg_date }</td>
 			</tr>
 		</table>
 		<br>

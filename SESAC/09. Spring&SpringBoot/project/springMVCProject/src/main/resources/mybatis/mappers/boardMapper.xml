@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- id를 호출할 예정, namespace는 url로 넣어줘야 중복 안 생길 수 있음 -->
+<mapper namespace="com.sesac.board">
+
+	<resultMap type="boardVO" id="boardMap">
+		<result column="no" property="no"/>
+		<result column="title" property="title"/>
+		<result column="writer" property="writer"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="view_cnt" property="viewCnt"/>
+	</resultMap>
+
+	<!-- <select id="selectAll" resultType="com.sesac.education.model.BoardVO"> -->
+	<!-- alias로 설정했기때문에 간략하게 boardVO 써도 됨! -->
+	<select id="selectAll" resultMap="boardMap" parameterType="map">
+		select no, title, writer, view_cnt as view_cnt, to_char(reg_date, 'yyyy-mm-dd') as reg_date
+		from tbl_board
+		<!-- 동적으로 sql문 만들기 -->
+		<where>
+			<!-- <if test="keyword=='title'">
+			title like #{contents}
+			</if>
+			<if test="keyword=='writer'">
+			writer like #{contents}
+			</if> -->
+			<if test="keyword != null">
+			#{keyword}=#{contents}
+			</if>
+		</where>
+		order by no desc
+	</select>
+	
+	<select id="selectBoardNo" resultType="int">
+		select seq_tbl_board_no.nextval from dual
+	</select>
+	
+	<!-- 받아온 파라미터 boardVO 내 변수값을 받아오는 방법 : #{ boardVO 안의 변수명 }
+	입력된 갯수가 자동 반환 -->
+	<insert id="insertBoard" parameterType="boardVO">
+		insert into tbl_board(no, title, writer, content)
+		values(seq_tbl_board_no.nextval, #{title}, #{writer}, #{content})
+	</insert>
+	
+	<!-- 이름으로 들어온 게 아니라 타입(int)으로 들어온 것이기 때문에 이름은 마음대로 적어도 됨
+	반환 타입 안 적어도 알아서 update된 수 반환됨 -->
+	<update id="viewCnt" parameterType="int">
+		update tbl_board set view_cnt = view_cnt + 1 where no = #{aa}
+	</update>
+	
+	<select id="selectBoardByNo" parameterType="int" resultType="boardVO">
+		select no, title, writer, content, view_cnt as viewCnt, to_char(reg_date, 'yyyy-mm-dd') regDate
+		from tbl_board where no = #{aa}
+	</select>
+	
+	<delete id="deleteBoardByNo" parameterType="int">
+		delete from tbl_board where no = #{aa}
+	</delete>
+	
+	<update id="updateBoard" parameterType="boardVO">
+		update tbl_board set title = #{title}, writer = #{writer}, content = #{content}
+		where no = #{no}
+	</update>
+	
+	<select id="boardCnt" resultType="int">
+		select count(no) as no from tbl_board
+	</select>
+	
+	<insert id="insertFile" parameterType="com.sesac.education.model.BoardFileVO">
+		insert into tbl_board_file(no, board_no, file_ori_name, file_save_name, file_size)
+		values(seq_tbl_board_file_no.nextval, #{boardNo}, #{fileOriName}, #{fileSaveName}, #{fileSize})
+	</insert>
+	
+	<select id="selectFileByNo" parameterType="int" resultType="com.sesac.education.model.BoardFileVO">
+		select no, file_ori_name, file_save_name, file_size
+		from tbl_board_file where board_no = #{boardNo}
+	</select>
+</mapper>

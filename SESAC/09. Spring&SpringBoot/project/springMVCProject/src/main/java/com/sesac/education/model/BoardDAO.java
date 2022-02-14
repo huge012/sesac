@@ -6,9 +6,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.sesac.education.util.ConnectionFactory;
 import com.sesac.education.util.JDBCClose;
 
 /**
@@ -20,6 +22,12 @@ import com.sesac.education.util.JDBCClose;
 @Repository
 public class BoardDAO {
 	
+	/*
+	 * spring으로 db 연동
+	 */
+	@Autowired
+	DataSource ds;
+	
 	/**
 	 * 전체게시글 조회
 	 */
@@ -30,7 +38,8 @@ public class BoardDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = new ConnectionFactory().getConnection();
+			//conn = new ConnectionFactory().getConnection();
+			conn = ds.getConnection();
 			StringBuilder sql = new StringBuilder();
 			sql.append("select no, title, writer, view_cnt, to_char(reg_date, 'yyyy-mm-dd') as reg_date ");
 			sql.append(" from tbl_board ");
@@ -63,7 +72,7 @@ public class BoardDAO {
 		String sql = "select seq_tbl_board_no.nextval from dual ";
 		int boardNo = 0;
 		try(
-			Connection conn = new ConnectionFactory().getConnection();
+			Connection conn = ds.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 		){
 			ResultSet rs = pstmt.executeQuery();
@@ -83,7 +92,7 @@ public class BoardDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = new ConnectionFactory().getConnection();
+			conn = ds.getConnection();
 			StringBuilder sql = new StringBuilder();
 			sql.append("insert into tbl_board(no, title, writer, content) ");
 			sql.append(" values(seq_tbl_board_no.nextval, ?, ?, ?) ");
@@ -109,7 +118,7 @@ public class BoardDAO {
 		StringBuilder sql = new StringBuilder();
 		sql.append("update tbl_board set view_cnt = view_cnt + 1 where no = ?");
 		try(
-				Connection conn = new ConnectionFactory().getConnection();
+				Connection conn = ds.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 		){
 			pstmt.setInt(1, boardNo);
@@ -131,7 +140,7 @@ public class BoardDAO {
 		sql.append(" from tbl_board where no = ? ");
 		BoardVO board = null;
 		try(
-			Connection conn = new ConnectionFactory().getConnection();
+			Connection conn = ds.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 		){
 			pstmt.setInt(1, boardNo);
@@ -159,7 +168,7 @@ public class BoardDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = new ConnectionFactory().getConnection();
+			conn = ds.getConnection();
 			StringBuilder sql = new StringBuilder();
 			sql.append("update tbl_board set title = ?, writer = ?, content = ? where no = ? ");
 			pstmt = conn.prepareStatement(sql.toString());
@@ -184,7 +193,7 @@ public class BoardDAO {
 		sql.append("select count(no) as no from tbl_board ");
 		int boardCnt = 0;
 		try (
-			Connection conn = new ConnectionFactory().getConnection();
+			Connection conn = ds.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 		){
 			
@@ -209,7 +218,7 @@ public class BoardDAO {
 		sql.append("delete from tbl_board where no = ? ");
 		BoardVO board = null;
 		try(
-			Connection conn = new ConnectionFactory().getConnection();
+			Connection conn = ds.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 		){
 			pstmt.setInt(1, boardNo);
@@ -232,7 +241,7 @@ public class BoardDAO {
 		sql.append(" values(seq_tbl_board_file_no.nextval, ?, ?, ?, ?) ");
 		
 		try(
-			Connection conn = new ConnectionFactory().getConnection();
+			Connection conn = ds.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());		
 		){
 			pstmt.setInt(1, fileVO.getBoardNo());
@@ -254,7 +263,7 @@ public class BoardDAO {
 		sql.append(" from tbl_board_file where board_no = ? ");
 		List<BoardFileVO> fileList = new ArrayList<>();
 		try(
-			Connection conn = new ConnectionFactory().getConnection();
+			Connection conn = ds.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());	
 		){
 			pstmt.setInt(1, boardNo);
