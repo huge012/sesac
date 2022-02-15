@@ -1,8 +1,6 @@
 package com.sesac.springBootMVCProject.repository;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
