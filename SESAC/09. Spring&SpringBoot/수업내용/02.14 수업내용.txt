@@ -1,4 +1,4 @@
-02/10 수업내용
+02/14 수업내용
 
 * Spring DB 연동 (1) xml에 설정
 - pom.xml에 oracle db 디펜던시 추가 (ojdbc)

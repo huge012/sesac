@@ -10,22 +10,7 @@
 <link rel = "stylesheet" href="${ pageContext.request.contextPath }/resources/css/board.css" >
 <script src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-	function doAction(type){
-		
-		switch(type){
-		case 'U':
-			location.href = "member/update.do?id=${ param.id }";
-			break;
-		case 'D':
-			if (confirm('정말 탈퇴하시겠습니까?')) {
-				location.href = "member/delete.do?no=${ param.id }";
-			}
-			break;
-		case 'L':
-			location.href = "list.do"
-			break;
-		}
-	}
+	
 </script>
 </head>
 <body>
@@ -38,6 +23,8 @@
 		<h2>내정보</h2>
 		<hr>
 		<br>
+		<form action="update.do" method="post">
+		<input type="hidden" name="id" value="${ user.id }">
 		<table border="1">
 			<tr>
 				<th width="25%">아이디</th>
@@ -45,25 +32,24 @@
 			</tr>
 			<tr>
 				<th width="25%">이름</th>
-				<td>${ user.name }</td>
+				<td><input type="text" name="name" value="${ user.name }"></td>
 			</tr>
 			<tr>
 				<th width="25%">전화번호</th>
-				<td>${ user.tel1 }-${ user.tel2 }-${ user.tel3 }</td>
+				<td><input type="text" name="tel1" value="${ user.tel1 }">-<input type="text" name="tel2" value="${ user.tel2 }">-<input type=text name="tel3" value="${ user.tel3 }"></td>
 			</tr>
 			<tr>
 				<th width="25%">이메일</th>
-				<td>${ user.email_id }@${ user.email_domain }</td>
+				<td><input type="text" name="email_id" value="${ user.email_id }">@<input type="text" name="email_domain" value="${ user.email_domain }"></td>
 			</tr>
 			<tr>
 				<th width="25%">가입일</th>
-				<td>${ user.reg_date }</td>
+				<td><input type="text" name="reg_date" value="${ user.reg_date }" disabled="disabled"></td>
 			</tr>
 		</table>
 		<br>
-		<button onclick="doAction('U')">수정</button>
-		<button onclick="doAction('D')">삭제</button>
-		<button onclick="doAction('L')">목록</button>
+		<input type="submit" value="수정">
+		</form>
 	</div>
 	</section>
 	<footer>
