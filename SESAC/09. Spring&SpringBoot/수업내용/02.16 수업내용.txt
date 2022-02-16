@@ -1,0 +1,117 @@
+02/16 수업내용
+* SpringBoot : Spring에서 복잡한 기능을 뺌
+
+- 설정 파일 : src/main/resources/application.properties
+  ㄴ서버 포트, context path, JSP 사용설정, DB설정
+
+- Java 파일 : src/main/java
+
+- main : {프로젝트명}Application.java
+  ㄴComponentScan으로 컴포넌트 패키지명 설정 (@Component @Repository @Service @Controller 스캔)
+  ㄴEntityScan으로 엔티티 패키지명 설정 (@Entity 스캔)
+
+- pom.xml
+  ㄴ오라클 드라이버, JPA 라이브러리, JSP 템플릿 엔진, spring web 개발 설정, Lombok, junit 라이브러리 추가 등
+
+- RestController : controller + responsebody, 결과값이 forward가 아닌 문자열/json도 가능
+
+
+
+* JPA : ORM(object relation model)을 사용하기 위한 자바 API(interface), DB와 VO 매칭 (spring-hibername), JPA에서 JDBC를 이용해 db접속
+  ㄴ JPA에 함수 호출하면 자동으로 sql문 생성하여 객체(entity) 반환
+  ㄴ 복잡한 문장 쓸 때 어려움
+
+- entity 설계
+  ㄴ VO 만들기
+  ㄴ @Id(필수), @GeneratedValue(자동생성할 키, 시퀀스나 아이덴티티, 테이블, auto) 설정
+
+- JPA 처리 담당하는 repository interface 설계
+  ㄴ sql문에 맞는 함수 추가 (findBy ... )
+  ㄴ paging, sort 처리 - pageable, sort 인터페이스 존재
+  ㄴ PagingAndSortingRepository를 상속받으면 페이징 기능 포함된 기본 메소드 사용 가능 (findAll(paging))
+
+* JPA 쿼리작성 @Query
+- 복잡한 구조(join, 여러 조건문) 사용할 때 쓰는 어노테이션
+
+
+* Querydsl (Domain Specific Language)
+- Qdomain이라고 부르는 자바코드를 생성(generate)하는 플러그인
+- 실제 도메인 객체의 모든 필드들에 대해서 사용가능한 모든 operation을 호출할 수 있는 메소드 정의(java에서 where절 추가 가능)
+- pom.xml에 라이브러리(디펜던시), 플러그인 추가
+- 동적 sql 생성 시 사용
+
+* JPA에서의 연관관계(ERD 연관관계)
+
+@OneToONe
+@OneToMany
+@ManyToOne
+@ManyToMany
+- JPA는 양방향 가능, ERD는 단방향만 가능
+- 단방향 : 한쪽의 클래스만이 다른 클래스를 참조
+- 양방향
+
+* 단방향 : member와 profile
+- 회원정보(한개)를 통해 프로필 정보(여러개)를 알아냄 : 일대다 - 게시글과 댓글 같은데서 사용됨
+- 프로필 정보(여러개)를 통해 회원정보(한개)를 알아냄 : 다대일 - 일반적
+- 다대일 단방향(profile 기준) - 회원정보에선 프로필을 알 수 없음, profile로 member정보 알아내기 : left outer join
+- 일대다 단방향(PDSBoard) - 영속성 전이,PDSBoard에 PDSFile의 컬럼을 적어줌, 보드에서 파일을 접근할 수 있으나 파일에선 보드에 접근불가
+  ㄴ@OneToMany 어노테이션 사용해서 자바에서 활용, @JoinColum 어노테이션 사용해서 DB에게 알려줌
+  ㄴ sql문으로도 가능함
+  ㄴ 첨부파일 이름 수정하기 위해서 : Board에서 @Modifying으로 insert, update, delete // @Query, @Transactional, @Commit 사용
+
+* 롬복이 제공하는 Log
+- class level에 @log 추가
+
+
+* 지연로딩 - 정보가 필요하기 전까지 최대한 테이블에 접근하지 않음. fetch = FetchType.LAZY
+
+* 양방향
+- 게시글과 댓글 관계 (서로를 참조함)
+- 게시글vo에 댓글vo 확인 가능, 댓글vo에서 게시글vo 확인 가능
+- DB에선 확인불가, java에서만 볼 수 있음
+- cascadetype:all(모든 변경에 대해 전이)
+persist(저장시에만) merge(병합시에만) remove(삭제시에만) reflesh(엔티티 매니저의 refresh()호출시) detach(부모가 detach되면)
+- fetch : select할 때 함께 조회할지
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--- 수업 관련 sql
+
+
+select * from tbl2_members;
+select * from tbl2_profile;
+
+-- 멤버는 있으나 프로파일이 존재하지 않는 데이터도 조회
+-- 1. DB 벤더 문법 (Oracle)
+select * from tbl2_members m, tbl2_profile p where m.mid = p.member_mid(+);
+
+-- 2. ANSI 표준문법
+select * from tbl2_members m join tbl2_profile p on m.mid = p.member_mid;  -- inner join
+-- 집계함수에 사용되지 않았으나 조회하고 싶은 컬럼은 꼭 group by에 들어가야 함
+select m.mid, count(p.fname) from tbl2_members m left outer join tbl2_profile p on m.mid = p.member_mid group by m.mid; -- left outer join
+
+
+select * from tbl2_pdsboard;
+select * from tbl2_pdsfiles;
+
+select * from tbl_freeboards;
+select * from tbl_free_replies;
+
+drop table tbl_free_replies;
+drop table tbl_freeboards;
