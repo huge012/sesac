@@ -1,0 +1,31 @@
+02/17 수업내용
+
+ORM
+- mybatis, JPA
+
+* JPA : 연관관계 설정 가능 (단방향, 양방향)
+- 양방향 : 서로를 품고있음, @ManyToOne, @OneToMany 태그
+- cascade : 자신을 참조하는 테이블에도 변경사항 적용시킬지
+- fetch : 자신을 참조하는 테이블도 함께 조회할것인지
+- 지연로딩 fetch 사용 시 @Transaction 사용해야함
+
+* 복합키 사용
+- @IdClass는 객체지향보단 DB전용
+
+* Thymeleaf
+- springBoot는 템플릿 기반 화면처리가 가능
+- jsp를 권장하지 않음, jsp는 jar패킹 불가능하고 war로만 가능함
+- jar는 jre만으로 실행가능, war는 미리 정의된 구조를 사용, 웹서버가 필요. thymeleaf는 서블렛코드로 변환되지 않고 오직 view에 집중
+
+* springMVC
+- pom.xml 설정 (SpringBoot DevTools(자동재실행), Lombok(어노테이션 생성자등), SpringData JPA(JPA사용), Oracle Driver(오라클 사용), JSP(jsp 사용)
+- board list + 댓글
+
+
+* N+1문제
+- 1번의 쿼리로 A테이블 100개 조회 시 N번의 쿼리가 추가수행됨
+- @OneToMany와 @ManyToMany는 기본이 지연로딩(LAZY)
+- 나머지는 기본이 즉시로딩(EAGER)
+- select from where a=b를 select from where a in(...)로 변경
+  ㄴ @BatchSize(size=100)
+  ㄴ OneToMany 사용

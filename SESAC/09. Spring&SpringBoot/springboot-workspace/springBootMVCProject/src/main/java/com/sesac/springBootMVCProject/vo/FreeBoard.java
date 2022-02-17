@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -53,6 +54,7 @@ public class FreeBoard  { // 댓글을 여러개 달고 싶음
 	
 	// board에서 댓글로 갈 수 있음
 	// 하나의 게시글에 여러개의 댓글, mappedBy : board라는 컬럼에 메여있음을 의미
+	@BatchSize(size = 100)
 	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.EAGER)  
 	List<FreeBoardReply> replies;
 	
