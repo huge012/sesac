@@ -22,6 +22,11 @@
 # Study - 3조
 
 1. Java
+2. 1차 프로젝트 - Fiveand (중고 옥션 사이트)
+
+# Study - 1조
+
+1. Python
 
 # Backjoon
 
