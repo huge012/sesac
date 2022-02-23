@@ -1,0 +1,317 @@
+02/23 수업내용
+# 모듈
+
+관련 있는 형식이나 기능을 모아서 정의한 코드 집합
+
+파이썬에서는 하나의 파이썬 파일(.py)로 정의
+
+- 표준 모듈
+    
+    파이썬을 설치하면 기본적으로 사용 가능한 모듈
+    
+- 외부 모듈
+    
+    별도의 설치를 해야 사용 가능한 모듈
+    
+- 사용자 정의 모듈
+    
+    개발자(파이썬 사용자)가 직접 정의한 모듈
+    
+
+```python
+# colab - google driver 모듈 사용을 위해 path 추가하기
+import sys
+# 전역변수 path에 경로 추가
+sys.path.append('/content/drive/MyDrive/seSac/python/module')
+# path 확인
+sys.path
+```
+
+```python
+# 모듈 불러오기
+import dummy
+# 모듈의 특정 함수 불러오기
+from dummy import print_n, print_list
+# 모듈의 모든 함수 불러오기 - 타 모듈과 이름 충돌 위험
+from dummy import *
+# 모듈에 닉네임 붙이기
+import dummy as dm
+```
+
+# 패키지
+
+배포의 단위
+
+파이썬에서는 파이썬 파일들을 포함하는 폴더
+
+# 프레임워크
+
+비슷한 형태의 프로그램의 기본 구조와 골격을 정의해 놓은 것
+
+# 진입점(Entry Point)
+
+프로그램을 실행시켰을 때 시작하는 지점
+
+name에는 진입점이 무엇인지 알 수 있다. ( **__ name __** : **__ main __** )
+
+# 표준 모듈 - math
+
+[https://docs.python.org/ko/3/library/math.html](https://docs.python.org/ko/3/library/math.html)
+
+```python
+import math
+from math import sin,cos,tan
+
+print(f"{sin(math.pi):.5f}")
+print(f"{cos(math.pi):.5f}")
+print(f"{tan(math.pi):.5f}")
+print(f"{math.ceil(math.pi):.5f}") # 올림
+print(f"{math.floor(math.pi):.5f}") # 내림
+print(f"{round(math.pi):.5f}") # 반올림
+```
+
+# 표준 모듈 - random
+
+런타임 초기화하지 않으면 같은 값이 나올 수도 있음
+
+시드가 자동생성되는지 재확인 필요 - random은 시드 자동생성
+
+- random.random() : 0~1 사이의 랜덤한 값을 반환
+- random.randrange(n:정수) : 0 ~ n-1 까지의 정수 중에 랜덤한 값을 반환
+- random.randrange(s:정수, e:정수) : s ~ e-1 까지의 정수 중에 랜덤한 값을 반환
+- random.uniform(s, e) : s~e 사이의 랜덤한 실수를 반환
+- 
+
+# 표준 모듈 - sys
+
+시스템과 관련된 정보를 가지고 있는 모듈
+
+- ping -t python.org 라는 명령어를 cmd에서 실행했을 때,
+    
+    ping : 프로그램명
+    
+    -t, python.org : argv(프로그램 진입 전 전달해주는 값)
+    
+
+```python
+import sys
+
+sys.argv
+len(sys.argv)
+
+```
+
+# 표준 모듈 - os
+
+운영체제와 관련된 기능을 가진 모듈
+
+새로운 폴더 생성, 폴더 내부 파일 목록 보는 일 등
+
+```python
+import os
+
+os.name
+
+os.system("notepad") # 메모장 오픈
+print("음")
+os.system("mspaint") # 그림판 오픈
+print("냐")
+os.system("notepad")
+print("뤼")
+
+print("abc")
+input()
+os.system("cls") # 커멘드창 클리어
+input()
+os.system("cls")
+print("cbc")
+```
+
+# 표준 모듈 - datetime
+
+date(), time()과 관련된 모듈
+
+날짜 형식을 만들 때 자주 사용
+
+# 표준 모듈 - time
+
+시간과 관련된 기능
+
+```python
+import time
+
+print("a", end=' ')
+time.sleep(1)
+print("b", end=' ')
+time.sleep(1)
+print("c", end=' ')
+time.sleep(1)
+print("d", end=' ')
+time.sleep(1)
+print("...")
+
+s = time.time()
+for lc in range(10000):
+  for _ in range(10000):
+    i+=1
+  if(lc % 1000 == 0):
+    print(".", end="")
+e = time.time()
+print(e-s)
+```
+
+# 표준 모듈 - urllib
+
+url을 다루는 라이브러리
+
+인터넷 주소를 활용할 때 사용
+
+# 외부 모듈 - Beautiful Soup
+
+웹페이지 분석 모듈
+
+https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+
+- 윈도우 서버 사용
+    
+    윈도우 - 제어판 - 프로그램 - windows 기능 켜기/끄기 - 인터넷 정보 서비스 - www 서비스 전부 클릭 : window 제공 서버 사용 가능
+    
+
+```python
+from bs4 import BeautifulSoup
+
+src = """
+<html>
+	<head>
+		<title> test page </title>
+	</head>
+	<body>
+		<strong>a~</strong>
+		<p>bcd</p>
+	</body>
+</html>
+"""
+print(src)
+
+# 코드를 html 규칙에 맞게 파싱
+html_parser = BeautifulSoup(src, 'html.parser')
+html_parser
+
+html_parser.head # head 태그 보여줌
+html_parser.body # body 태그 보여줌
+html_parser.strong # strong 태그 보여줌
+```
+
+# 카카오 도서 검색 API
+
+쿼리 문자열 구조
+
+**도메인 주소 ? 매개변수 목록**
+
+매개변수 목록에서 매개변수와 매개변수는 &로 구분
+
+매개변수는 키=값 구조를 지님
+
+```python
+# 파이썬 책 검색하기
+import urllib.request
+
+url = 'https://dapi.kakao.com/v3/search/book'
+
+target_param = "target=title"
+query_in = input("검색 질의 : ")
+query_param = "query="+urllib.parse.quote(query_in) # utf-8로 인코딩
+query_str = url+'?'+target_param+'&'+query_param
+
+print(query_str)
+
+request = urllib.request.Request(query_str) # 서비스 요청에 사용할 객체를 생성
+request.add_header("Authorization", "KakaoAK RESTAPI키") # RESTAPI키 수정
+response = urllib.request.urlopen(request)
+print(response.read().decode('utf-8'))
+```
+
+json으로 데이터 나누기
+
+```python
+import urllib.request
+
+url = 'https://dapi.kakao.com/v3/search/book'
+
+target_param = "target=title"
+query_in = input("검색 질의 : ")
+page_param = "page=2"
+query_param = "query="+urllib.parse.quote(query_in) # utf-8로 인코딩
+query_str = url+'?'+target_param+'&'+query_param+'&'+page_param
+
+print(query_str)
+
+request = urllib.request.Request(query_str) # 서비스 요청에 사용할 객체를 생성
+request.add_header("Authorization", "KakaoAK 	REST KEY") # RESTAPI 키 입력
+response = urllib.request.urlopen(request)
+res = response.read().decode('utf-8')
+print(res)
+```
+
+# 네이버 책 검색 API
+
+xml 형태로 응답받음
+
+```python
+import urllib.request
+
+url = 'https://openapi.naver.com/v1/search/book.xml'
+
+query_in = input("검색 질의 : ")
+query_param = "query="+urllib.parse.quote(query_in) # utf-8로 인코딩
+query_str = url+'?'+query_param
+
+print(query_str)
+
+request = urllib.request.Request(query_str) # 서비스 요청에 사용할 객체를 생성
+request.add_header('X-Naver-Client-Id', '발급받은 client ID 값')
+request.add_header('X-Naver-Client-Secret', '발급받은 client secret 값') 
+
+response = urllib.request.urlopen(request)
+res = response.read().decode('utf-8')
+print(res)
+```
+
+# 파파고 번역 API
+
+import urllib.request
+
+# url
+url = 'https://openapi.naver.com/v1/papago/n2mt'
+
+# 파라미터 - post 방식
+source_param = "source=ko"
+target_param = "target=en"
+text_in = input("변환할 문장 : ")
+text_param = "text="+urllib.parse.quote(text_in) # utf-8로 인코딩
+
+data = source_param+'&'+target_param+'&'+text_param
+
+request = urllib.request.Request(url)
+request.add_header('X-Naver-Client-Id', '받은 client id 값') 
+request.add_header('X-Naver-Client-Secret', '받은 client scret 값')
+response = urllib.request.urlopen(request, data=data.encode("utf-8"))
+
+res = response.read().decode('utf-8')
+
+import json
+
+if response.getcode() != 200:
+  print("요청한 결과에 문제가 있습니다.")
+  exit(0) # 프로그램 종료
+
+jres = json.loads(res)
+
+if jres == None:
+  print("Json.loads 실패")
+  exit(0) # 프로그램 종료
+
+print("기존 언어 : ",jres['message']['result']['srcLangType'])
+print("변환 언어 : ",jres['message']['result']['tarLangType'])
+print("변환 결과 : ",jres['message']['result']['translatedText'])
+print("----------------------------------------------")
