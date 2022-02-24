@@ -1,0 +1,611 @@
+0224 수업내용
+
+### 소크라테스
+
+철학은 지혜를 향한 갈망, 너 자신을 알라
+
+지혜 - 이지, 감각
+
+갈망 - 육, 정, 무
+
+### 플라톤
+
+이데아 이론
+
+현실세계 | 이데아 세계
+
+동굴의 비유
+
+제한된 경험을 초월하여 원래 가지고 있는 이성적인 능력에 눈을 뜨지 못했기 때문에, 어두움에서 벗어나 빛(이성)을 향해 나아가야 함
+
+→ 경험에서 이성으로
+
+베이컨 4대 우상 : 종족, 시장, 무대, 동굴
+
+동굴 - 개인의 좁은 소견에서 빚어지는 착각, 개인의 호오나 편견, 만족이 빚어내는 우상. 선입관을 가지고 있는 이유는 우리가 이성을 맹신하고 경험을 등한시하기 때문, 이성으로부터 벗어나 경험으로 나아가야 한다. (이성에서 경험으로)
+
+### 아리스토텔레스
+
+이데아 이론을 뒤집음, 사과의 이데아
+
+움직이고자 하는 물체에 그 원인이 있다. 사과가 떨어지는 이유는 흙이라는 본연의 성질이 강해서 흙으로 돌아가고자 하는 성질 때문에 떨어진다.
+
+사물의 본질은 현실계의 사물 내에 있다고 믿음, 현실계에 대한 지식을 갖는 것이 중요.
+
+## 객체 지향 OOP
+
+Object Oriented Programming Language
+
+              표준화           자연어                                      OOP
+
+전자기기 → 어셈블리어 → 베이직/코볼/포트란/파스칼 → c++/python/java/c#
+
+저급 언어 : 전자기기, 어셈블리어
+
+고급 언어 : 자연어 이후, OOP
+
+컴파일 : 고급 언어 → 저급 언어 변환
+
+### 객체지향의 특징
+
+1. 캡슐화
+    
+    여러 개의 멤버들로 구성한 형식을 정의하는 과정
+    
+    절차식 언어의 캡슐화 : 멤버 데이터
+    
+    OOP의 캡슐화 : 멤버 데이터(멤버 필드, 속성), 멤버 함수 (멤버 메소드)
+    
+2. 상속
+    
+    기반 클래스에서 파생시킨 클래스 생성 가능
+    
+    상속(OOP 측면) / 일반화(소프트웨어 설계 측면) / 파생
+    
+    기반         파생
+    
+    음악가 ← 피아니스트
+    
+                ← 드러머
+    
+3. 다형성
+    
+    상속 받은 객체에 따라 다른 기능을 수행 (상속에 기반)
+    
+    음악가 m = 피아니스트()
+    
+    음악가 m = 드러머()
+    
+    m.Play()
+    
+
+## 캡슐화
+
+### 구조체 캡슐화
+
+데이터를 멤버로 구성하는 캡슐화
+
+절차식 언어에서 캡슐화하는 방법
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Product:
+  weight : int = None # (멤버 필드 이름) : (형식 이름) = (초기화값)
+  price : int = None
+
+pen = Product()
+pen.weight = 100
+pen.price = 1000
+print("무게 : ", pen.weight, "가격 : ", pen.price)
+```
+
+### 클래스 캡슐화
+
+멤버 데이터와 멤버 메서드를 캡슐화할 수 있다
+
+OOP에서 캡슐화하는 방법
+
+```python
+class Student:
+  def __init__(self, num, name): # 생성자, 객체가 만들어질 때 호출되는 함수
+    # num, name, iq는 멤버 변수
+    self.num = num # self : 객체 자신을 가리킴
+    self.name = name
+    self.iq = 0
+    
+  # 멤버 메서드
+  def introduce(self):
+    print(f"번호 : {self.num}, 이름 : {self.name}, 아이큐는 {self.iq}")
+  def study(self):
+    self.iq += 1
+    print(f"{self.name} 공부합니다. 끄적끄적..")
+
+s1 = Student(1, "홍길동")
+s1.introduce()
+s1.study()
+s1.study()
+s1.study()
+s1.introduce()
+```
+
+### 정보 은닉
+
+캡슐화 과정에서 특정 멤버의 가시성을 차단하는 방법 - 멤버 앞에 __ 붙이면 은폐(private)
+
+사용하는 곳에서 직접 사용하지 못하며 형식 내부에서만 사용하게 하는 기법
+
+데이터 신뢰성을 높이는 방법으로 사용한다.
+
+```python
+# 시나리오 S:
+#   학생이 연속으로 5회 공부하면 아이큐가 1 올라간다.
+
+class Student:
+  def __init__(self, name):
+    self.name = name
+    self.__iq = 100
+    self.__scnt = 0 # 연속으로 공부한 횟수
+  def study(self):
+    self.__scnt += 1
+    if self.__scnt == 5:
+      self.__iq += 1
+      self.__scnt = 0
+  def introduce(self):
+    print(f"이름은 {self.name}, 아이큐는 {self.__iq}, scnt: {self.__scnt}")
+
+s1 = Student("홍길동")
+s1.introduce()
+s1.study()
+s1.study()
+s1.study()
+s1.study()
+s1.study()
+# print(s1.__iq) 정보 은닉한 멤버에 접근할 수 없다.
+s1.__iq = 10293 # 에러가 뜨진 않으나 적용되지도 않음
+s1.introduce()
+```
+
+## 특별한 멤버 - 생성자, 소멸자
+
+객체를 생성할 때 생성자(**__ init __**)을 호출한다.
+
+객체가 소멸할 때 소멸자(**__ del __**)을 호출한다.
+
+해당 객체를 소멸하는 것은 가비지 수집기가 알아서 수행한다. (C와 C++에서는 개발자가 직접 소멸시켜야 하는 부담이 있다.)
+
+```python
+# 시나리오 s:
+#     학생이 연속으로 5회 공부하면 아이큐가 1 올라간다.
+
+class Student:
+  def __init__(self): # 객체 생성될 때 실행되는 함수
+    print("__init__")
+  def __del__(self): # 객체 삭제될 때 실행되는 함수
+    print("__del__")
+
+print("===1===")
+s1 = Student()
+print("===2===")
+s2 = Student()
+print("===3===")
+exit(0)
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8f9f419f-7d2e-460d-a097-8d2fcc7adc51/Untitled.png)
+
+## 데이터 신뢰성을 높이는 멤버 - 설정자, 접근자
+
+멤버 필드의 가시성을 차단하고 필요하면 설정자와 접근자를 제공하자.
+
+- 설정자(setter) - 멤버 필드에 값을 설정하는 메서드, set_멤버필드명
+- 접근자(getter) - 멤버 필드에 값을 확인하는 메서드, get_멤버필드명
+
+```python
+class Student:
+  def __init__(self, name, num): # 생성자 메서드
+    self.__name = name
+    self.__num = num
+    self.__kor = 0
+    self.__eng = 0
+    self.__math = 0
+  def get_name(self):
+    return self.__name
+  def get_num(self):
+    return self.__num
+  def set_kor(self, score):
+    self.__kor = score
+  def get_kor(self):
+    return self.__kor
+  def set_eng(self, score):
+    self.__eng = score
+  def get_eng(self):
+    return self.__eng
+  def set_math(self, score):
+    self.__math = score
+  def get_math(self):
+    return self.__math
+  def tostr(self):
+    return f"이름:{self.__name}, 번호:{self.__num}, 국어:{self.__kor}, 영어:{self.__eng}, 수학:{self.__math}"
+
+s1 = Student("홍길동", 3)
+print(s1.tostr())
+s1.set_kor(90)
+s1.set_eng(100)
+s1.set_math(89)
+print(s1.tostr())
+
+```
+
+## 상속 Inheritance
+
+기반 형식에 정의한 멤버는 파생 형식에 상속한다.
+
+ex) 음악가 형식에 '이름', '연주하다' 를 캡슐화하면
+
+음악가에서 파생한 형식인 피아니스트는 자동으로 '이름', '연주하다' 멤버를 갖게 된다.
+
+설계 시점에서는 프로그램에 사용할 인스턴스들 중에 공통점을 찾아 여러 형식의 공통점을 기반 형식으로 정의하는 작업을 진행한다.
+
+이를 일반화(Generalization)라 부른다.
+
+(파생 형식) is a (기반 형식) 관계일 때 사용한다.
+
+```python
+class Man:
+  def __init__(self, name):
+    self.__name = name
+  def introduce(self):
+    print("my name is ", self.__name)
+
+class Student(Man):
+  def __init__(self, name, num):
+    super().__init__(name)
+    self.__num = num
+  def view(self):
+    print("-------self 메서드-------")
+    self.introduce()
+    print("my number is ", self.__num)
+    print("-------------------------")
+
+m1 = Man("홍길동")
+m1.introduce()
+
+s1 = Student("강감찬", 2)
+s1.view()
+s1.introduce()
+
+# 상속 관계 확인
+if isinstance(s1, Man):
+  print("사람입니다.")
+else:
+  print("사람이 아닙니다.")
+```
+
+## StarUML
+
+요구 분석 및 정의 단계 - Case 도구 사용
+
+[https://staruml.io/](https://staruml.io/)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4447a2af-bc27-4617-b2ee-e9a90eb47235/Untitled.png)
+
+## Covid 공공 API 가져오기 - 클래스 적용
+
+세종특별자치시_코로나19 현황
+
+[https://www.data.go.kr/tcs/dss/selectFileDataDetailView.do?publicDataPk=15098910#layer-api-guide](https://www.data.go.kr/tcs/dss/selectFileDataDetailView.do?publicDataPk=15098910#layer-api-guide)
+
+```python
+# 데이터 담을 클래스
+
+from datetime import datetime
+
+class CovidData:
+  def __init__(self, dt, dcnt, ccnt):
+    self.dt = dt
+    self.dcnt = dcnt
+    self.ccnt = ccnt
+
+  @staticmethod # 객체와 관련된 메소드이나 객체 안에 들어가는 메소드는 아님, self가 들어가지 않음, 형식메서드, 정적 메서드
+  def make_covid_data(src):
+    dt = datetime.strptime(src['구분'], '%Y-%m-%d')
+    dcnt = src['사망자']
+    ccnt = src['확진자']
+    return CovidData(dt, dcnt, ccnt)
+```
+
+```python
+# API 가져오기
+
+url = "http://api.odcloud.kr/api/15098910/v1/uddi:a5ff8a87-db3e-4317-bc95-9283aa1dd4a2"
+page_param = "page=1"
+size_param = "perPage=10"
+rt_param = "returnType=JSON" # or XML
+auth_param = "serviceKey= 받은 키 " # 키 값 입력
+query_str = url+"?"+page_param+"&"+size_param+"&"+rt_param+"&"+auth_param
+
+# 클래스 불러오기
+import sys
+sys.path.append('클래스 파일 경로')
+
+from coviddata import CovidData
+
+# 받아온 데이터 파싱
+
+import urllib.request
+
+req = urllib.request.Request(query_str)
+res = urllib.request.urlopen(req)
+datas = res.read().decode('utf-8')
+print(datas)
+
+import json
+jres = json.loads(datas)
+cdata = jres['data']
+
+cds = []
+
+for raw_cd in cdata:
+  cds.append(CovidData.make_covid_data(raw_cd))
+
+for cd in cds:
+  print(f"일자:{cd.dt} 사망자:{cd.dcnt} 확진자:{cd.ccnt}")
+```
+
+## numpy 맛보기
+
+```python
+# 원소에 공통점이 없어서 자료 가공이 불편함
+l1 = [1, 2, 'a', False] 
+
+# numpy 사용
+import numpy as np
+
+na = np.array([1, 2, 3, 4, 5])
+np.sum(na), np.min(na), np.max(na), np.var(na), np.std(na)
+```
+
+```python
+# 같은 타입으로 묶여있으나 자료의 크기가 달라 가공 어려움
+l2 = [[1, 2, 3], [2, 3], [4, 5, 6, 7]] 
+
+# numpy 사용
+nb = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+print("차원 : ", nb.ndim)
+print("구조 : ", nb.shape)
+print(nb) # 1차원
+
+nb = np.array([[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]])
+print("차원 : ", nb.ndim)
+print("구조 : ", nb.shape)
+print(nb) # 2차원, 1x12 행렬, 1개의 원소 + 원소 안애 12개
+
+nb = nb.reshape(3, 4) # 3x4 배열로 재구조화
+print("차원 : ", nb.ndim)
+print("구조 : ", nb.shape)
+print(nb) # 2차원, 3x4 행렬, 3개의 원소 + 원소 안에 4개
+
+l1 = [[1, 2], [3, 4]]
+l2 = [[3, 4], [2, 7]]
+
+# 리스트를 합쳐줌
+l3 = l1 + l2
+print(l3)
+
+# matrix 연산
+na1 = np.array(l1)
+na2 = np.array(l2)
+na3 = na1 + na2
+print(na3)
+```
+
+## pandas 맛보기
+
+import matplotlib.pyplot as plt
+
+# 최소한 y값은 전달해야 함, x값 전달 안 할 경우 0부터 순차적으로 부여
+plt.plot([1, 2, 3, 4, 5, 6, 7, 8, 9]) 
+plt.show()
+
+plt.plot([1, 2, 3, 4, 5, 6, 7, 8, 9], "y^")
+plt.show()
+
+plt.plot([2, 3, 4, 5, 6, 7, 8, 9, 15], [1, 2, 3, 4, 5, 6, 7, 8, 9], "ro") # x 목록, y 목록, 그래프 옵션
+plt.show()
+
+
+
+
+
+-----
+
+#소개
+
+파이썬 - 보아구렁이
+
+많은 모듈을 포함하여 사용할 수 있는 인터페이스 언어
+
+
+## 자료형
+
+숫자
+
+    정수 : int
+    실수 : float
+    복소수 : complex
+
+문자열
+
+    str
+
+변수
+
+    자료를 사용하기 위해 변수에 값을 기억시키고 필요할 때 사용한다.
+
+기본 출력, 기본 입력
+
+    print(값 or 변수)
+    print(1)
+    print(a)
+    print(1, 2, 'a')
+    print("{0} + {1} = {1} + {0} = {2}".format(a, b, a+b))
+    print("{0:02d}".format(a))
+    print("{0:.3f}".format(b))
+    print(f"학생 수 : {a:02d}")
+
+
+기본 입력
+
+    입력한 내용을 문자열로 반환한다
+    만약 정수를 입력받기를 원하면 입력받은 문자열을 정수로 형변환한다.
+
+    num = int(input("번호 : "))
+
+
+
+##조건문
+
+논리 연산자
+
+    and , or , not
+  
+비교 연산자
+
+    < , > , <= , >= , != , ==
+
+if 조건식
+
+    if 조건식1 :
+      (조건식1) 참일 때 수행할 구문
+    elif 조건식2 :
+      (조건식2) 참일 때 수행할 구문
+    else:
+      모두 거짓일 때 수행할 구문
+
+
+
+##반복문과 컬렉션
+
+튜플
+
+    요소로 구성하는 자료구조(컬렉션)
+    요소 값을 변경할 수 없다
+
+    tuple
+    ( 값, 값, 값, ... )
+
+리스트
+
+    요소로 구성하는 자료구조(컬렉션)
+
+    list
+    [ 값, 값, 값, ... ]
+
+딕셔너리
+
+    (키):(값) 쌍으로 되어있는 데이터를 요소로 구성하는 자료구조(컬렉션)
+    
+    dict
+    { 키:값, 키:값, ... }
+
+for문
+
+    for 변수 in 컬렉션:
+      ... 변수에 대한 작업 ...
+
+while문
+
+    전통적인 반복문
+    반복문 중간에 탈출 구문 break
+    반복문 중간에 아래 생략하고 조건 비교로 올라가는 continue
+
+    while 조건문:
+      수행문
+
+
+
+##함수
+
+자주 사용하는 알고리즘을 블럭화하고 블럭에 이름을 부여
+
+필요할 때 부여한 이름을 호출하여 사용
+
+    def 함수명(입력 매개변수 목록):
+      해야할 일
+      return 반환값
+
+    # 함수 중간에 결과를 반환할 때 return문 사용
+    
+호출할 때는 함수명(입력인자)
+
+    변수 = 함수명(입력인자)
+
+    # 반환 값을 받아서 사용하는 것은 선택 사항
+
+인자 종류 - 일반 매개변수, 디폴트 매개변수, 가변인자 매개변수
+
+    def 함수명(변수=default값, *가변인자):
+      해야 할 일
+
+
+
+##예외처리
+
+프로세스가 더 이상 동작하지 못하는 상황일 때 예외가 발생한다
+
+(내부적으로 raise 구문으로 예외 발생시킨 것)
+
+    try:
+      예외가 발생할 수 있는 코드 블럭
+    except 예외1:
+      예외1 처리
+    except 예외2:
+      예외2 처리
+    else:
+      예외 발생하지 않았을 때 처리
+    finally:
+      예외가 발생하든 하지 않든 반드시 해야하는 처리
+
+
+
+##모듈
+
+특정 목적을 위한 코드를 하나의 소스 파일에 정의한 것
+
+    파일명 : 모듈명
+
+Abcd.py 파일이 있을 때, 모듈 이름은 Abcd
+    
+    import Abcd
+
+Abcd 모듈에 foo 함수가 있을 때
+
+    Abcd.foo()
+
+축약해서 사용할 때
+
+    from Abcd import foo
+
+    foo()
+
+모듈 이름을 축약(별칭)
+
+    import Abcd as A
+
+    A.foo()
+
+
+
+#클래스
+
+프로그램에서 관리할 데이터 등을 개발자가 형식으로 정의하여 사용할 수 있다
+
+클래스를 이용하면 멤버 필드와 멤버 메서드를 캡슐화할 수 있다
+
+클래스의 파생 문법을 이용하면 기반 형식의 멤버를 상속받을 수 있다
+
+기반 형식에 정의한 메서드를 파생 형식에서 다시 정의하면 재정의로 취급한다
+
+멤버 이름이 __로 시작하면 가시성 차단(private)
