@@ -1,0 +1,323 @@
+0225 수업내용
+
+# Numpy 소개
+
+numpy.org
+
+numpy는 선형 시퀀스(한 줄로 나열된 데이터)를 배열 객체로 취급
+
+```python
+arr = np.array([1, 2, 3])
+print(arr)
+
+print("구조", arr.shape)
+print("차원", arr.ndim)
+```
+
+다차원 배열
+
+```python
+ls = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]]
+arr = np.array(ls)
+print(arr)
+print("구조 : ", arr.shape)
+print("차원 : ", arr.ndim)
+```
+
+## 다양한 방법의 생성
+
+배열 정보 보는 함수
+
+```python
+def view_arr_info(arr):
+  print("구조 : ", arr.shape)
+  print("차원 : ", arr.ndim)
+  print("원소 형식 : ", arr.dtype)
+```
+
+0을 초기값으로 가지는 배열
+
+```python
+# n개의 원소를 가진 배열(초기값 0)
+z_arr = np.zeros(10)
+print(z_arr)
+view_arr_info(z_arr)
+# 4 byte 실수 : float, 8 byte 실수 : double
+```
+
+변수 타입 설정하기
+
+```python
+z_arr = np.zeros(10, dtype=int)
+print(z_arr)
+view_arr_info(z_arr)
+```
+
+다차원 배열 만들기
+
+```python
+z_arr = np.zeros((2, 3))
+print(z_arr)
+view_arr_info(z_arr)
+```
+
+```python
+z_arr = np.zeros((3, 2, 4), dtype=int)
+view_arr_info(z_arr)
+```
+
+원소 초기값 1인 배열 생성
+
+```python
+o_arr = np.ones(10)
+view_arr_info(o_arr)
+```
+
+0 ~ n-1 까지 순차적인 데이터로 이루어진 배열
+
+```python
+s_arr = np.arange(100)
+view_arr_info(s_arr)
+```
+
+랜덤한 정수로 이루어진 배열( 0~99 사이, 10개, int형)
+
+```python
+r_arr = np.random.randint(0, 100, size=10, dtype=int)
+view_arr_info(r_arr)
+```
+
+단위행렬(값이 없는 곳은 0, 행과 열이 같은 곳은 1)
+
+```python
+e_arr = np.eye(3)
+e_arr2 = np.eye(3, 5)
+view_arr_info(e_arr)
+view_arr_info(e_arr2)
+```
+
+## 구조 변환
+
+```python
+a1 = np.arange(100)
+view_arr_info(a1)
+# 20개씩 끊어줌, -1은 몇 열이 나올지 자동 계산
+a2 = a1.reshape((20, -1))
+view_arr_info(a2)
+```
+
+```python
+a1 = np.arange(784)
+view_arr_info(a1)
+a2 = a1.reshape(28, -1)
+view_arr_info(a2)
+```
+
+### 쉬어가기
+
+손글씨 학습
+
+```python
+from tensorflow import keras
+
+data = keras.datasets.mnist.load_data() # 손글씨 데이터를 다운로드
+
+train_data, test_data = data # 학습용 데이터, 평가용 데이터로 분리
+image_train, label_train = train_data # 이미지, 실제값
+
+print(image_train.shape)
+print(label_train.shape)
+
+for r in range(28):
+  for c in range(28):
+    if(image_train[0][r][c] == 0):
+      print("  ", end='')
+    else:
+      print("■", end='')
+  print()
+print(label_train[0])
+```
+
+# Numpy More
+
+### assert
+
+코드를 테스트해보기 위해 결과를 설정
+
+```python
+s = 0
+for i in range(10):
+  s += i
+# 반드시 ~ 해야만 한다고 설정
+assert s == 45, "s는 45여야 합니다."
+```
+
+```python
+# ls 목록에 있는 요소의 합계를 구하는 함수
+def calsum(ls):
+  s = 0
+  for e in ls:
+    s += e
+  return s-1 # 일부러 수식 잘못 입력
+
+# 원하는 결과가 나오지 않으면 오류 발생시킴
+assert calsum([1, 2, 3, 2]) == 8, "calsum([1,2,3,2]) 값은 8이어야 합니다."
+```
+
+### 행렬 연산
+
+```python
+# 리스트 연산
+ls1 = [1, 2]
+ls2 = [3, 4]
+ls3 = ls1 + ls2
+print(ls3)
+
+# 리스트로 행렬 연산
+def add(l1, l2): # 함수 정의
+  assert len(l1) == len(l2), "더하기 연산을 위해서는 요소의 길이가 같아야 한다"
+  re = []
+  for i in range(len(l1)):
+    re.append(l1[i] + l2[i])
+  return re
+
+ls1 = [1, 2]
+ls2 = [3, 4]
+ls3 = add(ls1, ls2)
+print(ls3)
+
+# numpy 사용
+n1 = np.array([1, 2])
+n2 = np.array([3, 4])
+n3 = n1 + n2
+print(n3)
+```
+
+```python
+# 리스트 곱 - 중복 리스트 반복
+ls1 = [1, 2, 3, 4]
+ls2 = ls1 * 3 # 같은 배열 세 번 중복
+print(ls2)
+
+# numpy 곱 - 각 요소에 값을 곱함
+n1 = np.array([1, 2, 3, 4])
+n2 = n1 * 3
+print(n2)
+```
+
+### 리스트 필터링
+
+```python
+# 100개짜리 난수 리스트 생성
+n1 = np.random.randint(1, 1000, 100, dtype=int)
+print(n1)
+
+# 500 기준으로 true, false 값 들어간 리스트 생성
+n2 = n1 > 500
+print(n2)
+
+# true값만 들어간 리스트 생성
+n3 = n1[n2]
+print(n3)
+```
+
+### 전치행렬
+
+행렬을 주대각선을 기준으로 뒤집어서 얻을 수 있다.
+
+행과 열을 뒤집은 행렬
+
+```python
+n1 = np.array([1, 2, 3, 4])
+
+# 행렬로 변환
+n2 = n1.reshape((2, 2))
+
+# 전치행렬
+n3 = np.transpose(n2)
+print(n3)
+```
+
+### 반전행렬
+
+모든 요소의 부호를 반전
+
+```python
+n1 = np.array([1, 2, 3, 4])
+
+# 행렬로 변환
+n2 = n1.reshape((2, 2))
+
+# 행렬 반전 
+n3 = np.invert(n2)
+print(n3)
+```
+
+### 역행렬
+
+A*B = E 일 때, B를 A의 역행렬이라고 한다
+
+```python
+n1 = np.array([1, 2, 3, 4])
+
+# 행렬로 변환
+n2 = n1.reshape((2, 2))
+
+# 역행렬
+n3 = np.linalg.inv(n2)
+print(n3)
+```
+
+### 표준정규분포
+
+평균 0, 표준편차 1
+
+- 모든 원소 값에서 평균을 뺀다 (평균 0으로 만들기)
+- 표준 편차로 모든 값을 나눈다 (표준편차 1로 만들기)
+
+```python
+# 표준정규분포 구하기 - 평균 0 만들기
+n1 = np.array([1, 2, 3, 4])
+n2 = n1 - 3
+print(n2)
+
+# 표준정규분포 구하기 - 표준편차 1 만들기
+n2 = n1 / 3
+print(n2)
+```
+
+### 통계 관련
+
+# 임의의 배열 생성
+n1 = np.random.randint(1, 100, 30, dtype=int)
+print(n1)
+
+
+# 배열 정보
+print("길이 : ", len(n1))
+print("평균 : ", n1.mean())
+print("최대값 위치 : ", n1.argmax())
+print("최대값 : ", n1.max())
+print("최솟값 : ", n1.min())
+print("중앙값 : ", np.median(n1))
+print("1/4분위값 : ", np.percentile(n1, 0.25))
+print("2/4분위값 : ", np.percentile(n1, 0.50))
+print("3/4분위값 : ", np.percentile(n1, 0.75))
+print("4/4분위값 : ", np.percentile(n1, 1.00))
+
+
+# 표준정규분포
+n2 = n1 - n1.mean()
+print("수평 이동한 후 평균 : ", n2.mean())
+print("분산 : ", n1.var())
+print("표준편차 : ", n1.std())
+n2 = n1/n1.std() # 기존 요소 / 표준편차
+print("스케일 조정 후의 표준편차 : ", n2.std())
+
+
+# 누적합, 누적곱
+print("원본 : ", n1)
+print("누적 합 : ", np.cumsum(n1))
+n1 = np.arange(1, 10)
+print("원본 : ", n1)
+print("누적 곱 : ", np.cumprod(n1))
