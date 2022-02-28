@@ -321,3 +321,190 @@ print("누적 합 : ", np.cumsum(n1))
 n1 = np.arange(1, 10)
 print("원본 : ", n1)
 print("누적 곱 : ", np.cumprod(n1))
+
+
+
+## 영상처리
+
+이미지 불러오기
+
+```python
+import cv2 #OpenCV 라이브러리를 사용하기 위한 구문
+#코랩에서 시각화를 위해 필요한 구문, 컴퓨터 환경에서 할 땐 필요없음
+from google.colab.patches import cv2_imshow 
+
+cv2.__version__ # 버전 확인
+
+path = '불러올 이미지' # 이미지 링크 걸어주기
+image = cv2.imread(path, cv2.IMREAD_COLOR) # 이미지 불러옴
+cv2_imshow(image)
+
+print(type(image))  # <class 'numpy.ndarray'>
+print(image.shape)  # (720, 495, 3)
+
+```
+
+빈 이미지 만들어서 작업하기
+
+```python
+import numpy as np
+image = np.zeros((28, 28, 3), np.uint8)
+
+cv2_imshow(image)
+
+# little 방식 저장, B, G, R 순으로 데이터 들어감
+print(image)
+
+image[:,:,0] = 255 # B 부분에 255 넣음, ':' 는 전체를 의미
+print(image)
+
+cv2_imshow(image)
+
+image[:,:,2]=255 # 위의 이미지에서 R 부분에 255 넣음
+print(image)
+
+cv2_imshow(image)
+```
+
+데이터 학습
+
+```python
+from tensorflow import keras
+
+data = keras.datasets.mnist.load_data()
+print(type(data))  # <class 'tuple'>
+print(len(data))  # 2
+
+train_data, test_data = data # 학습 데이터와 평가용 데이터
+print(type(train_data))  # <class 'tuple'>
+print(len(train_data))  # 2
+
+image_train, label_train = train_data #이미지 데이터와 정답 데이터
+print(image_train.shape)  # (60000, 28, 28)
+print(label_train.shape)  # (60000,)
+
+image = image_train[0]
+cv2_imshow(image)  # 트레이닝용 0번 이미지
+
+label = label_train[0]   # 트레이닝용 0번 라빌
+print(label)
+```
+
+## numpy 비슷한 데이터의 평균으로 예측하기
+
+```python
+from tensorflow import keras
+
+data = keras.datasets.mnist.load_data() # 손글시 데이터를 로딩
+train_data, test_data = data # 학습데이터와 평가데이터
+image_train, label_train = train_data # 학습 이미지와 정답
+image_test, label_test = test_data # 평가 이미지와 정답
+
+# 이미지 구조 변경 - 자세한 내용은 머신러닝에서
+print(image_train.shape, label_train.shape)
+image_train2 = image_train.reshape(60000, -1)
+print(image_train2.shape)
+image_test2 = image_test.reshape(10000, -1)
+
+from sklearn.neighbors import KNeighborsClassifier
+
+model = KNeighborsClassifier() # 모델 생성
+model.fit(image_train2, label_train) # 학습 (독립변수, 종속변수)
+
+pred_value = model.predict(image_test2) # 예측해보세요
+
+correct = 0
+for i in range(len(pred_value)):
+  if pred_value[i] == label_test[i]:
+    correct += 1
+print(correct, '/', len(pred_value))   #  9688 / 10000
+```
+
+## 러프하게 문제 풀기
+
+동전을 100번 던졌을 때 앞면이 나올 확률이 1/2라고 가정하자.
+
+동전을 100번 던졌을 때 앞면이 몇 번 나오는지 테스트를 만 번 수행하여 결과를 배열로 만드시오.
+
+```python
+import random
+
+# 전제 조건 : 동전을 던졌을 때 앞면이 나올 확률은 1/2
+# 동전을 100번 던져서 앞면이 나온 수를 반환
+def test_n(n=100):
+  cnt = 0
+  # 앞면 몇 번 나왔는지 카운팅
+  for i in range(n):
+    if random.randrange(0,2) == 1:
+      cnt += 1
+  return cnt
+
+na = np.zeros(100) # 동전이 몇 번 나왔는지 기록할 배열
+for i in range(100000): # 실험을 n번 수행
+  na[test_n()] += 1 # 실험에서 앞면이 나온 원소 값을 1 증가해서 결과 누적
+print(na)
+```
+
+```python
+결과
+
+[0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+ 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+ 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+ 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+ 0.000e+00 0.000e+00 2.000e+00 9.000e+00 1.100e+01 2.900e+01 4.200e+01
+ 7.100e+01 1.400e+02 2.680e+02 4.510e+02 7.490e+02 1.039e+03 1.681e+03
+ 2.178e+03 2.954e+03 3.870e+03 4.808e+03 5.758e+03 6.665e+03 7.219e+03
+ 7.840e+03 8.010e+03 7.902e+03 7.423e+03 6.781e+03 5.888e+03 4.717e+03
+ 3.843e+03 3.055e+03 2.142e+03 1.598e+03 1.130e+03 7.010e+02 4.460e+02
+ 2.570e+02 1.580e+02 7.800e+01 4.700e+01 2.000e+01 1.400e+01 3.000e+00
+ 2.000e+00 1.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+ 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+ 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+ 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00
+ 0.000e+00 0.000e+00]
+```
+
+```python
+# 그래프
+
+import matplotlib.pyplot as plt
+
+plt.plot(na)
+
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b5d458b5-030d-42d5-8bc3-9a8b7ba11e0d/Untitled.png)
+
+어느 카지노에서 동전을 100번 던져서 몇 번 나오는지 배팅하는 게임이 있다.
+
+길동이가 카지노에 가서 67번 나오는 것에 배팅하였는데 대박을 맞았다.
+
+대박 맞을 확률은?
+
+해당 카지노의 동전은 앞면이 나올 확률이 1/2라고 말할 수 있는지 검정하시오.
+
+nac = np.cumsum(na)
+print(nac[33] * 2 / 100000 * 100,"%")
+#  0.10200000000000001 %
+
+print("평균 : ", np.mean(na), "표준편차 : ", np.std(na))
+#  평균 :  1000.0 표준편차 :  2157.319345854943
+
+# 정규분포를 표준정규분포로 전환 - 스케일조정
+na2 = na - np.mean(na)
+print("평균 : ", np.mean(na2), "표준편차 : ", np.std(na2))
+na3 = na2/np.std(na2)
+print("평균 : ", np.mean(na3), "표준편차 : ", np.std(na3))
+#  평균 :  0.0 표준편차 :  2157.319345854943
+#  평균 :  2.4424906541753444e-17 표준편차 :  1.0
+
+plt.plot(na, 'ro', label='na')
+plt.plot(na2, 'bo', label='na2')
+plt.plot(na3, 'go', label='na3')
+plt.legend()
+plt.show()
+
+plt.plot(na3, 'go', label='na3')
+plt.legend()
+plt.show()
