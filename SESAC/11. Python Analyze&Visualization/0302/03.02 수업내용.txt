@@ -1,0 +1,688 @@
+0302 수업내용  https://www.notion.so/jiyyu/3-bbb8edd7cecd4c6c905003c0a33de8aa
+
+# matplotlib
+
+matplotlib 매뉴얼 사이트 : [matplotlib.org](http://matplotlib.org/)
+
+VS code에서 matplotlib 찾아서 설치하기
+
+사용 예
+
+```python
+import matplotlib.pyplot as plt
+import math
+
+ys = [math.sin(x/10) for x in range(-100, 100, 1)]  # sin 값
+plt.plot(ys)  # 도면에 넣음
+plt.show()  # 그래프 그림
+```
+
+### plot 함수
+
+```
+plot([x], y, [fmt], data=None, *kwargs)
+plot([x], y, [fmt], [x2], [y2], [fmt2], ..., *kwargs)
+```
+
+```python
+import numpy as np
+
+data = np.arange(10)  # 0부터 9까지의 값으로 이루어진 리스트 생성
+
+plt.plot(data)  # 도면에 추가, x축 데이터는 0부터 순차적으로 자동 부여
+plt.show()  # 시각화
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4d62d679-3b50-44e7-ab97-8dd1a692a77b/Untitled.png)
+
+```python
+plt.plot([1, 4, 7, 9, 12, 15])  # y값만 인자로 전달
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b593dc53-7735-42bd-a7fc-ca8910ebd7f6/Untitled.png)
+
+```python
+plt.plot([1, 2, 3, 4, 5, 7], [1, 2, 9, 7, 12, 15])  # x, y 전달
+plt.title("plt.plot[1, 4, 7, 9, 12, 15]")  # 제목 달기
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d198137b-0af5-438d-b819-9320c722b145/Untitled.png)
+
+### Marker
+
+```
+fmt = '[marker][line][color]'
+```
+
+```python
+# 마커 사용 - '.' 점
+plt.plot([1, 2, 3, 4, 5, 7],[1, 2, 9, 7, 12, 15], '.')  # 도면에 추가
+plt.title("plt.plot[1, 4, 7, 9, 12, 15]")  # 제목 달기
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/53ecd458-3e9f-4438-8b59-98a843c9098f/Untitled.png)
+
+```python
+# 마커 사용 - 'o' 점
+plt.plot([1, 2, 3, 4, 5, 7],[1, 2, 9, 7, 12, 15], 'o')  # 도면에 추가
+plt.title("plt.plot[1, 4, 7, 9, 12, 15]")  # 제목 달기
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f6e70393-ba9a-4989-a604-d9c8e48f148e/Untitled.png)
+
+```python
+# 마커+라인 사용 - 'o-' 원+실선
+plt.plot([1, 2, 3, 4, 5, 7],[1, 2, 9, 7, 12, 15], 'o-')  # 도면에 추가, o-, o: 등
+plt.title("plt.plot[1, 4, 7, 9, 12, 15], 'o-")  # 제목 달기
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2cd84b03-5b29-41ae-81d2-68f5e581ee4b/Untitled.png)
+
+```python
+# 마커+라인 사용 - 'o-r' 원+실선+색상
+plt.plot([1, 2, 3, 4, 5, 7],[1, 2, 9, 7, 12, 15], 'o:r')  # 도면에 추가
+plt.title("plt.plot[1, 4, 7, 9, 12, 15], 'o:r")  # 제목 달기
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/98f9693c-685f-45da-a28a-171797ea20a5/Untitled.png)
+
+### 선 색
+
+```python
+#kwargs의 color
+plt.plot([1, 2, 3, 4, 5, 7],[1, 2, 9, 7, 12, 15], 'o:', color='darkgray')  # 도면에 추가
+plt.title("plt.plot[1, 4, 7, 9, 12, 15], 'o:', color='darkgray'")  # 제목 달기
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/40bbc5ee-9056-43f6-b4cf-c1df5527e676/Untitled.png)
+
+```python
+#kwargs의 color - RGB값 부여
+plt.plot([1, 2, 3, 4, 5, 7],[1, 2, 9, 7, 12, 15], 'o:', color='#FF00FF')  # 도면에 추가
+plt.title("plt.plot[1, 4, 7, 9, 12, 15], 'o:', color='#FF00FF'")  # 제목 달기
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2b4f05eb-63bf-4ecd-9edb-5d2917b8c1c5/Untitled.png)
+
+```python
+#kwargs의 linewidth
+plt.plot([1, 2, 3, 4, 5, 7],[1, 2, 9, 7, 12, 15], 'o:', color='#FF00FF', linewidth=5)  # 도면에 추가
+plt.title("plt.plot[1, 4, 7, 9, 12, 15], 'o:', color='darkgreen', linewidth=5")  # 제목 달기
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/908bb7e2-297a-4246-a2aa-ab3667996d9d/Untitled.png)
+
+### 데이터 두 개 이상 전달하기
+
+```python
+#데이터를 두 개 이상 전달하기
+plt.plot([1, 2, 3, 4, 5, 7],[1, 2, 9, 7, 12, 15], 'bo', [1, 2, 3, 4, 5, 7],[15, 12, 7, 9, 2, 5], 'r^')  # 도면에 추가
+plt.title("plt.plot[1, 2, 3, 4, 5, 7],[1, 2, 9, 7, 12, 15], 'bo', [1, 2, 3, 4, 5, 7],[1, 2, 9, 7, 12, 15], 'r^'")  # 제목 달기
+plt.show()
+```
+
+```python
+#데이터를 두 개 이상 전달하기 - 두 개 따로따로 plot에 추가
+plt.plot([1, 2, 3, 4, 5, 7],[1, 2, 9, 7, 12, 15], 'bo')
+plt.plot([1, 2, 3, 4, 5, 7],[15, 12, 7, 9, 2, 5], 'r^')  # 도면에 추가
+plt.title("plt.plot([1, 2, 3, 4, 5, 7],[1, 2, 9, 7, 12, 15], 'bo'), plt.plot([1, 2, 3, 4, 5, 7],[1, 2, 9, 7, 12, 15], 'r^')")  # 제목 달기
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6b4afd0b-3381-4608-9f8d-9b127aadfbab/Untitled.png)
+
+```python
+plt.plot([1, 2, 3, 4, 5],[99, 95, 40, 60, 85], 'bo', label="class 1")
+plt.plot([1, 2, 3, 4, 5],[76, 100, 50, 99, 96], 'r^', label="class 2")
+plt.axis([0, 6, 0, 101])  # 데이터 축 범주 정함
+plt.xlabel('numbers')  # x축 라벨
+plt.ylabel('score')   # y축 라벨
+plt.title("scores")  # 제목 달기
+plt.legend()  # 두 개의 데이터에 라벨 달기
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f43254ed-f2a6-4891-843e-a1987719e9e0/Untitled.png)
+
+### sub 도표 사용하기
+
+```python
+plt.subplot(221)  # 2X2 도표 중 1
+plt.title("221")
+plt.plot([1, 2, 3, 4], 'ro-')
+
+plt.subplot(222)  # 2X2 도표 중 2
+plt.title("222")
+plt.plot([4, 3, 2, 1], 'b.:')
+
+plt.subplot(223)  # 2X2 도표 중 3
+plt.title("223")
+plt.plot([2, 3, 4, 1], 'c^-.')
+
+plt.subplot(224)  # 2X2 도표 중 4
+plt.title("224")
+plt.plot([3, 4, 1, 2], 'k.--')
+
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6af9d53c-8fd9-490d-8b5b-36efe4598923/Untitled.png)
+
+### yticks
+
+```python
+# y축에 표현할 값을 지정 + 디폴트 색상 확인
+ys_str = []
+for i in range(1, 31):  # 1~30까지 수평선 그림
+  plt.plot([i, i])
+  if i%3 == 0:
+    ys_str.append(str(i))
+  else:
+    ys_str.append(" ")
+plt.title("default color, set ytick")
+plt.yticks(range(1, 31), ys_str)
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a8f6c31a-8b99-4a97-ae94-d7877da89534/Untitled.png)
+
+### 배경색
+
+```python
+plt.plot([1, 1], 'ro-')
+ax = plt.gca()
+ax.set_facecolor('lightgray')
+plt.title("set background color")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/50ab91ac-d8a9-4ef8-933e-746651c4e6a9/Untitled.png)
+
+### 딕셔너리 사용
+
+```python
+mdic = dict()
+mdic['hour'] = [0, 1, 2, 3, 4, 5]
+mdic['distance'] = [0, 5, 20, 45, 70, 95]
+
+# mdic 딕셔너리 데이터 사용, 키는 hour, distance
+plt.plot('hour', 'distance', data=mdic)
+plt.savefig('demo.png')  # 그래프 별도 저장
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/405e232d-e9aa-4c00-a4ee-293293d56a33/Untitled.png)
+
+## 막대 그래프
+
+```python
+matplotlib.pyplot.bar
+matplotlib.pyplot.barh
+```
+
+```python
+names = ['a', 'b', 'c']
+scores = [80, 90, 85]
+plt.bar(names, scores)
+plt.xlabel('name')
+plt.ylabel('score')
+plt.title('name-score bar')
+plt.show()
+
+names = ['a', 'b', 'c']
+scores = [80, 90, 85]
+plt.plot(names, scores)
+plt.xlabel('name')
+plt.ylabel('score')
+plt.title('name-score bar')
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cfb1a40f-5176-4d9e-b567-44edf09f33fe/Untitled.png)
+
+**matplotlib 한글 패치**
+
+```python
+sudo apt-get install -y fonts-nanum
+!sudo fc-cache -fv
+!rm ~/.cache/matplotlib -rf
+
+# 런타임 다시 시작하기
+```
+
+### 수직 그래프(var)와 수평 그래프(varh)
+
+```python
+years = ['2018', '2019', '2020', '2021']
+incomes = [5000, 5600, 4300, 7800]
+
+plt.bar(years, incomes)
+plt.show()
+
+plt.barh(years, incomes)
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/72a9e3bc-386b-4c8b-8ff6-1c61441f0c93/Untitled.png)
+
+### 누적 그래프
+
+x값이 동일하고 y값이 여러번 들어갈 경우, 자동으로 누적 그래프 생성
+
+이 경우 두 개의 값이 중첩됨
+
+```python
+names = ['a', 'b', 'c']
+income1 = [200, 230, 300]
+income2 = [100, 120, 200]
+plt.bar(names, income1)
+plt.bar(names, income2)
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c935a370-1754-4fbf-9160-90c851ccc216/Untitled.png)
+
+누적 합까지 알기 위해서는 bottom 별도로 지정해주자
+
+```python
+names = ['a', 'b', 'c']
+income1 = [200, 230, 300]
+income2 = [100, 120, 200]
+plt.bar(names, income1)
+plt.bar(names, income2, bottom=income1)
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8e151a00-f49c-4ede-83de-85994ec7fc1d/Untitled.png)
+
+### 틱 위치 조정
+
+```python
+names = ['a', 'b', 'c']
+income = [200, 230, 300]
+plt.bar(names, income, align='edge')  # tick 위치 왼쪽정렬
+plt.title("x틱 위치를 왼쪽으로 정렬")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/637e42ee-8dc1-4050-8d28-0976cd1716f4/Untitled.png)
+
+### 그래프 별 색상 지정
+
+```python
+colors = ['red', 'green', 'blue']
+names = ['a', 'b', 'c']
+income = [200, 230, 300]
+plt.bar(names, income, color=colors)  # 색상 지정
+plt.title("색상 지정")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d28cad10-0bec-4dfb-a494-ed0082cd136b/Untitled.png)
+
+```python
+colors = ['pink', 'black', 'skyblue']
+ecolor = ['red', 'green', 'blue']
+names = ['a', 'b', 'c']
+income = [200, 230, 300]
+plt.bar(names, income, color=colors, edgecolor=ecolor, linewidth=5)
+plt.title("색상 지정, 엣지 색상 지정, 엣지 두께")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/57509ac5-a478-4c94-b0d8-4852d0007c57/Untitled.png)
+
+### tick_label
+
+기본
+
+```python
+seqno = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+scores = [90, 75, 80, 85, 90, 100, 88, 74, 69]
+plt.bar(seqno, scores)
+plt.xlabel('no')
+plt.ylabel('score')
+plt.title("no - score")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0c48f14a-739d-4eee-8c9a-4b204174bf79/Untitled.png)
+
+틱 라벨 추가
+
+```python
+seqno = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+scores = [90, 75, 80, 85, 90, 100, 88, 74, 69]
+num_str = [str(no) for no in seqno]
+plt.bar(seqno, scores, tick_label=num_str)  # seqno를 str로 바꿔서 라벨링
+plt.xlabel('no')
+plt.ylabel('score')
+plt.title("no - score")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4fce2e78-4a76-47a5-9294-a9d2464890ba/Untitled.png)
+
+### 오차 범위 표현하기
+
+에러
+
+```python
+colors = ['red', 'green', 'blue']
+names = ['a', 'b', 'c']
+income = [200, 230, 300]
+err = [2, 3, 10]
+plt.bar(names, income, color=colors, yerr=err)
+plt.title("에러값 표현하기")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/54158b34-459b-4c3b-8077-c2aba4b9009b/Untitled.png)
+
+```python
+colors = ['red', 'green', 'blue']
+names = ['a', 'b', 'c']
+income = [200, 230, 300]
+err = [2, 3, 10]
+plt.barh(names, income, color=colors, xerr=err)
+plt.title("에러값 표현하기")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/873a2198-9d18-425e-b20d-822f026060a0/Untitled.png)
+
+에러값 표현 + 캡 달기
+
+```python
+colors = ['red', 'green', 'blue']
+#ecolors = ['g', 'b', 'r']
+names = ['a', 'b', 'c']
+income = [200, 230, 300]
+err = [2, 3, 10]
+# 캡 달 경우 에러마다 색상 부여 못 함
+plt.bar(names, income, color=colors, yerr=err, ecolor='blue', capsize=4.0)
+plt.title("에러값 표현하기, 캡 달기")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/790ea4f7-0cdc-4362-9c63-75ce9a507b37/Untitled.png)
+
+## 파이 그래프
+
+반지름 default = 1
+
+```python
+locales = ['서울', '강원', '경북', '충남', '기타']
+incomes = [2300, 1200, 1800, 800, 400]
+
+# 돌출시키기
+exs = [0, 0.1, 0, 0, 0]
+
+# autopct : 퍼센트 계산, pctdistance : 퍼센트 위치 지정
+plt.pie(incomes, labels=locales, explode=exs, autopct='%.2f', pctdistance=0.8)
+plt.title("지역별 수입 - 퍼센트 표시하기")
+plt.show()
+```
+
+각도 계산
+
+```python
+# 시계 방향으로 각도 계산하기
+locales = ['서울', '강원', '경북', '충남', '기타']
+incomes = [2300, 1200, 1800, 800, 400]
+exs = [0, 0.1, 0, 0, 0]
+
+# startandgle : 시작 각도, counterclock : 시계/반시계 방향(true:반시계)
+plt.pie(incomes, labels=locales, explode=exs, autopct='%.2f', startangle=90, counterclock=False)
+plt.title("지역별 수입 - 그림자 효과")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7db599b1-29fb-490b-a3ce-bcab36c7b29a/Untitled.png)
+
+## 주석 달기
+
+```python
+# 주석 달기
+colors = ['red', 'green', 'blue']
+names = ['a', 'b', 'c']
+income = [200, 230, 300]
+plt.bar(names, income, color=colors)
+plt.annotate('a is eh', (-0.3, 220))
+plt.title("주석 달기")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4c2b1e3b-af71-4d30-b2e1-7e12ed40271d/Untitled.png)
+
+## 이미지 표시 예
+
+```python
+# 데이터 내려받기
+from tensorflow import keras
+(tr_x, tr_y), (te_x, te_y) = keras.datasets.fashion_mnist.load_data()
+
+tr_x.shape, tr_y.shape, te_x.shape, te_y.shape  # 28x28 -> 흑백
+
+# 0이 아닌 경우 전부 까맣게 칠해줌
+for r in range(28):
+  for c in range(28):
+    if tr_x[9][r][c] == 0:
+      print("  ", end='')
+    else:
+      print("■", end='')
+  print()
+
+# 10x10 subplot에 이미지 그리기
+plt.figure(figsize = (6, 6))
+for index in range(100):
+  plt.subplot(10, 10, index+1)
+  plt.imshow(tr_x[index])
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/862fee8d-5836-4e40-8535-11df93777500/Untitled.png)
+
+## 데이터 시각화
+
+**기본적인 사용법**
+
+plt.plot([x], y, [fmt])
+
+```python
+# 기본 사용
+import matplotlib.pyplot as plt
+
+data1 = [10, 14, 19, 20, 25]
+plt.plot(data1)
+plt.show()
+
+# 2차방정식 그래프
+import numpy as np
+
+x = np.arange(-4.5, 5, 0.5)
+y = 2 * x ** 2
+
+plt.plot(x, y)
+plt.show()
+
+# 여러 방정식을 한 표에 나타내기
+x = np.arange(-4.5, 5, 0.5)
+y1 = 2 * x ** 2
+y2 = 5 * x + 30
+y3 = 4 * x ** 2 + 10
+# 한 번에 다 담을 순 있으나 옵션까지 생각하면 코드 가독성 떨어짐
+# plt.plot(x, y1, x, y2, x, y3)
+plt.plot(x, y1, 'bo', label='y = 2x^2')
+plt.plot(x, y2, 'r-', label='y = 5x + 30')
+plt.plot(x, y3, 'g:', label='y = 4x^2 + 10')
+plt.legend()
+plt.show()
+
+# 여러 도면 사용해서 그래프 그리기
+plt.plot(x, y1)  # figure를 설정하지 않을 때 default는 figure(1)에 그림
+plt.figure(1)  # 도면 지정 (figure(1)에 추가)
+plt.plot(x, y2)
+plt.figure(2)  # 도면 지정 (figure(2)를 생성)
+plt.plot(x, y3)
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/91d31ee6-ee62-404c-a5a2-61f24b65b4f5/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4c9010dc-cda5-4868-8280-08dab32f19a1/Untitled.png)
+
+```python
+x = np.linspace(-4, 4, 100) # -4 ~ 4 사이를 100개로 쪼갬
+y1 = x ** 3
+y2 = 10 * x ** 2 - 2
+
+plt.plot(x, y1)
+plt.plot(x, y2)
+
+# 범위 지정
+plt.xlim(-1, 1)
+plt.ylim(-3, 3)
+
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ab8321b8-2293-4cfd-af68-aaae9434e4e6/Untitled.png)
+
+```python
+x = np.arange(0, 5, 1)
+y1 = x
+y2 = x+1
+y3 = x+2
+y4 = x+3
+
+plt.plot(x, y1, 'bo-')
+plt.plot(x, y2, 'r^--')
+plt.plot(x, y3, 'cs-.')
+plt.plot(x, y4, 'kd:')
+
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d2859eea-f81a-439e-9776-2b6526ba080c/Untitled.png)
+
+```python
+# legend 표기 1
+x = np.arange(-4.5, 5, 0.5)
+y1 = 2 * x ** 3
+y2 = 3 * x ** 2
+plt.plot(x, y1, label='data1')
+plt.plot(x, y2, label='data2')
+plt.xlabel('x')
+plt.ylabel('y1')
+plt.title("title, x label, y label")
+plt.grid(True)
+plt.legend()
+plt.show()
+
+# legend 표기 2
+x = np.arange(-4.5, 5, 0.5)
+y1 = 2 * x ** 3
+y2 = 3 * x ** 2
+plt.plot(x, y1)
+plt.plot(x, y2)
+plt.xlabel('x')
+plt.ylabel('y1')
+plt.title("title, x label, y label")
+plt.grid(True)
+plt.legend(['data1','data2'], loc = 'lower right')
+plt.show()
+```
+
+## 산점도
+
+점으로 분포되어 있는 정도를 표현
+
+plt.scatter([x], y, [옵션])
+
+```python
+height = [165, 177, 160, 180, 185, 155, 172]
+weight = [62, 67, 55, 74, 90, 43, 64]
+
+size = 100 * np.arange(1, 8)  #  plot보다 많은 데이터 표현할 수 있음
+colors = ['r', 'g', 'b', 'c', 'm', 'k', 'y']
+plt.scatter(height, weight, s=size, c=colors)
+plt.show()
+```
+
+지역별 인구밀도 표시
+
+```python
+import numpy as np
+city = ['서울', '인천', '대전', '대구', '울산', '부산', '광주']
+
+lat = [37.56, 37.45, 36.35, 35.87, 35.53, 35.18, 35.16]
+lon = [126.94, 126.70, 127.38, 128.60, 129.31, 129.07, 126.85]
+pop_den = [16154, 2751, 2839, 2790, 1099, 4454, 2995]
+size = np.array(pop_den)*0.2
+colors = ['r', 'g', 'b', 'c', 'm', 'k', 'y']
+plt.figure(figsize=(8,8))
+plt.scatter(lon, lat, s=size, c=colors, alpha=0.5)
+plt.xlabel("경도(longitude)")
+plt.ylabel("위도(latitude)")
+plt.title("지역별 인구 밀도(2017)")
+for x, y, name in zip(lon, lat, city):
+  plt.annotate(name,(x, y))  # plt.text(x, y, name)
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/18f065d3-e2d7-4e16-acef-61827e398bf2/Untitled.png)
+
+# 막대 그래프
+
+```python
+ids = ['m01', 'm02', 'm03', 'm04']
+be_ex = [27, 35, 40, 33]
+af_ex = [30, 38, 42, 37]
+n = len(ids)
+index = np.arange(n)  # np.array [0,1,2,3]
+
+# 수직 그래프
+colors = ['r', 'g', 'b', 'm']
+plt.bar(ids, be_ex, color=colors, width=0.4)
+plt.show()
+
+# 수평 그래프
+plt.barh(ids, be_ex, color=colors, height=0.4)
+plt.show()
+
+# 운동 전, 운동 후 비교하는 그래프
+bw = 0.4
+plt.bar(index, be_ex, color='c', align='edge', width=bw, label='before')
+plt.bar(index+bw, af_ex, color='m', align='edge', width=bw, label='after')
+plt.xticks(index+bw, ids)
+plt.title("운동 전후 윗몸일으키기 횟수")
+plt.legend()
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c56c19bd-aca5-4a56-aa1d-9a0120641b5c/Untitled.png)
+
+## 히스토그램
+
+plt.hist([x], [옵션])
+
+```python
+scores = [1, 1, 2, 1, 2, 2, 3, 1, 2, 3, 2, 1, 2, 4, 1, 2]
+plt.hist(scores, bins=4)  # bins : 구간 갯수 (default=10)
+plt.grid(True)
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/db51ffa7-d263-4c6f-8b98-6f7c3df0b4ec/Untitled.png)
+
+.
