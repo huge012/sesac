@@ -1,0 +1,810 @@
+0303
+
+
+## Json, XML to Pandas
+
+**카카오 API로 가져온 Json을 Pandas로 사용하기**
+
+카카오 API로 도서 정보 가져오기 - Json
+
+```python
+import urllib.request
+
+url = 'https://dapi.kakao.com/v3/search/book'  # OpenAPI 서비스 제공 URL
+
+# 전달 인자
+target_param = "target=title"
+query_in = input("검색 질의 : ")
+page_param = "page=1"
+query_param = "query="+urllib.parse.quote(query_in) # utf-8로 인코딩
+
+# 쿼리
+query_str = url+'?'+target_param+'&'+query_param+'&'+page_param
+print(query_str)
+
+# 서비스 요청에 사용할 객체를 생성
+request = urllib.request.Request(query_str)
+request.add_header("Authorization", "KakaoAK 	REST KEY") # RESTAPI 키 입력
+
+# 웹 서버에 요청
+response = urllib.request.urlopen(request)
+res = response.read().decode('utf-8')
+print(res)
+```
+
+Json으로 데이터 변환
+
+```python
+# Json으로 데이터 변환
+import json
+jd = json.loads(res)
+print(jd)
+```
+
+Pandas로 다루기
+
+```python
+import pandas as pd
+
+df = pd.json_normalize(jd['documents'])  # json 파일 내 특정 키에 대한 정보를 가져옴
+df.info()
+```
+
+**네이버 API로 가져온 xml 정보 Pandas로 사용하기**
+
+네이버 API 연결
+
+```python
+import urllib.request
+
+# url
+url = 'https://openapi.naver.com/v1/search/book.xml'
+
+# 전달인자
+query_in = input("검색 질의 : ")
+query_param = "query="+urllib.parse.quote(query_in) # utf-8로 인코딩
+
+# 쿼리 문자열
+query_str = url+'?'+query_param
+print(query_str)
+
+# 서비스 요청에 사용할 객체 생성
+request = urllib.request.Request(query_str)
+request.add_header('X-Naver-Client-Id', '발급받은 client ID 값')
+request.add_header('X-Naver-Client-Secret', '발급받은 client secret 값') 
+
+# 서비스 요청
+response = urllib.request.urlopen(request)
+res = response.read().decode('utf-8')
+print(res)
+```
+
+pandas로 다루기
+
+```python
+import pandas as pd
+
+df = pd.read_xml(res, xpath=".//item")
+df.info()
+```
+
+이후 활용법 - matplotlib 활용한 분석
+
+```python
+import matplotlib.pyplot as plt
+
+df.price.plot()
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d397bf27-fc1a-4e8e-b19e-fc8dd84b094d/Untitled.png)
+
+### 텍스트마이닝 Text Mining
+
+> 자연어로 구성된 비정형 텍스트 데이터에서 패턴 또는 관계를 추출하여 가치와 의미 있는 정보를 찾아내는 마이닝 기법으로, 사람들이 말하는 언어를 이해할 수 있는 자연어처리 기술에 기반한 기술
+> 
+
+영문/한글/숫자 정도가 유의미하다. 특수 문자는 제거한다.
+
+## 워드 클라우드
+
+> 태그 클라우드(tag cloud) 또는 워드 클라우드(word cloud)는 메타 데이터에서 얻어진 태그들을 분석하여 중요도나 인기도 등을 고려하여 시각적으로 늘어놓아 표시하는 것이다. 보통은 2차원의 표와 같은 형태로 태그들이 배치되며 이때 순서는 알파벳/가나다 순으로 배치된다. 시각적인 중요도를 강조를 위해 각 태그들은 그 **중요도(혹은 인기도)에 따라 글자의 색상이나 굵기 등 형태가 변한다.**
+> 
+
+### Semantic 검색
+
+> 기존 키워드 검색 기술을 한단계 업그레이드하여 해당 키워드와 키워드 사이의 의미, 문맥 등의 기본 정보와 그 키워드들 간의 관계를 추론하여 좀 더 구체적인 검색이 가능하게 한 기술로써 지능형 검색 기술이다.
+> 
+
+### TF Term Frequency
+
+단어가 얼마나 자주 나오는가 (빈도수)
+
+### IDF Inverse Document Frequency
+
+검색하는 단어가 포함된 문서가 몇 개나 되는가 (희귀성)
+
+## 타이타닉.csv 파일 분석 및 시각화
+
+[train_titanic.csv](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9b40e4f7-b43a-417b-b24a-33d491e14f25/train_titanic.csv)
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+path = 'train_titanic.csv'
+df = pd.read_csv(path)
+df
+```
+
+### 1. 주어진 자료의 인원, 생존자, 사망자는 몇 명인가?
+
+나의 풀이
+
+```python
+ls = np.array(df['Survived'])
+total = np.size(ls)
+survived = np.sum(ls)
+dead = total - survived
+print(f"총원 : {total}, 생존자 : {survived}, 사망자 : {dead}")
+```
+
+강사님 풀이
+
+```python
+sur_data = df['Survived']
+svc = sur_data.value_counts()
+print(f"사망자 수 : {svc.values[0]}, 생존자 수 : {svc.values[1]}")
+print(f"총원 : {sur_data.count()}")
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0c22649f-0a53-4ac9-8000-6f7ec3c5667f/Untitled.png)
+
+### 2. 생존자와 사망자를 Pie 그래프로 나타내고 생존자와 사망자의 퍼센트를 소수점 2자리까지 나타내시오.
+
+나의 풀이
+
+```python
+ratio = [survived, dead]
+labels = ['servived', 'dead']
+color = ['#ffc000', 'darkgray']
+wedgeprops = {'width':0.7, 'edgecolor':'w', 'linewidth':5}
+plt.pie(ratio, labels=labels, autopct="%.2f%%", counterclock=False, colors=color, wedgeprops=wedgeprops)
+plt.show()
+```
+
+강사님 풀이
+
+```python
+labels = ["dead", "alive"]
+plt.pie(svc, labels=labels, autopct="%.2f%%")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b5a8f2ff-6085-49fe-b8b0-c14cd934bcf3/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/66568ffa-8ead-44bd-b4e4-c25fe2a70573/Untitled.png)
+
+### 3. 결측데이터가 있는 컬럼들을 조사하시오. (각 컬럼마다 결측 데이터가 얼마나 있는지)
+
+나의 풀이
+
+```python
+cn = ['PassengerId', 'Survived', 'Pclass', 'Name', 'Sex', 'Age', 'SibSp', 'Parch', 'Ticket', 'Fare', 'Cabin', 'Embarked']
+for column in cn:
+  cnt = df[column].isnull().sum()
+  if (cnt > 0):
+    print(f"[ {column} ] 컬럼 결측 데이터 개수 : {cnt}")
+```
+
+강사님 풀이
+
+```python
+# 강사님 풀이
+print(df['Age'].isnull().value_counts())
+print(df['Cabin'].isnull().value_counts())
+print(df['Embarked'].isnull().value_counts())
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/aae2b413-0cf6-4b6a-88e5-5daa7cf4ecc0/Untitled.png)
+
+### 4. Pclass의 종류별로 분포를 Pie 그래프로 나타내시오.
+
+나의 풀이
+
+```python
+class_data = df['Pclass']
+ratio = class_data.value_counts()
+# ratio = df[['Pclass', 'Survived']].groupby(['Pclass']).count()
+labels = ['3 class', '1 class', '2 class']
+color = ['#ffc000', '#8fd9b6', '#ff9999']
+wedgeprops = {'width':0.7, 'edgecolor':'w', 'linewidth':5}
+plt.pie(ratio, labels=labels, autopct="%.2f%%", counterclock=False, colors=color, wedgeprops=wedgeprops)
+plt.show()
+```
+
+강사님 풀이
+
+```python
+# 강사님 풀이
+dvc = df.Pclass.value_counts().sort_index()
+plt.pie(dvc.values, autopct="%.2f%%")
+plt.title("Pclass")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6f3e8d46-2844-4e70-b4f9-0345f482d58a/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4f1bbbb8-4be1-4c08-9d57-ab28b0b6c789/Untitled.png)
+
+### 5. Pclass의 종류별로 생존자와 사망자를 하나의 막대그래프로 나타내시오.(아래:생존자, 위:사망자, 나란히 병행하는 것도 해보기)
+
+나의 풀이
+
+```python
+cn = df[['Pclass', 'Survived']].groupby(['Pclass']).count()
+class_alived = df[['Pclass', 'Survived']].groupby(['Pclass']).sum()
+
+# 해당 코드는 seaborn의 countplot 써서 분석.. 못 풀었음!
+```
+
+강사님 풀이
+
+```python
+# 강사님 코드
+pdata = df.Pclass
+cn = len(pdata.unique())
+pc_alive_arr = np.zeros(3)
+pc_dead_arr = np.zeros(3)
+for index in range(len(pdata)):
+  pi = pdata[index] - 1  # Pclass는 1, 2, 3인데 이를 0, 1, 2로 변환
+  if sur_data[index] == 0:  # 죽은 승객일 때
+    pc_dead_arr[pi] += 1
+  else:  # 생존 승객일 때
+    pc_alive_arr[pi] += 1
+pc_alive_arr, pc_dead_arr
+
+labels = ['1', '2', '3']
+plt.bar(labels, pc_alive_arr)
+plt.bar(labels, pc_dead_arr, bottom=pc_alive_arr)
+for i in range(cn):
+  plt.annotate(str(pc_alive_arr[i]), (-0.1+i, 40))
+  plt.annotate(str(pc_dead_arr[i]), (-0.1+i, pc_alive_arr[i]+30))
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f80f7cb4-0119-48a1-8e3c-a263757f86bd/Untitled.png)
+
+### 6. Name 컬럼에 탑승자를 부르는 호칭을 Mr, Mrs, Miss, Master, Dr, ETC로 나누어 분포를 파이 그래프로 나타내시오.
+
+나의 풀이
+
+```python
+names_values = ['Mr', 'Mrs', 'Miss', 'Master', 'Dr', 'ETC']
+ndata = df['Name']
+name_arr = np.zeros(6)
+
+# 각 이름마다 체크
+for ne in ndata:
+  # ','를 기준으로 분리
+  f, s = ne.split(',')
+
+  # ',' 뒤에 있는 문자열을 '.'으로 분리
+  ses = s.split('.')
+
+  # '.'의 앞부분에 공백 제거
+  s0 = ses[0].replace(' ', '')
+
+  # names_values에 있는지 체크
+  check = False
+  for i, ne2 in enumerate(names_values):
+    # 호칭 있을 경우 출력
+    if ne2 == s0:
+      name_arr[i] += 1
+      check = True
+      break
+
+  # 호칭 없을 경우
+  if check == False:
+    name_arr[5] += 1
+
+color = ['#ff9999', '#ffc000', '#8fd9b6', '#d395d0', 'lightgray']
+wedgeprops = {'width':0.8, 'edgecolor':'w'}
+plt.pie(name_arr, labels=names_values, autopct="%.2f%%", counterclock=False, colors=color, wedgeprops=wedgeprops)
+plt.show()
+print(name_arr)
+```
+
+강사님 풀이
+
+```python
+# 강사님 풀이
+names_values = ['Mr', 'Mrs', 'Miss', 'Master', 'Dr', 'ETC']
+def get_name_index(name):
+  first, second = name.split(',')  # ',' 기준 분리
+  foos = second.split('.')  # '.' 기준 분리
+  tn = foos[0].replace(' ', '')  # 공백 제거
+  for index, nv in enumerate(names_values):
+    if nv == tn :
+      return index
+  return 5
+
+n_cnts = np.zeros(6)
+for i, name in enumerate(df.Name):
+  ni = get_name_index(name)
+  n_cnts[ni] += 1
+print(n_cnts)
+
+plt.pie(n_cnts, labels=names_values, autopct="%.2f %%")
+plt.title("Name")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0bf45b58-3758-467f-9132-85a78954d8d7/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/74069826-82a9-4ed4-a6ad-088bb0a5f564/Untitled.png)
+
+### 7. 앞에서 구분한 호칭에 따른 생존자와 사망자를 하나의 막대그래프로 나타내시오.(아래:생존자, 위:사망자)
+
+나의 풀이
+
+```python
+ndata = df.Name
+names_values = ['Mr', 'Mrs', 'Miss', 'Master', 'Dr', 'ETC']
+n_alive_arr = np.zeros(6)
+n_dead_arr = np.zeros(6)
+
+for index in range(len(ndata)):  # 이름마다 체크
+  ne = ndata[index]
+  f, s = ne.split(',')
+  ses = s.split('.')
+  s0 = ses[0].replace(' ', '')
+
+  check = False
+  for i, ne2 in enumerate(names_values):
+    if ne2 == s0:  # 호칭 존재할 경우
+      if sur_data[index] == 0:
+        n_dead_arr[i] += 1
+      else:
+        n_alive_arr[i] += 1
+      check = True
+      break
+  
+  if check == False:
+    if sur_data[index] == 0:
+      n_dead_arr[-1] += 1
+    else:
+      n_alive_arr[-1] += 1
+
+plt.bar(names_values, n_alive_arr)
+plt.bar(names_values, n_dead_arr, bottom=n_alive_arr)
+for i in range(6):
+  plt.annotate(str(n_alive_arr[i]), (-0.2+i, 10))
+  plt.annotate(str(n_dead_arr[i]), (-0.2+i, n_alive_arr[i]+30))
+plt.show()
+```
+
+강사님 풀이
+
+```python
+pn_alive_arr = np.zeros(6)
+pn_dead_arr = np.zeros(6)
+
+for i, name in enumerate(df.Name):
+  ni = get_name_index(name)
+  if sur_data[i] == 0:
+    pn_dead_arr[ni] += 1
+  else :
+    pn_alive_arr[ni] += 1
+plt.bar(names_values, pn_alive_arr)
+plt.bar(names_values, pn_dead_arr, bottom=pn_alive_arr)
+for i in range(6):
+  plt.annotate(str(pn_alive_arr[i]), (-0.1+i, 40))
+  if pn_alive_arr[i] < 40:
+    plt.annotate(str(pn_dead_arr[i]), (-0.1+i, pn_alive_arr[i]+80))
+  else:
+    plt.annotate(str(pn_dead_arr[i]), (-0.1+i, pn_alive_arr[i]+30))
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6dc48b18-6651-4798-909a-3a2652518a60/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f7533593-0fc0-4c0f-86b5-7ae218ef54ea/Untitled.png)
+
+### 8. 성별로 분포를 파이 그래프로 나타내시오.
+
+나의 풀이
+
+```python
+sex_values = ['female', 'male']
+s_total = np.zeros(2)
+s_alive_arr = np.zeros(2)
+s_dead_arr = np.zeros(2)
+
+for person in df.Sex:
+  if person == 'female':
+    s_total[0] += 1
+  else:
+    s_total[1] += 1
+
+color = ['#ff9999', '#ffc000']
+wedgeprops = {'width':0.8, 'edgecolor':'w'}
+plt.pie(s_total, labels=sex_values, autopct="%.2f%%", counterclock=False, colors=color, wedgeprops=wedgeprops)
+plt.show()
+print(s_total)
+```
+
+강사님 풀이
+
+```python
+# 1)
+sex_values = ['female', 'male']
+def get_sex_index(sex):
+  if sex == 'female':
+    return 0
+  return 1
+
+s_cnts = np.zeros(2)
+for i, sex in enumerate(df.Sex):
+  si = get_sex_index(sex)
+  s_cnts[si] += 1
+print(s_cnts)
+
+plt.pie(s_cnts, labels=sex_values, autopct="%.2f %%")
+plt.title("Sex")
+plt.show()
+
+# 2)
+svc = df.Sex.value_counts().sort_index()
+plt.pie(svc.values, labels=['female', 'male'], autopct="%.2f %%", explode=[0.02, 0.02])
+plt.title("Sex")
+plt.show()
+
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9e146355-2810-4097-8f29-b4adc5cae3e5/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/dd3a11ea-2aae-496a-99fe-042b316c6d3b/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/08500a59-3622-4534-9625-052aa186aba7/Untitled.png)
+
+### 9. 성별에 따른 생존자와 사망자를 하나의 막대그래프로 나타내시오.(아래:생존자, 위:사망자)
+
+나의 풀이
+
+```python
+s_dead_arr = np.zeros(2)
+s_alive_arr = np.zeros(2)
+for i, s in enumerate(df.Sex):
+  if s == 'female':
+    if sur_data[i] == 0:
+      s_dead_arr[0] += 1
+    else:
+      s_alive_arr[0] += 1
+  else:
+    if sur_data[i] == 0:
+      s_dead_arr[1] += 1
+    else:
+      s_alive_arr[1] += 1
+
+plt.bar(sex_values, s_alive_arr)
+plt.bar(sex_values, s_dead_arr, bottom=s_alive_arr)
+for i in range(2):
+  plt.annotate(str(s_alive_arr[i]), (-0.1+i, 80))
+  plt.annotate(str(s_dead_arr[i]), (-0.1+i, s_alive_arr[i]+40))
+plt.show()
+```
+
+강사님 풀이
+
+```python
+sdata = df.Sex
+sn = len(sdata.unique())
+ps_alive_arr = np.zeros(sn)
+ps_dead_arr = np.zeros(sn)
+for index in range(len(sdata)):
+  if sdata[index] == 'female':
+    si = 0
+  else:
+    si = 1
+  if sur_data[index] == 0:
+    ps_dead_arr[si] += 1
+  else :
+    ps_alive_arr[si] += 1
+
+labels = ['female', 'male']
+plt.bar(labels, ps_alive_arr)
+plt.bar(labels, ps_dead_arr, bottom=ps_alive_arr)
+for i in range(sn):
+  plt.annotate(str(ps_alive_arr[i]), (-0.1+i, 40))
+  plt.annotate(str(ps_dead_arr[i]), (-0.1+i, pc_alive_arr[i]+30))
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c966e256-0d99-47ca-b4cc-d4bac8f9c0d2/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/268c83e8-bdc8-4d89-b231-42461022c572/Untitled.png)
+
+### 10. 나이를 5살 범위로 17단계로(0~~5, 5~~10,...,80~85)로 나누어 분포를 조사하여 파이 그래프로 나타내시오.(결측값은 평균나이로 처리하시오. 0 이상 5 미만)
+
+나의 풀이
+
+```python
+ages_values = ['0~5', '5~10', '10~15', '15~20', '20~25', '25~30', '30~35', '35~40', '40~45', '45~50', '50~55', '55~60', '60~65', '65~70', '70~75', '75~80', '80~85']
+ages = df.Age
+ages = ages.fillna(ages.mean())
+a_arr = np.zeros(17)
+
+for i, a in enumerate(ages):
+  a_arr[int(a//5)] += 1
+
+wedgeprops = {'width':0.8, 'edgecolor':'w'}
+plt.pie(a_arr, labels=ages_values, autopct="%.2f%%", counterclock=False, wedgeprops=wedgeprops)
+plt.show()
+print(a_arr)
+```
+
+강사님 풀이
+
+```python
+# 1)
+# df.Age.isnull().value_counts() 결측데이터 있는지 확인
+mv = df.Age.mean()  # 평균
+ad = df.Age.fillna(mv)  # 결측치를 수정
+
+n, bins, patches = plt.hist(ad, bins=[0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85])  # hist : 분포수 세기
+plt.show()
+n, bins, patches  # n : 누계, bins : 분포 구분, patches : 반복작업용 항목개수
+
+# 2)
+age_values = np.zeros(17)
+for i, age in enumerate(ad) :
+  ai = age//5
+  ai = int(ai)
+  age_values[ai] += 1
+age_values
+
+plt.pie(age_values, labels=ages_values, autopct="%.2f %%")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/67cc6de5-26d8-44e7-ba3b-bfda1c1160c4/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e27617f1-2216-4e38-a710-3372f97c545c/Untitled.png)
+
+### 11. 나이를 구분한 단계에 따른 생존자와 사망자를 하나의 막대그래프로 나타내시오.(아래:생존자, 위:사망자)
+
+나의 풀이
+
+```python
+ac = len(ages_values)
+a_alive_arr = np.zeros(ac)
+a_dead_arr = np.zeros(ac)
+
+for i, a in enumerate(ages):
+  if(sur_data[i] == 0):
+    a_dead_arr[int(a//5)] += 1
+  else:
+    a_alive_arr[int(a//5)] += 1
+
+plt.bar(ages_values, a_alive_arr)
+plt.bar(ages_values, a_dead_arr, bottom=a_alive_arr)
+for i in range(ac):
+  plt.annotate(str(a_alive_arr[i]), (-0.1+i, 40))
+  if a_alive_arr[i] < 40:
+    plt.annotate(str(a_dead_arr[i]), (-0.1+i, a_alive_arr[i]+80))
+  else:
+    plt.annotate(str(a_dead_arr[i]), (-0.1+i, a_alive_arr[i]+30))
+plt.show()
+```
+
+강사님 풀이
+
+```python
+pa_alive_arr = np.zeros(17)
+pa_dead_arr = np.zeros(17)
+for index in range(len(ad)):
+  ai = ad[index]//5
+  ai = int(ai)
+    
+  if sur_data[index] == 0:
+    pa_dead_arr[ai] += 1
+  else :
+    pa_alive_arr[ai] += 1
+
+plt.bar(ages_values, pa_alive_arr)
+plt.bar(ages_values, pa_dead_arr, bottom=pa_alive_arr)
+plt.show()
+for i in range(17):
+  print(f"{i*5:02d}  ~  {(i+1)*5:-02d}  :   {age_values[i]:3.0f}")
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/31a8477c-a0b7-427d-a425-43da36c2a639/Untitled.png)
+
+### 12. SibSp 컬럼의 값의 종류에 따른 분포를 조사하여 파이 그래프로 나타내시오.
+
+나의 풀이
+
+```python
+ssdata = df.SibSp.value_counts().sort_index()
+ss_values = ['0', '1', '2', '3', '4', '5', '8']
+
+wedgeprops = {'width':0.8, 'edgecolor':'w'}
+plt.pie(ssdata.values, labels=ss_values, autopct="%.2f%%", counterclock=False, wedgeprops=wedgeprops)
+plt.show()
+print(ssdata)
+```
+
+강사님 풀이
+
+```python
+svc = df.SibSp.value_counts().sort_index()
+plt.pie(svc.values, labels=svc.index, autopct="%.2f%%")
+plt.title("SibSp")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0a69c714-f543-45bb-8aaf-341eef3e5b7f/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/95475128-4099-4d7d-b9dd-80b12f76ddfa/Untitled.png)
+
+### 13. 값에 따른 생존자와 사망자를 하나의 막대그래프로 나타내시오.(아래:생존자, 위:사망자, 6~7 값도 그래프 그릴 때 고려해야 할 요소)
+
+나의 풀이
+
+```python
+ssn = len(ss_values)
+ss_datas = df.SibSp
+ss_alive_arr = np.zeros(ssn)
+ss_dead_arr = np.zeros(ssn)
+
+for index in range(len(ss_datas)):
+  si = 0
+  for i in range(ssn):
+    if str(ss_datas[index]) == ss_values[i]:
+      si = i
+      break
+  if sur_data[index] == 0:
+    ss_dead_arr[si] += 1
+  else :
+    ss_alive_arr[si] += 1
+
+ss_alive_arr, ss_dead_arr
+
+plt.bar(ss_values, ss_alive_arr)
+plt.bar(ss_values, ss_dead_arr, bottom=ss_alive_arr)
+for i in range(ssn):
+  plt.annotate(str(ss_alive_arr[i]), (-0.3+i, 40))
+  if ss_alive_arr[i] < 40:
+    plt.annotate(str(ss_dead_arr[i]), (-0.3+i, ss_alive_arr[i]+80))
+  else:
+    plt.annotate(str(ss_dead_arr[i]), (-0.3+i, ss_alive_arr[i]+30))
+plt.show()
+ss_alive_arr, ss_dead_arr
+```
+
+강사님 풀이
+
+```python
+sdata = df.SibSp
+sn = 9 # 형제 자매 수를 인덱스로 사용하기 위해서 0~8까지 9개를 사용
+sc_alive_arr = np.zeros(sn)
+sc_dead_arr = np.zeros(sn)
+for index in range(len(sdata)):
+  si = sdata[index]  # 형제 자매 수를 얻어온다
+  if sur_data[index] == 0:  # 죽은 승객일 때
+    sc_dead_arr[si] += 1
+  else:  # 생존 승객일 때
+    sc_alive_arr[si] += 1
+
+labels = [str(i) for i in range(9)]
+plt.bar(labels, sc_alive_arr)
+plt.bar(labels, sc_dead_arr, bottom=sc_alive_arr)
+for i in range(sn):
+  plt.annotate(str(sc_alive_arr[i]), (-0.1+i, 40))
+  if sc_alive_arr[i] < 40:
+    plt.annotate(str(sc_dead_arr[i]), (-0.3+i, sc_alive_arr[i]+80))
+  else:
+    plt.annotate(str(sc_dead_arr[i]), (-0.3+i, sc_alive_arr[i]+30))
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7527fc21-e410-48d6-8b0c-3bed4c505e6e/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/abd75781-ea52-4a05-97d1-b8bc42a3504f/Untitled.png)
+
+### 14. Parch 컬럼의 값의 종류에 따른 분포를 조사하여 파이 그래프로 나타내시오.
+
+나의 풀이
+
+```python
+pdata = df.Parch.value_counts().sort_index()
+p_values = [0,1,2,3,4,5,6]
+
+wedgeprops = {'width':0.8, 'edgecolor':'w'}
+plt.pie(pdata.values, labels=p_values, autopct="%.2f%%", counterclock=False, wedgeprops=wedgeprops)
+plt.show()
+print(pdata)
+```
+
+### 15. 값에 따른 생존자와 사망자를 하나의 막대그래프로 나타내시오.(아래:생존자, 위:사망자)
+
+나의 풀이
+
+```python
+pn = len(p_values)
+p_datas = df.Parch
+p_alive_arr = np.zeros(pn)
+p_dead_arr = np.zeros(pn)
+
+for i, p in enumerate(p_datas):
+  if sur_data[i] == 0:
+    p_dead_arr[p] += 1
+  else :
+    p_alive_arr[p] += 1
+
+plt.bar(p_values, p_alive_arr)
+plt.bar(p_values, p_dead_arr, bottom=p_alive_arr)
+for i in range(pn):
+  plt.annotate(str(p_alive_arr[i]), (-0.3+i, 40))
+  if p_alive_arr[i] < 40:
+    plt.annotate(str(p_dead_arr[i]), (-0.3+i, p_alive_arr[i]+80))
+  else:
+    plt.annotate(str(p_dead_arr[i]), (-0.3+i, p_alive_arr[i]+30))
+plt.show()
+
+p_alive_arr, p_dead_arr
+```
+
+### 16. 승선한 항구(Embarked 컬럼)에 따른 분포를 조사하여 파이 그래프로 나타내시오.(결측값은 'N'으로 마킹하시오.)
+
+나의 풀이
+
+```python
+ed = df.Embarked.fillna('N')  # 결측치를 수정
+ed = ed.value_counts()
+ed_values = ['S', 'C', 'Q', 'N']
+
+wedgeprops = {'width':0.8, 'edgecolor':'w'}
+plt.pie(ed.values, labels=ed_values, autopct="%.2f%%", counterclock=False, wedgeprops=wedgeprops)
+plt.show()
+print(ed)
+```
+
+### 17. 값에 따른 생존자와 사망자를 하나의 막대그래프로 나타내시오.(아래:생존자, 위:사망자)
+
+나의 풀이
+
+```python
+en = len(ed_values)
+e_datas = df.Embarked.fillna('N')
+e_alive_arr = np.zeros(en)
+e_dead_arr = np.zeros(en)
+
+for i, e in enumerate(e_datas):
+  idx = 0
+  for emi in range(en):
+    if ed_values[emi] == e:
+      idx = emi
+      break
+
+  if sur_data[i] == 0:
+    e_dead_arr[idx] += 1
+  else :
+    e_alive_arr[idx] += 1
+
+plt.bar(ed_values, e_alive_arr)
+plt.bar(ed_values, e_dead_arr, bottom=e_alive_arr)
+for i in range(en):
+  plt.annotate(str(e_alive_arr[i]), (-0.3+i, 40))
+  if e_alive_arr[i] < 40:
+    plt.annotate(str(e_dead_arr[i]), (-0.3+i, e_alive_arr[i]+80))
+  else:
+    plt.annotate(str(e_dead_arr[i]), (-0.3+i, e_alive_arr[i]+30))
+plt.show()
+
+e_alive_arr, e_dead_arr
+```
+
+.
