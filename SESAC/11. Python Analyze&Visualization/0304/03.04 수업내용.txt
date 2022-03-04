@@ -1,0 +1,337 @@
+0304
+
+## 타이타닉 데이터 실습 - 복습
+
+```python
+# 결측치 평균으로 바꾸기
+a_data = df.Age  # 나이 데이터
+mv = a_data.mean()  # 평균
+a_data = a_data.fillna(mv)  # 평균으로 결측치 바꾸기
+a_data.isnull().value_counts()
+
+# 이름 데이터 파싱
+n_data = df.Name  # 이름 데이터
+
+def get_call_name(name):  # 칭호만 가져오는 함수
+  _, s = name.split(',')
+  foos = s.split('.')
+  return foos[0].replace(' ', '')
+
+for name in n_data:
+  if get_call_name(name) == 'Mr':
+    print(".")
+```
+
+문제 풀이 - 4일차 아래 추가
+
+## 통계데이터분석 - preview
+
+### 벡터
+
+```
+ 스칼라 : a+b = c, 각 값이 크기를 가지고 있음
+
+ 벡터 : 각 값이 크기와 방향을 가지고 있음
+```
+
+### 행렬
+
+```
+  x+2y=5
+  2x+3y=8
+  (1 2)  (x)  =  (5)
+  (2 3)  (y)     (8)
+
+  (x)   =   (1 2)-1 (5)
+  (y)       (2 3)   (8)
+```
+
+```python
+import numpy as np
+a = np.array([[1,2], [2,3]])
+b = np.array([[5], [8]])
+ar = np.linalg.inv(a)
+answer = ar@b
+answer
+```
+
+### 통계
+
+```python
+heights = np.random.normal(174, 10, size=10000)
+import pandas as pd
+hs = pd.Series(heights.round())
+hs.value_counts()
+
+import matplotlib.pyplot as plt
+plt.hist(heights, bins=100)
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8220b8e7-85cf-4439-9d7f-13fae1edf4d1/Untitled.png)
+
+### 확률
+
+1~6까지 쓰여진 6면체 주사위가 있다. (공평하지 않은 주사위)
+
+1이 나올 확률이 1/6
+
+2가 나올 확률이 1/12
+
+3이 나올 확률이 1/12
+
+4가 나올 확률이 1/3
+
+5가 나올 확률이 1/6
+
+6이 나올 확률이 1/6
+
+주사위를 100번 던지는 실험을 해보세요.
+
+```
+0 ~ 11 사이의 랜덤한 수를 발생시킨다.
+발생한 수  0, 1      주사위  1
+발생한 수  2         주사위  2
+발생한 수  3         주사위  3
+발생한 수  4,5,6,7   주사위  4
+발생한 수  8,9       주사위  5
+발생한 수  10,11     주사위  6
+```
+
+```python
+data = np.random.randint(0, 12, 10000)
+cnts = np.zeros(6)
+for tv in data:
+  if tv == 0 or tv == 1:
+    cnts[0] += 1
+  elif tv == 2:
+    cnts[1] += 1
+  elif tv == 3:
+    cnts[2] += 1
+  elif tv>=4 and tv<=7:
+    cnts[3] += 1
+  elif tv == 8 or tv == 9:
+    cnts[4] += 1
+  else:
+    cnts[5] += 1
+cnts
+```
+
+### 가설과 추론
+
+```
+현재는 2029년 Covid 이후에 전 세계에 새로운 전염병이 창궐하였다.
+
+그 이름도 무서운 eh
+
+초기 감염률 0.001
+
+sesac_medical에서 테스터를 개발하여 발표하였는데
+양성인지 음성인지 판별하였을 때 정확도가 99%라고 한다.
+해당 테스터는 유의미한 테스터인지 판별하시오.
+
+-> 거짓양성, 거짓음성 가능성도 따져야 한다!
+```
+
+### 선형회귀
+
+```python
+temperature = [25.2, 27.4, 22.9, 26.2, 29.5, 33.1, 30.4, 36.1, 34.3, 29.1]
+sales = [236500, 357500, 203500, 365200, 446600, 574200, 453200, 675400, 598400, 463100]
+dict_data = {"temp": temperature, "sales":sales}
+df_sales = pd.DataFrame(dict_data, columns=["temp", "sales"])
+df_sales.plot.scatter(x='temp', y='sales', grid=True, title='umnyari')
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/875dcffb-49b0-4f5f-9399-77d1f8fabfc3/Untitled.png)
+
+```python
+# 기울기가 한눈에 들어올 수 있도록 조정
+sales2 = np.array(sales)/10000
+dict_data2 = {"temp":temperature, "sales2":sales2}
+df_sales2 = pd.DataFrame(dict_data2, columns=["temp", "sales2"])
+plt.figure(figsize=(6,6))
+plt.plot(temperature, sales2, 'o')
+plt.plot([0, 80],[3*0-5, 3*80-5], label='y=3x-5')
+plt.plot([0, 80],[4*0-2, 4*80-2], label='y=4x-2')
+plt.plot([0, 80],[5*0-3, 5*80-3], label='y=5x-3')
+plt.plot([0, 80],[4*0-5, 4*80-5], label='y=4x-5')
+plt.plot([0, 80],[3.5*0-60, 3.5*80-60], label='y=3.5x-60')
+plt.xlim(0, 80)
+plt.ylim(0, 80)
+plt.legend()
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ad77a956-da35-42da-8ac1-c137f489c322/Untitled.png)
+
+```
+y = ax + b
+
+y = wx + b (머신러닝에서 표현하는 방식)
+x : 독립 변수
+y : 종속 변수
+w : 가중치 - 독립변수 x가 종속 변수 y에 영향을 주는 정도
+b : 편향 - 주어진 인자 외에 결과 y에 영향을 주는 정도
+
+< 예측 >
+y = 3x - 5 (eh)
+y = 4x - 2 (eh2)
+y = 5x - 3 (sc)
+y = 4x - 5 (2m)
+```
+
+오차를 계산하는 함수 : 손실 함수
+
+- MAE 점과 선 사이의 거리에 절댓값을 취하여 전부 더한 뒤 평균 구하기
+- MSE 점과 선 사이의 거리를 제곱하여 합산 후 평균 구하기 - 머신러닝에서 많이 사용
+
+**MAE**
+
+```python
+es1 = 0
+es2 = 0
+es3 = 0
+es4 = 0
+es5 = 0
+# 모든 오차의 절댓값  합 (MAE)
+for i, temp in enumerate(temperature):
+  yp1 = 3 * temp - 5  # 예측값
+  yp2 = 4 * temp - 2  # 예측값
+  yp3 = 5 * temp - 3  # 예측값
+  yp4 = 4 * temp - 5  # 예측값
+  yp5 = 3.5 * temp - 60  # 예측값
+  y = sales2[i]
+  es1 += abs(yp1-y)
+  es2 += abs(yp2-y)
+  es3 += abs(yp3-y)
+  es4 += abs(yp4-y)
+  es5 += abs(yp5-y)
+print(f"{es1:9.2f}\n{es2:9.2f}\n{es3:9.2f}\n{es4:9.2f}\n{es5:9.2f}")
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/79939370-0b67-46cc-bab4-d72e5f35bae8/Untitled.png)
+
+**MSE**
+
+```python
+es1 = 0
+es2 = 0
+es3 = 0
+es4 = 0
+es5 = 0
+# 모든 오차의 제곱 합 (MSE)
+for i, temp in enumerate(temperature):
+  yp1 = 3 * temp - 5  # 예측값
+  yp2 = 4 * temp - 2  # 예측값
+  yp3 = 5 * temp - 3  # 예측값
+  yp4 = 4 * temp - 5  # 예측값
+  yp5 = 3.5 * temp - 60  # 예측값
+  y = sales2[i]
+  es1 += (yp1-y) ** 2
+  es2 += (yp2-y) ** 2
+  es3 += (yp3-y) ** 2
+  es4 += (yp4-y) ** 2
+  es5 += (yp5-y) ** 2
+print(f"{es1:9.2f}\n{es2:9.2f}\n{es3:9.2f}\n{es4:9.2f}\n{es5:9.2f}")
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c3b5d421-9be9-4b69-9e5d-97aba3a6b683/Untitled.png)
+
+### 로지스틱 회귀
+
+종속 변수의 값이 항상 -1 ~ 1 사이로 오게 한다
+
+```python
+import math
+def sigmoid(x): # logistic function (sigmoid function)
+  return math.exp(x) / (1+math.exp(x))
+
+xs = [i/10 for i in range(-100, 100, 1)]
+ys = [sigmoid(x) for x in xs ]
+plt.plot(xs, ys, 'r-.')
+plt.axvline(x=0, color='k')
+plt.title("sigmoid function")
+plt.grid(True)
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/41bc9b0b-1009-4e04-9289-50e32696cc40/Untitled.png)
+
+### KNN
+
+```python
+temperature = [25.2, 27.4,22.9,26.2,29.5,33.1,30.4,36.1,34.3,29.1]
+sales=[236500,357500,203500,365200,446600,574200,453200,675400,598400,463100]
+dic_data = {"temp":temperature,"sales":sales}
+df_sales = pd.DataFrame(dic_data,columns=["temp","sales"])
+df_sales.plot.scatter(x='temp',y="sales",grid=True,title="umnyari")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1b3e08ed-4d21-417e-84b8-24f577b6b2c6/Untitled.png)
+
+```python
+temps = np.array([temp/10 for temp in range(-100,500,1)])
+sales = [3.4*temp-55+np.random.randint(np.random.randint(-12,-7),np.random.randint(3,8)) for temp in temps]
+plt.plot(temps,sales,'.')
+plt.show()
+#yp5 = 3.4*tmep - 55 #예측값
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0493ec87-3252-4cec-9ec7-59cc75f14964/Untitled.png)
+
+```python
+temp = 28
+neighbors = [27.8, 27.9, 28, 28.1, 28.2]
+n_sales = np.zeros(5)
+for j,neighbor in enumerate(neighbors):
+  for i,stemp in enumerate(temps):
+    if neighbor == stemp:
+      n_sales[j] = sales[i]
+n_sales.mean()   ## 35.8
+```
+
+```python
+# 평균이 174, 표준편차가 10에 해당하는 정규 분포 데이터 10000개를 만들어 주세요.
+heights = np.random.normal(174,10,size=10000)
+heights.mean(),heights.std()
+
+heights2 = heights-heights.mean()
+heights2.mean(),heights2.std()
+
+heights3 = heights2/heights2.std()
+heights3.mean(),heights3.std()
+```
+
+### KMeans
+
+> k-평균 알고리즘(K-means clustering algorithm)은 주어진 데이터를 k개의 클러스터로 묶는 알고리즘으로, 각 클러스터와 거리 차이의 분산을 최소화하는 방식으로 동작한다. 이 알고리즘은 자율 학습의 일종으로, 레이블이 달려 있지 않은 입력 데이터에 레이블을 달아주는 역할을 수행한다. 이 알고리즘은 EM 알고리즘을 이용한 클러스터링과 비슷한 구조를 가지고 있다.
+> 
+
+### 의사결정트리
+
+의사 결정할 수 있는 모든 루트를 트리로 표현
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5eff2b5e-fce8-4a0b-a9e9-61abc8a6e8cd/Untitled.png)
+
+### 퍼셉트론
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c7ba03e3-62dc-4e4b-b5bc-09f033559394/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/25349817-1043-4c20-b480-4001e1ad13bc/Untitled.png)
+
+### TF-IDF
+
+> **TF-IDF**(Term Frequency - Inverse Document Frequency)는 [정보 검색](https://ko.wikipedia.org/wiki/%EC%A0%95%EB%B3%B4_%EA%B2%80%EC%83%89)과 [텍스트 마이닝](https://ko.wikipedia.org/w/index.php?title=%ED%85%8D%EC%8A%A4%ED%8A%B8_%EB%A7%88%EC%9D%B4%EB%8B%9D&action=edit&redlink=1)에서 이용하는 가중치로, 여러 문서로 이루어진 문서군이 있을 때 어떤 단어가 특정 문서 내에서 얼마나 중요한 것인지를 나타내는 [통계](https://ko.wikipedia.org/wiki/%ED%86%B5%EA%B3%84)적 수치이다. 문서의 [핵심어](https://ko.wikipedia.org/w/index.php?title=%ED%95%B5%EC%8B%AC%EC%96%B4&action=edit&redlink=1)를 추출하거나, [검색 엔진](https://ko.wikipedia.org/wiki/%EA%B2%80%EC%83%89_%EC%97%94%EC%A7%84)에서 검색 결과의 순위를 결정하거나, 문서들 사이의 비슷한 정도를 구하는 등의 용도로 사용할 수 있다.
+> 
+> 
+> TF(단어 빈도, term frequency)는 특정한 단어가 문서 내에 얼마나 자주 등장하는지를 나타내는 값으로, 이 값이 높을수록 문서에서 중요하다고 생각할 수 있다. 하지만 단어 자체가 문서군 내에서 자주 사용 되는 경우, 이것은 그 단어가 흔하게 등장한다는 것을 의미한다. 이것을 DF(문서 빈도, document frequency)라고 하며, 이 값의 역수를 IDF(역문서 빈도, inverse document frequency)라고 한다. TF-IDF는 TF와 IDF를 곱한 값이다.
+> 
+> IDF 값은 문서군의 성격에 따라 결정된다. 예를 들어 '[원자](https://ko.wikipedia.org/wiki/%EC%9B%90%EC%9E%90)'라는 낱말은 일반적인 문서들 사이에서는 잘 나오지 않기 때문에 IDF 값이 높아지고 문서의 핵심어가 될 수 있지만, 원자에 대한 문서를 모아놓은 문서군의 경우 이 낱말은 상투어가 되어 각 문서들을 세분화하여 구분할 수 있는 다른 낱말들이 높은 가중치를 얻게 된다.
+> 
+
+### KNN, KMeean 직접 만들 예정!
+
+### 퍼셉트론 수학 이론 학습 예정!
