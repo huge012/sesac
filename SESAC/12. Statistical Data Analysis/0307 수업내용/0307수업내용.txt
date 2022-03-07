@@ -1,0 +1,993 @@
+03.07 수업내용
+
+파이썬 복습
+**들여쓰기**
+
+C 언어 : 들여쓰기는 문법 사항이 아니다. 필요한 구간을 블록 { } 으로 감싼다
+
+```c
+/* C언어 예 : 들여쓰기는 문법 사항이 아님 */
+i = 0;
+while (i < 10)  // i가 10보다 작다면
+{
+printf("%d ", i);  // i값을 출력
+i++;
+}
+```
+
+파이썬 : 들여쓰기가 엄격한 문법 사항이다.
+
+```python
+i = 0
+while i < 10:
+  print(i, end=' ')
+  i += 1
+```
+
+**모듈**
+
+직접 만든 파이썬 파일 - 하나의 모듈
+
+```python
+# demo.py
+
+def print_n(i, n=1):
+  for _ in range(n+1):
+    print(i, end=' ')
+```
+
+```python
+import sys
+sys.path.append('/content/sample_data/')  # 경로 설정
+
+# 모듈 불러오기(1) - 기본
+import demo
+demo.print_n(3, 7)
+
+# 모듈 불러오기(2) - 애칭 붙이기 (as)
+import demo as d
+d.print_n(3, 7)
+
+# 모듈 불러오기(3) - 모듈 내 함수 가져오기 (from ... import ...)
+from demo import print_n
+print_n(3, 7)
+```
+
+**함수**
+
+```python
+# 함수 정의
+# def 함수명(입력매개변수목록):
+#   수행할 구문
+
+def print_k(i, k=1):
+  """
+    함수명 : print_k
+		입력매개변수 목록 : i, k
+			i : 출력할 인자
+			k : 출력할 횟수, 디폴트 값 : 1
+		반환 : 없음
+  """
+  for _ in range(k+1):
+    print(i, end='.')
+  print()
+```
+
+**람다**
+
+익명의 함수, 간단한 기능을 담은 함수 생성
+
+매개변수로 함수명 넘겨주기(1)
+
+```python
+def apply_to_one(f):
+  """
+  함수명 : apply_to_one
+  입력매개변수목록 : f
+    f : 알고리즘(최소 한 개의 입력 인자를 갖는)
+  반환 : f(1)
+  """
+  return f(1) # 입력 인자 f를 함수처럼 호출
+
+re = apply_to_one(print_k)
+print(re)
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/169d9f53-d275-48a5-9f3b-890204c11934/Untitled.png)
+
+매개변수로 함수명 넘겨주기(2)
+
+```python
+def foo(a):
+  print("foo 수행 ... ")
+  return str(a)
+
+re = apply_to_one(foo)
+print(re)
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c4d28bea-5302-4613-a9d1-91d1176d6074/Untitled.png)
+
+매개변수로 람다 넘겨주기
+
+```python
+"""
+lambda x:x+2
+위 코드는 아래 코드와 같은 역할을 수행한다
+def foo(x)
+  return x*2
+"""
+re = apply_to_one(lambda x:x*2)
+print(re)
+```
+
+**문자열**
+
+문자열 출력
+
+```python
+print("a\tb\n\c\\hello")
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/76f606fe-65f6-4884-a74a-fffa9e99de02/Untitled.png)
+
+입력 시 주의
+
+```python
+i = input("첫 번째 수 : ")
+j = input("두 번째 수 : ")
+re = i + j
+print(re)
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0a4b0482-56a1-4cda-bf86-57d559a6f556/Untitled.png)
+
+```python
+i = int(input("첫 번째 수 : "))
+j = int(input("두 번째 수 : "))
+re = i + j
+print(re)
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9dadcfde-ed60-44cf-be92-a3c545aa99f3/Untitled.png)
+
+format
+
+```python
+i = 23
+j = 34
+
+# 문자열 표현 방법 (1)
+"{0:03d} , {1:04d}".format(i, j)
+
+# 문자열 표현 방법 (2)
+f"{i:03d}, {j:04d}"
+```
+
+**예외처리**
+
+```python
+try:
+  i = int(input("첫 번째 수 : "))  # 숫자가 아닌 문자가 들어오면 에러 발생
+except:
+  print("정수가 아닌 수를 입력하여 1로 처리")
+  i = 1
+try:
+  j = int(input("두 번째 수 : "))  # 숫자가 아닌 문자가 들어오면 에러 발생
+except:
+  print("정수가 아닌 수를 입력하여 1로 처리")
+  j = 1
+re = i + j
+print(f"두 수의 합은 {re}")
+```
+
+**리스트, 튜플, 딕셔너리, 디폴트 딕셔너리, 집합**
+
+리스트
+
+```python
+x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  # 리스트
+print("길이 : ", len(x))
+print("합계 : ", sum(x))
+# 길이 : 10
+# 합계 : 55
+
+for i in range(len(x)):
+  print(x[i], end=', ')  # 인덱스 연산으로 원소에 접근
+print()
+# 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+
+for i in range(len(x)):
+  # 리스트는 인덱스 연산을 '=' 좌항(L Value)에 표현하여 값을 변경할 수 있다.
+  x[i] = i * i 
+
+for i in range(len(x)):
+  print(x[i], end=', ')  # 인덱스 연산으로 원소에 접근
+print()
+# 0, 1, 4, 9, 16, 25, 36, 49, 64, 81,
+
+print(x)
+print("x[2:4]: ",x[2:4])
+print("x[:4]:  ",x[:4])
+print("x[2:]:  ",x[2:])
+print("x[:]:   ",x[:])
+print("x[-1]:  ",x[-1])
+print("x[2:-1]:",x[2:-1])
+"""
+[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+x[2:4]:  [4, 9]
+x[:4]:   [0, 1, 4, 9]
+x[2:]:   [4, 9, 16, 25, 36, 49, 64, 81]
+x[:]:    [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+x[-1]:   81
+x[2:-1]: [4, 9, 16, 25, 36, 49, 64]
+"""
+
+print(x)
+for i in range(10):
+  if i in x:
+    print(f"{i}는 리스트에 있습니다.")
+  else:
+    print(f"{i}는 없습니다")
+"""
+[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+0는 리스트에 있습니다.
+1는 리스트에 있습니다.
+2는 없습니다
+3는 없습니다
+4는 리스트에 있습니다.
+5는 없습니다
+6는 없습니다
+7는 없습니다
+8는 없습니다
+9는 리스트에 있습니다.
+"""
+
+ls = [3, 4, 5]
+a, b, c = ls
+print(f"a:{a}, b:{b}, c:{c}")
+# a:3, b:4, c:5
+
+ls = [3, 4, 5]
+a, b, c = ls
+print(f"a:{a}, b:{b}, c:{c}")
+_, b_, _ = ls
+print(f"b : {b}")
+# b : 4
+
+def getcal(ls):
+  sum = 0
+  for i in range(len(ls)):
+    sum += ls[i]
+  aver = sum/len(ls)
+  return [sum, aver]
+
+x = [3, 4, 8, 1, 9]
+_, aver = getcal(x)
+print("평균 : ", aver)
+# 평균 : 5.0
+```
+
+튜플
+
+```python
+x = (1, 2, 3, 4, 5) # 튜플
+for i in range(len(x)):
+  print(x[i], end=",")
+print()
+
+try:
+  for i in range(len(x)):
+    x[i] = i * i  # 튜플은 원소의 값을 바꿀 수 없다 (L-Value로 사용할 수 없음)
+except:
+  print("예외 발생")
+
+x=(2,3,4)
+a,b,c = x
+print(f"a:{a}, b:{b}, c:{c}")
+# a:2, b:3, c:4
+
+x = 1, 2, 3, 4
+print(type(x))
+# <class 'tuple'>
+
+def getcal2(ls):
+  sum = 0
+  for i in range(len(ls)):
+    sum += ls[i]
+  aver = sum/len(ls)
+  return sum, aver  # 튜플로 반환
+
+re = getcal2([1, 2, 3, 4])
+print(type(re))
+s, aver = re
+print(f"합계 : {s} , 평균 : {aver}")
+# <class 'tuple'>
+# 합계 : 10 , 평균 : 2.5
+```
+
+딕셔너리
+
+```python
+mem_dic = {}
+try:
+  mem_dic[0] += 1  # 없는 키에 접근하므로 에러
+except:
+  print("예외 발생")
+print("------------")
+mem_dic2 = {"홍길동":[90, 84, 88],
+            "강감찬":[80, 75, 45]}
+print(mem_dic2["홍길동"])
+# 예외 발생
+# ------------
+# [90, 84, 88]
+
+my_attr = {"이름":"홍길동",
+           "나이":23,
+           "키":189,
+           "몸무게":95}
+print(f'{my_attr["이름"]}:{my_attr["키"]}')
+# 홍길동:189
+```
+
+디폴트 딕셔너리 - 특정 모듈
+
+```python
+from collections import defaultdict
+
+word_counts = defaultdict(int)
+try:
+  word_counts[0] += 1  # 값 없을 경우 default값을 삽입
+  print("나 살아있어요")
+except:
+  print("예외 발생")
+# 나 살아있어요
+# 1
+
+from collections import Counter
+
+c = Counter([0, 1, 2, 1, 1, 2, 3, 4, 1, 2, 0])
+print(c)
+# Counter({1: 4, 2: 3, 0: 2, 3: 1, 4: 1})
+```
+
+Set
+
+내부적으로 이진트리 구조
+
+높이의 2승 정도의 데이터를 가지고 있음
+
+```python
+s = set() # 집합(내부적으로 이진 탐색 트리 구조와 유사하여 빠른 검색 가능, 같은 키 보관 안 함)
+s.add(1)  # 원소 1
+print(len(s))
+s.add(3)  # 원소 1, 3
+print(len(s))
+s.add(3)  # 원소 1, 3
+print(len(s))
+# 1 2 3 나옴
+
+print(1 in s)
+print(2 in s)
+print(3 in s)
+# True
+# False
+# True
+```
+
+**정렬**
+
+```python
+x = [5, 7, 3, 6, 8]
+sx = sorted(x)  # 원본 그대로
+print(x)
+print(sx)
+# [5, 7, 3, 6, 8]
+# [3, 5, 6, 7, 8]
+
+x.sort()  # 원본을 sort
+print(x)
+# [3, 5, 6, 7, 8]
+```
+
+**리스트 컴프리헨션**
+
+```python
+# 리스트 컴프리헨션
+zeros = [0 for _ in range(10)]
+print(zeros)
+
+# 일반적인 코드
+zeros2 = []
+for _ in range(10):
+  zeros2.append(0)
+print(zeros2)
+
+# [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+# [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+evens = [x for x in range(10) if x%2==0]
+print(evens)
+
+evens2 = []
+for x in range(10):
+  if x % 2 == 0:
+    evens2.append(x)
+print(evens2)
+
+# [0, 2, 4, 6, 8]
+# [0, 2, 4, 6, 8]
+```
+
+**단위테스트**
+
+```python
+def fibonacci2(n):
+  if n <= 0:
+    return 0
+  if n == 1 or n == 2 :
+    return 1
+  return fibonacci2(n-1) + fibonacci2(n-2)
+
+# 단위 테스트 - 확인할 값을 assert에 작성, 정해진 값이 안 나오면 오류
+assert fibonacci2(1) == 1, "오류"
+assert fibonacci2(2) == 1, "오류"
+assert fibonacci2(3) == 2, "오류"
+assert fibonacci2(4) == 3, "오류"
+assert fibonacci2(5) == 5, "오류"
+```
+
+제너레이터, 이터레이터
+
+```python
+def mygen(ls):
+  cnt = 0
+  for item in ls:
+    yield cnt, item
+    cnt += 1
+
+for i, e in mygen(['a', 'b', 'c']):
+  print(i, e)
+
+"""
+0 a
+1 b
+2 c
+"""
+
+# enumerate
+for i, e in enumerate(['a', 'b', 'c']):
+  print(i, e)
+
+"""
+0 a
+1 b
+2 c
+"""
+```
+
+**정규식**
+
+aaabbbcccc
+
+aabbbbcc
+
+abc
+
+aaaabbbbbccc
+
+a+b+c+ 나타내기
+
+이메일, 핸드폰번호 입력 정규식 등등
+
+**Zip**
+
+```python
+ls1 = [1, 2,3, 4, 5]
+ls2 = ['a', 'b', 'c', 'd', 'e']
+for e1, e2 in zip(ls1, ls2):  # zip은 실행 속도가 느림
+  print(e1, e2)
+
+for i, e in enumerate(ls1):
+	print(e, ls2[i])
+```
+
+**타입 어노테이션**
+
+```python
+def add(a:int, b:int)->int:
+  return a+b
+
+add(2, 3)
+```
+
+**map**
+# 함수 이용해서 몫 계산
+def foo(a):
+  """
+  전달받은 값을 10으로 나누었을 때 몫을 반환하는 함수
+  """
+  return a//10
+
+src = [18,23,54,67,99]
+dst1 = [foo(n) for n in src]
+print(dst1)
+
+
+# map 활용 (1)
+mo = map(foo, src)  # foo 함수에 src를 매핑시킬 수 있는 객체 생성
+ls = list(mo)  # 매핑시켜 실행
+print(ls)
+
+
+# map 활용(2)
+ls = list(map(foo, src))
+print(ls)
+
+
+
+
+통계
+
+평균, 중간값, 사분위값, 최빈값, 분산, 표준편차, 공분산, 상관관계
+
+```python
+import numpy as np
+#친구의 수
+num_friends = np.array([100.0,49,41,40,25,21,21,19,19,18,18,16,15,15,15,15,14,14,13,13,13,13,12,12,11,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
+#웹서핑 소요 시간(분)
+daily_minutes = np.array([1,68.77,51.25,52.08,38.36,44.54,57.13,51.4,41.42,31.22,34.76,54.01,38.79,47.59,49.1,27.66,41.03,36.73,48.65,28.12,46.62,35.57,32.98,35,26.07,23.77,39.73,40.57,31.65,31.21,36.32,20.45,21.93,26.02,27.34,23.49,46.94,30.5,33.8,24.23,21.4,27.94,32.24,40.57,25.07,19.42,22.39,18.42,46.96,23.72,26.41,26.97,36.76,40.32,35.02,29.47,30.2,31,38.11,38.18,36.31,21.03,30.86,36.07,28.66,29.08,37.28,15.28,24.17,22.31,30.17,25.53,19.85,35.37,44.6,17.23,13.47,26.33,35.02,32.09,24.81,19.33,28.77,24.26,31.98,25.73,24.86,16.28,34.51,15.23,39.72,40.8,26.06,35.76,34.76,16.13,44.04,18.03,19.65,32.62,35.59,39.43,14.18,35.24,40.13,41.82,35.45,36.07,43.67,24.61,20.9,21.9,18.79,27.61,27.21,26.61,29.77,20.59,27.53,13.82,33.2,25,33.1,36.65,18.63,14.87,22.2,36.81,25.53,24.62,26.25,18.21,28.08,19.42,29.79,32.8,35.99,28.32,27.79,35.88,29.06,36.28,14.1,36.63,37.49,26.9,18.58,38.48,24.48,18.95,33.55,14.24,29.04,32.51,25.63,22.22,19,32.73,15.16,13.9,27.2,32.01,29.27,33,13.74,20.42,27.32,18.23,35.35,28.48,9.08,24.62,20.12,35.26,19.92,31.02,16.49,12.16,30.7,31.22,34.65,13.13,27.51,33.2,31.57,14.1,33.42,17.44,10.12,24.42,9.82,23.39,30.93,15.03,21.67,31.09,33.29,22.61,26.89,23.48,8.38,27.81,32.35,23.84])
+
+import matplotlib.pyplot as plt
+
+plt.plot(num_friends, "bo")
+plt.xlabel("index")
+plt.ylabel("num of friends")
+plt.title("number of friends")
+plt.show()
+
+plt.plot(daily_minutes, "ro")
+plt.xlabel("index")
+plt.ylabel("min of web")
+plt.title("minutes of web")
+plt.show()
+
+plt.plot(num_friends, "bo")
+plt.xlabel("index")
+plt.ylabel("num of friends and min of web")
+plt.plot(daily_minutes, "ro")
+plt.title("Number of friends and minutes of web")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2cc01973-3197-44b5-a032-d0f4704b335a/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/316a4e2d-00af-4681-93db-23f60c8b3843/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/788193a1-4beb-4fba-b175-536fd065b006/Untitled.png)
+
+```python
+import pandas as pd
+
+friends_se = pd.Series(num_friends)
+fvc = friends_se.value_counts()
+plt.bar(fvc.index, fvc.values)
+plt.show()
+
+friends_se = pd.Series(num_friends)
+fvc = friends_se.value_counts()
+fvc_ind_str = [str(int(fc)) for fc in fvc.index]  # x값을 틱으로 사용
+plt.bar(fvc_ind_str, fvc.values)
+plt.grid(True)
+plt.show()
+
+print("친구 수====")
+print("평균:", num_friends.mean())
+print("중간값:", np.median(num_friends))
+print("분산:", num_friends.var())
+print("표준편차:", num_friends.std())
+print("1/4분위:", np.quantile(num_friends, 0.25))
+print("1/2분위:", np.quantile(num_friends, 0.5))
+print("3/4분위:", np.quantile(num_friends, 0.75))
+
+from scipy.stats import  mode
+mf = mode(num_friends)
+print(f"최빈값:{mf[0]}, 빈도수:{mf[1]}")
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4f511c9e-bcee-4463-8105-24555f3a68f6/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d203bef9-0daf-40cf-9418-0dbaadc33564/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fc4096b0-4c48-4fdb-b254-631682e91baf/Untitled.png)
+
+**공분산**
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/938c6efc-6c4b-47ca-90da-77a7e27610b2/Untitled.png)
+
+```python
+# 공분산 함수, 상관관계에 사용됨
+def cov(x, y):
+  dx = x-x.mean()
+  dy = y-y.mean()
+  return np.dot(dx, dy)/(len(x)-1)
+
+print("공분산(친구수, 웹서핑시간(분):", cov(num_friends, daily_minutes))
+# 공분산(친구수, 웹서핑시간(분): 22.425435139573057
+
+np.cov(num_friends, daily_minutes)  # 행렬로 결과 나옴
+# array([[ 81.54351396,  22.42543514],
+#        [ 22.42543514, 100.78589895]])
+
+print("0:", cov(num_friends, num_friends))
+print("1", cov(num_friends, daily_minutes))
+print("2", cov(daily_minutes, num_friends))
+print("3", cov(daily_minutes, daily_minutes))
+# 0: 81.54351395730706
+# 1 22.425435139573057
+# 2 22.425435139573057
+# 3 100.78589895440932
+```
+
+**상관관계**
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/850b8266-940b-4ea1-a721-19034544c884/Untitled.png)
+
+0 : 관계없음
+
+1 : 완전상관관계
+
+-1 : 역상관관계
+
+```python
+def correlation(x, y):
+  std_x = x.std()
+  std_y = y.std()
+  if std_x>0 and std_y>0:
+    return cov(x, y)/std_x/std_y
+  else:
+    return 0
+
+print("친구 수와 웹서핑 시간(분)의 상관관계: ", correlation(num_friends, daily_minutes))
+# 친구 수와 웹서핑 시간(분)의 상관관계:  0.24858814299318005
+
+# 상관관계 그래프로 나타내기
+cv = correlation(num_friends, daily_minutes)
+plt.figure(figsize=(8,8))
+plt.plot(num_friends, daily_minutes, ".")
+plt.plot([0, 100], [0, 100*cv])
+plt.xlabel("num of friends")
+plt.ylabel("min of web")
+plt.xlim(0, 110)
+plt.ylim(0, 110)
+plt.show()
+
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/26a173e8-9dfa-4f2c-a3d0-a26cd86195b8/Untitled.png)
+
+이상한 값 제거
+
+```python
+num_friends2 = num_friends[1:]
+daily_minutes2 = daily_minutes[1:]
+
+cv2 = correlation(num_friends2, daily_minutes2)
+plt.figure(figsize=(8,8))
+plt.plot(num_friends2, daily_minutes2, ".")
+plt.plot([0, 100], [0, 100*cv2])
+plt.xlabel("num of friends")
+plt.ylabel("min of web")
+plt.xlim(0, 110)
+plt.ylim(0, 110)
+plt.show()
+print(cv2)
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cc9cf1c4-997b-41cd-804e-4a02a54eb557/Untitled.png)
+
+오리지널 데이터와 필터링 데이터 간 차이
+
+```python
+plt.figure(figsize=(8,8))
+plt.plot(num_friends, daily_minutes, "ro", label='original')
+plt.plot(num_friends2, daily_minutes2, "b.", label='filtering')
+plt.plot([0, 100], [0, 100*cv], "r-", label='original corr')
+plt.plot([0, 100], [0, 100*cv2], "b-", label='filtering corr')
+plt.xlabel("num of friends")
+plt.ylabel("min of web")
+plt.xlim(0, 110)
+plt.ylim(0, 110)
+plt.legend()
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/078306d8-376e-42b9-ba4c-2068b1b870ec/Untitled.png)
+
+**예습용**
+
+경사하강법과 선형회귀 - 로지스틱 회귀
+
+KNN - 정규분포, 표준정규분포, rescale
+
+KMeans
+
+퍼셉트론 - 활성화함수의 필요성
+
+
+
+
+선형회귀
+.
+
+```
+몸무게 = w1(키) + w2(허리둘레) + b
+
+y = w1x1 + w2x2 + b
+y : 종속변수
+x1, x2 : 독립변수
+w1, w2 : 가중치
+b : 편향(bias)
+```
+
+각각의 x값 묶음 -> 하나의 y값
+
+```
+[ [x1, x2, x3, ... ] , [ ... ], [ ... ] ]
+[ y1, y2, y3 ]
+
+```
+
+실제 데이터들을 가리키는 가장 적합한 그래프를 찾는 방법
+
+- 단순 선형 회귀
+- 다중 선형 회귀
+
+예측치와 데이터 사이의 오차가 가장 적어야 함
+
+### 손실 함수
+
+실제 값과 예측값 사이의 오차를 계산하는 함수
+
+- 평균절대오차 MAE : 오차의 절댓값을 평균냄
+- 평균제곱오차 MSE : 실제값과 예측값 사이를 제곱하여 평균냄 (오차를 크게 보기 위함)
+
+### 경사하강법
+
+```python
+import matplotlib.pyplot as plt
+
+ex_xs = [ [2], [4], [7], [1], [9], [6] ]  # 독립변수 6개
+ex_ys = [ 8, 11, 24, 5, 30, 20 ]   # 종속변수 6개
+
+plt.plot(ex_xs[:], ex_ys, 'o', label="example data")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.legend()
+plt.title("sample data")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0b461fb5-d5b9-4c18-83be-01ac41b362d6/Untitled.png)
+
+```python
+plt.figure(figsize=(5, 5))
+plt.plot(ex_xs[:], ex_ys, 'o', label="example data")
+plt.plot([0, 30], [0*2+2, 30*2+2], label="y=2x+2")
+plt.plot([0, 30], [0*2+2, 30*3+2], label="y=3x+2")
+plt.plot([0, 30], [0*2+2, 30*4+2], label="y=4x+2")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.legend()
+plt.xlim(0, 30)
+plt.ylim(0, 30)
+plt.title("sample data")
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5f0c67e0-0264-4ed4-8e22-f37657aabd6e/Untitled.png)
+
+```python
+import numpy as np
+
+def mse(yp, y): # yp:예측값, y:실제값
+  """
+  (예측값-실제값)의 제곱에 대한 평균을 구하는 손실함수
+  """
+  return np.mean(sum(yp-y)**2)
+
+b = 2  # 편항을 2라고 가정하자 - 가중치(w) 구하기
+mses = []
+wpl = np.arange(-10, 10, 0.5)  # 가중치를 -10 ~ 10까지 0.5씩 증가하면서 확인해보자
+for wp in wpl :
+  yp = wp * np.array(ex_xs) + b # 예측값
+  mses.append(mse(yp, ex_ys)) # mse를 구하여 mses에 보관
+
+mi = np.array(mses).argmin()  # 최솟값이 있는 인덱스
+plt.plot(wpl, mses, '.')
+plt.plot(wpl[mi], mses[mi], 'or')  # 최솟값
+plt.xlabel('w')
+plt.ylabel('mse')
+plt.show()
+
+w = 3  # 가중치를 3이라고 가정하자 - 편향(b) 구하기
+mses2 = []
+bpl = np.arange(-10, 10, 0.5)  # 편향을 -10 ~ 10까지 0.5씩 증가하면서 확인해보자
+for bp in bpl :
+  yp = w*np.array(ex_xs) + bp # 예측값
+  mses2.append(mse(yp, ex_ys)) # mse를 구하여 mses에 보관
+
+mi2 = np.array(mses2).argmin()  # 최솟값이 있는 인덱스
+plt.plot(wpl, mses2, '.')
+plt.plot(bpl[mi2], mses2[mi2], 'or')  # 최솟값
+plt.xlabel('b')
+plt.ylabel('mse2')
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/25b539d8-e4d4-4816-98bd-6d1505bde61d/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0b888c9b-9c56-406a-95b2-c2dd8fe4c163/Untitled.png)
+
+가중치 구하기
+
+dmse/dw = 2*mean(y-(wx+b))x
+
+편향 구하기
+
+dmse/db = 2mean(y-(wx+b))
+
+**경사하강법 함수 구현**
+
+```python
+# 경사하강법 기울기 계산
+def gradient(y, x, w, b ):
+  yp = w*x+b
+  error = y - yp
+  # 경사가 음수이면 오른쪽으로, 경사가 양수이면 왼쪽으로 이동
+  wd = - (2*sum(error*x)/len(x)) 
+  bd = - (2*sum(error)/len(x))
+  return wd, bd
+```
+
+```python
+ """
+  경사하강법 함수
+  입력 매개변수 : x, y, lr, epochs
+    x : 독립변수
+    y : 종속변수
+    lr : 경사를 이동시킬 때 사용할 비율(lr*경사 만큼 이동)
+    epochs : 학습 횟수
+  """	
+
+# lr 클수록 속도 빠름/작을수록 정확도 올라감, epochs 학습 횟수
+def gradient_descent(x, y, lr=0.001, epochs=100):  
+  if isinstance(x, list): # x 가 list일 때
+    x = np.array(x).reshape(-1)  # 1차원 numpy 배열로 변화
+  wbhl = []  # 학습과정을 기록할 컬렉션
+  
+  wp = np.random.uniform(-1, 1)  # 가중치 초기값을 -1 ~ 1 사이의 랜덤 값으로 지정
+  bp = np.random.uniform(-1, 1)  # 편향 초기값을 -1 ~ 1 사이의 랜덤 값으로 지정
+  amse = 0  # 경사를 조절한 후 mse를 기억할 변수, 0으로 초기화
+  for epoch in range(epochs):  # epochs 횟수만큼 학습시킴
+    bmse = amse # 이전 mse로 설정
+    wd, bd = gradient(y, x, wp, bp)  # 경사를 구함(경사에 - 부호를 취한 값)
+    yp = wp*x + bp  # 예측
+    amse = mse(yp, y)  # 새로 계산한 mse값
+    wp = wp - (wd*lr)  # 가중치 조절
+    bp = bp - (bd*lr)  # 편향을 조절
+    wbhl.append([wp, bp])  # 히스토리에 가중치와 편향을 보관
+    if np.abs(bmse - amse) < 0.001:  # 이전 mse와 이후 mse의 차이가 정해준 값보다 작다면
+      break  # 더 이상 학습하지 말고 반복문 탈출
+  return wp, bp, wbhl  # 가중치, 편향, 히스토리 반환
+```
+
+**적용하기**
+
+```python
+# 학습시키기
+wp, bp, wbhl = gradient_descent(ex_xs, ex_ys)
+for epoch, (ewp, ebp) in enumerate(wbhl):
+  print(f"epoch: {epoch} , w: {ewp} , b:{ebp}")
+
+# 실제 x, y값
+xs = np.array(ex_xs)
+xs = xs[:, 0]  # ex_xs가 2차원배열이므로
+ys = np.array(ex_ys)
+ys
+
+# 히스토리에서 값 가져와서 그래프로 나타내기
+min_val = min(min(xs), min(ys))
+max_val = max(max(xs), max(ys))
+for epoch, wb in enumerate(wbhl):
+  plt.figure(figsize=(6, 6))
+  sx = min_val
+  sy = sx*wb[0] + wb[1]
+  ex = max_val
+  ey = ex*wb[0] + wb[1]
+
+  plt.plot(xs, ys, '.', label='actural')
+  plt.plot([sx, ex], [sy, ey], 'r-', label=f'epoch:{epoch} y={wb[0]}*x+{wb[1]}')
+  plt.axvline(x=0, color='black')
+  plt.axhline(y=0, color='black')
+  plt.xlim(min_val, max_val)
+  plt.ylim(min_val, max_val)
+  plt.legend()
+  plt.show()
+```
+
+1번째
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/57aec22e-13d2-437c-9360-f950abd222e6/Untitled.png)
+
+87번째
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f394a7ca-b068-48bc-b3bb-9e3b3fff61ea/Untitled.png)
+
+```python
+min_index = -1  # 최솟값이 있는 인덱스를 -1로 초기화
+min_mse = np.inf  # mse 최솟값을 무한대로 초기화
+for epoch, (wp, bp) in enumerate(wbhl):
+  yp = wp*xs + bp
+  mse_val = mse(yp, ys)
+  if min_mse > mse_val:  # 새로운 값이 더 작다면
+    min_mse = mse_val  # 작은 값으로 설정
+    min_index = epoch  # 최솟값이 있는 인덱스를 현재 인덱스로 설정
+  plt.plot(wp, mse_val, '.')
+plt.plot(wbhl[min_index][0], mse_val, 'ro')
+plt.show()
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d6bf3a36-6150-4662-8ec6-74a2f0239907/Untitled.png)
+
+**모듈 내 선형회귀**
+
+```python
+from sklearn.linear_model import LinearRegression
+
+lr_model = LinearRegression()  # 모델 생성
+lr_model.fit(ex_xs, ex_ys)  # 학습
+	print(f"w:{lr_model.coef_} b:{lr_model.intercept_}")
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/da60102a-aa42-4bc1-8b2f-63f2cd2b9884/Untitled.png)
+
+**사용 예제**
+
+```python
+pv = lr_model.predict([ [12],[30],[50] ])  # 예측해주세요
+print(pv)
+```
+
+
+### 백합 데이터 활용하기
+
+```python
+from sklearn import datasets
+
+iris_data = datasets.load_iris()  # 샘플(백합) 데이터 불러오기
+iris_data
+
+# 컬럼 1에 있는 내용만 불러서 2차원 배열의 독립변수 구조
+xs = [ [x] for x in iris_data.data[:, 0] ] 
+# 컬럼 1에 있는 내용만 불러서 1차원 배열의 종속변수 구조
+ys = [ y for y in iris_data.data[:, 1] ]
+
+wp, bp, wbhl = gradient_descent(xs, ys)
+for epoch, (ewp, ebp) in enumerate(wbhl):
+  print(f"epoch:{epoch}  w:{ewp}  b:{ebp}  ")
+```
+
+
+
+로지스틱 회귀
+
+로지스틱 회귀
+
+> 로지스틱 회귀(영어: logistic regression)는 영국의 통계학자인 D. R. Cox가 1958년[1]에 제안한 확률 모델로서 독립 변수의 선형 결합을 이용하여 사건의 발생 가능성을 예측하는데 사용되는 통계 기법이다.
+> 
+> 
+> 로지스틱 회귀의 목적은 일반적인 회귀 분석의 목표와 동일하게 종속 변수와 독립 변수간의 관계를 구체적인 함수로 나타내어 향후 예측 모델에 사용하는 것이다. 이는 독립 변수의 선형 결합으로 종속 변수를 설명한다는 관점에서는 선형 회귀 분석과 유사하다. 하지만 로지스틱 회귀는 선형 회귀 분석과는 다르게 종속 변수가 범주형 데이터를 대상으로 하며 입력 데이터가 주어졌을 때 해당 데이터의 결과가 특정 분류로 나뉘기 때문에 일종의 분류 (classification) 기법으로도 볼 수 있다.
+> 
+> 로지스틱 모형 식은 독립 변수가 (-∞,∞)의 어느 숫자이든 상관 없이 종속 변수 또는 결과 값이 항상 범위 [0,1] 사이에 있도록 한다. 이는 오즈(odds)를 로짓(logit) 변환을 수행함으로써 얻어진다.
+>
