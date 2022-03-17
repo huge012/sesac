@@ -18,6 +18,8 @@
 10. Spring & SpringBoot (2022.02.07 ~ 2022.02.17) - 전진 강사님
 11. Python Basic (2022.02.18 ~ 2022.02.25) - 장문석 강사님
 12. Python Analyze & Visualization (2022.02.28 ~ 2022.03.04) - 장문석 강사님
+13. Statistical Data Analysis (2022.03.05 ~ 2022.03.14) - 장문석 강사님
+14.
 
 
 # Study - 3조
