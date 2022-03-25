@@ -79,4 +79,21 @@ scores = cross_validate(rf, train_input, train_target, n_jobs=-1, return_train_s
 
 scores['train_score']
 
-scores['test_score']
+scores['test_score'] # validation score
+
+np.mean(scores['test_score'])
+
+rf.fit(train_input, train_target)
+
+rf.feature_importances_
+
+rf.predict(test_input)
+
+rf.predict_proba(test_input)
+
+accuracy_score(test_target, rf.predict(test_input))
+
+rf = RandomForestClassifier(oob_score=True, n_jobs=-1, random_state=42)
+rf.fit(train_input, train_target)
+
+rf.oob_score_
